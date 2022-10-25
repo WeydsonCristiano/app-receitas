@@ -35,6 +35,7 @@ function Login({ history }) {
     e.preventDefault();
     const user = { email, password };
     setUserInfo(user);
+    localStorage.setItem('user', JSON.stringify({ email }));
     history.push('/meals');
   };
 
