@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import recipeContext from './recipeContext';
 
 function RecipeProvider({ children }) {
-  const [initialState, setInitialState] = useState('');
+  const [userInfo, setUserInfo] = useState({});
 
   const state = useMemo(() => ({
-    initialState,
-    setInitialState,
-  }), [initialState]);
+    userInfo,
+    setUserInfo,
+  }), [userInfo, setUserInfo]);
 
   return (
     <recipeContext.Provider value={ state }>
