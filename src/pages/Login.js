@@ -45,7 +45,6 @@ function Login({ history }) {
 
   return (
     <div className="login-container">
-      <div></div>
       <Form>
         <Card className="login-card">
           <Form.Label htmlFor="email">
