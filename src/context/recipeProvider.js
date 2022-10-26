@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recipeContext from './recipeContext';
 import { requestAPI,
@@ -20,6 +21,8 @@ function RecipeProvider({ children }) {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
+
+  const history = useHistory();
 
   useEffect(() => {
     const requestData = async () => {
@@ -63,6 +66,7 @@ function RecipeProvider({ children }) {
     mirrorDrinks,
     mealsCategories,
     drinkCategories,
+    history,
   }), [userInfo, renderMeals, renderDrinks,
     isLoading, mirrorMeals, mirrorDrinks,
     mealsCategories, drinkCategories,
@@ -70,7 +74,9 @@ function RecipeProvider({ children }) {
     headerTitle,
     setHeaderTitle,
     showSearchBtn,
-    setShowSearchBtn]);
+    setShowSearchBtn,
+    history,
+  ]);
 
   return (
     <recipeContext.Provider value={ state }>{children}</recipeContext.Provider>

@@ -1,13 +1,12 @@
 import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import recipeContext from '../context/recipeContext';
 import './styles/login.css';
 
-function Login({ history }) {
-  const { setUserInfo } = useContext(recipeContext);
+function Login() {
+  const { setUserInfo, history } = useContext(recipeContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isBtnDisabled, setIsBtnDisabled] = useState(true);
@@ -83,11 +82,5 @@ function Login({ history }) {
     </div>
   );
 }
-
-Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
 export default Login;

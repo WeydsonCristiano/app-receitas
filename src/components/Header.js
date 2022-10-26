@@ -1,15 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
-  const { email, headerTitle, showSearchBtn } = useContext(recipeContext);
+  const { email, headerTitle, showSearchBtn, history } = useContext(recipeContext);
   const [togleSearch, setTogleSearch] = useState(false);
-
-  const history = useHistory();
 
   return (
     <header>
