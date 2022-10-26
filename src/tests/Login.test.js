@@ -5,11 +5,9 @@ import App from '../App';
 import renderWithRouter from './helpers/renderWith';
 
 describe('Teste o componente <App.js />', () => {
-  beforeEach(() => {
-    renderWithRouter(<App />);
-  });
   const emailtest = 'cristiano@gmail.com';
   test('Verifica login tela', () => {
+    renderWithRouter(<App />);
     const email = screen.getByTestId('email-input');
     expect(email).toBeInTheDocument();
     userEvent.type(email, emailtest);
@@ -25,20 +23,18 @@ describe('Teste o componente <App.js />', () => {
     userEvent.click(botaoEntrar);
   });
 
-  test.only('test localstorage', () => {
-    // either of these lines will work:
-    jest.spyOn(Storage.prototype, 'setItem');
-    Storage.prototype.setItem = jest.fn();
-
-    // assertions as usual:
+  test('testa se ao clickar no botão muda para a rota "/meals', () => {
+    const { history } = renderWithRouter(<App />);
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
     const email = screen.getByTestId('email-input');
     userEvent.type(email, emailtest);
     const passWord = screen.getByTestId('password-input');
-    userEvent.type(passWord, '123456');
+    userEvent.type(passWord, '1234567');
     const botaoEntrar = screen.getByRole('button', {
       name: /entrar/i,
     });
     userEvent.click(botaoEntrar);
-    // expect(window.localStorage.setItem).toHaveBeenCalled();
+    expect(history.location.pathname).toBe('/meals');
   });
 });

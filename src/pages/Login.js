@@ -1,6 +1,10 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import recipeContext from '../context/recipeContext';
+import './styles/login.css';
 
 function Login({ history }) {
   const { setUserInfo } = useContext(recipeContext);
@@ -40,41 +44,44 @@ function Login({ history }) {
   };
 
   return (
-    <section className="login">
-      <h1>App De Receitas Grupo 29</h1>
-      <form>
-        <label htmlFor="email">
-          <input
-            data-testid="email-input"
-            placeholder="Digite seu Email"
-            onChange={ handlEmail }
-            value={ email }
-            type="text"
-            name="email"
-            required
-          />
-        </label>
-        <label htmlFor="password">
-          <input
-            data-testid="password-input"
-            placeholder="Digite sua Senha"
-            onChange={ handlePassword }
-            value={ password }
-            type="password"
-            name="password"
-            required
-          />
-        </label>
-        <button
-          data-testid="login-submit-btn"
-          type="submit"
-          onClick={ handleBtn }
-          disabled={ isBtnDisabled }
-        >
-          Entrar
-        </button>
-      </form>
-    </section>
+    <div className="login-container">
+      <div></div>
+      <Form>
+        <Card className="login-card">
+          <Form.Label htmlFor="email">
+            <Form.Control
+              data-testid="email-input"
+              placeholder="Digite seu Email"
+              onChange={ handlEmail }
+              value={ email }
+              type="text"
+              name="email"
+              required
+            />
+          </Form.Label>
+          <Form.Label htmlFor="password">
+            <Form.Control
+              data-testid="password-input"
+              placeholder="Digite sua Senha"
+              onChange={ handlePassword }
+              value={ password }
+              type="password"
+              name="password"
+              required
+            />
+          </Form.Label>
+          <Button
+            variant="warning"
+            data-testid="login-submit-btn"
+            type="submit"
+            onClick={ handleBtn }
+            disabled={ isBtnDisabled }
+          >
+            Entrar
+          </Button>
+        </Card>
+      </Form>
+    </div>
   );
 }
 

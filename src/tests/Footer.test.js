@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import Recipes from '../../pages/Recipes';
+import Recipes from '../pages/Recipes';
 // import App from '../App';
-import renderWithRouter from './renderWith';
+import renderWithRouter from './helpers/renderWith';
 
 describe('Teste o componente <Footer.js />', () => {
   it('se esta renderizando os dois icones', () => {
