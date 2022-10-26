@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import Header from '../components/Header';
 import recipeContext from '../context/recipeContext';
+import Footer from '../components/Footer';
 
 function Recipes() {
   const { setHeaderTitle, setShowSearchBtn } = useContext(recipeContext);
@@ -22,6 +23,7 @@ function Recipes() {
   return (
     <div>
       <Header />
+      <Footer />
     </div>
   );
 }
