@@ -18,6 +18,8 @@ function RecipeProvider({ children }) {
   const [mirrorDrinks, setMirrorDrinks] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinkCategories, setDrinkCategories] = useState([]);
+  const [showSearchBtn, setShowSearchBtn] = useState(true);
+  const [headerTitle, setHeaderTitle] = useState('');
 
   useEffect(() => {
     const requestData = async () => {
@@ -45,6 +47,10 @@ function RecipeProvider({ children }) {
   }, []);
 
   const state = useMemo(() => ({
+    setHeaderTitle,
+    showSearchBtn,
+    setShowSearchBtn,
+    headerTitle,
     userInfo,
     setUserInfo,
     setIsLoading,
@@ -59,20 +65,20 @@ function RecipeProvider({ children }) {
     drinkCategories,
   }), [userInfo, renderMeals, renderDrinks,
     isLoading, mirrorMeals, mirrorDrinks,
-    mealsCategories, drinkCategories, setUserInfo]);
+    mealsCategories, drinkCategories,
+    setUserInfo,
+    headerTitle,
+    setHeaderTitle,
+    showSearchBtn,
+    setShowSearchBtn]);
 
   return (
-    <recipeContext.Provider value={ state }>
-      {children}
-    </recipeContext.Provider>
+    <recipeContext.Provider value={ state }>{children}</recipeContext.Provider>
   );
 }
 
 export default RecipeProvider;
 
 RecipeProvider.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]).isRequired,
 };

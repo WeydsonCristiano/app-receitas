@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import CardRecipes from '../components/CardRecipes';
-import Footer from '../components/Footer';
-import Loading from '../components/Loading';
+import Header from './Header';
+import CardRecipes from './CardRecipes';
 import recipeContext from '../context/recipeContext';
-import CategoryButtons from '../components/CategoryButtons';
+import Footer from './Footer';
+import Loading from './Loading';
+import CategoryButtons from './CategoryButtons';
 import { ENDPOINT_FILTER_BUTTON_DRINK,
   ENDPOINT_FILTER_BUTTON_MEAL,
   requestAPI } from '../services/RequestAPI';
@@ -19,7 +20,8 @@ function Recipes({ history }) {
   // const [buttonId, setButtonId] = useState('');
   const { renderMeals, renderDrinks, isLoading,
     mirrorMeals, mirrorDrinks, setRenderMeals, setRenderDrinks,
-    mealsCategories, drinkCategories, setIsLoading } = useContext(recipeContext);
+    mealsCategories, drinkCategories, setIsLoading,
+    setHeaderTitle, setShowSearchBtn } = useContext(recipeContext);
 
   const filterButton = (category, URL, page) => {
     // const { id } = target;
@@ -66,18 +68,32 @@ function Recipes({ history }) {
     }
   }, [clickControl, toggleFilter]);
 
+  useEffect(() => {
+    setShowSearchBtn(true);
+    switch (window.location.pathname) {
+    case '/meals':
+      setHeaderTitle('Meals');
+      break;
+    case '/drinks':
+      setHeaderTitle('Drinks');
+      break;
+    default:
+      break;
+    }
+  }, [setHeaderTitle, setShowSearchBtn]);
+
   const { location: { pathname } } = history;
   if (pathname === '/drinks') {
     return (
       <div>
         {isLoading && <Loading /> }
+        <Header />
         <h1>Drinks</h1>
         <section>
           {drinkCategories
             .map(({ strCategory }) => CategoryButtons(
               strCategory,
-              (e) => filterButton(
-                e,
+              () => filterButton(
                 strCategory,
                 ENDPOINT_FILTER_BUTTON_DRINK,
                 'drinks',
@@ -102,12 +118,13 @@ function Recipes({ history }) {
   return (
     <div>
       {isLoading && <Loading /> }
+      <Header />
       <h1>Meals</h1>
       <section>
         {mealsCategories
           .map(({ strCategory }) => CategoryButtons(
             strCategory,
-            (e) => filterButton(e, strCategory, ENDPOINT_FILTER_BUTTON_MEAL, 'meals'),
+            () => filterButton(strCategory, ENDPOINT_FILTER_BUTTON_MEAL, 'meals'),
           ))}
         <button
           data-testid="All-category-filter"
@@ -121,7 +138,6 @@ function Recipes({ history }) {
       {renderMeals
         .map(({ strMeal,
           strMealThumb }, index) => CardRecipes(index, strMeal, strMealThumb))}
-      <Footer />
     </div>
   );
 }
