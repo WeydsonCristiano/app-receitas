@@ -1,0 +1,21 @@
+.footer-container {
+  background-color: #f5bb00;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+}
+
+.icons-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+img {
+  border-radius: 4px;
+  padding: 5px;
+}
+
+img:hover {
+  box-shadow: 0 0 2px 1px #2c363f;
+}
