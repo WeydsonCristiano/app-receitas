@@ -26,3 +26,4 @@ export default function CardRecipes(index, name, thumb, id) {
     </Link>
   );
 }
+
