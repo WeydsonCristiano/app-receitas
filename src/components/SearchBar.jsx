@@ -4,6 +4,8 @@ import searchIcon from '../images/searchIcon.svg';
 
 import { ENDPOINT_MEAL, ENDPOINT_DRINK, requestAPI } from '../services/RequestAPI';
 
+const recipesNumberRequest = 12;
+
 function SearchBar() {
   const { headerTitle, setRenderMeals, setRenderDrinks } = useContext(recipeContext);
   const [searchValue, setSearchValue] = useState('');
@@ -27,7 +29,11 @@ function SearchBar() {
     default:
       break;
     }
-    renderFunction(newArray[Object.keys(newArray)[0]]);
+    const response = newArray[Object.keys(newArray)[0]];
+    if (response === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    renderFunction(response.slice(0, recipesNumberRequest));
   };
 
   const handleSubmit = (e) => {
@@ -53,7 +59,7 @@ function SearchBar() {
           type="text"
           data-testid="search-input"
           onChange={ ({ target: { value } }) => setSearchValue(value) }
-          required
+          required=""
         />
         <button
           data-testid="exec-search-btn"
