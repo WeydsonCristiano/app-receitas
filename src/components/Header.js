@@ -17,9 +17,6 @@ function Header() {
       >
         { headerTitle }
       </h1>
-      <h2>
-        { email }
-      </h2>
       <section>
         <button
           type="button"
