@@ -9,8 +9,8 @@ export const ENDPOINT_ID_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/l
 
 function RecipeDetails({ match }) {
   const { setIsLoading } = useContext(recipeContext);
-  const [mealsDetails, setMealsDetails] = useState([]);
-  const [drinksDetails, setDrinksDetails] = useState([]);
+  // const [mealsDetails, setMealsDetails] = useState([]);
+  // const [drinksDetails, setDrinksDetails] = useState([]);
   const { params: { id } } = match;
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -31,7 +31,9 @@ function RecipeDetails({ match }) {
     requestData();
   }, [id, pathname, setIsLoading]);
   return (
-    <div />
+    <div>
+      sdf
+    </div>
   );
 }
 
