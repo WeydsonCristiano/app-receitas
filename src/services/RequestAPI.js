@@ -10,6 +10,7 @@ export const requestAPI = async (endpoint) => {
     const request = await fetch(endpoint);
     return await request.json();
   } catch (e) {
+    console.log(e);
     throw new Error(e);
   }
 };
