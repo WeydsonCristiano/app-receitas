@@ -13,13 +13,13 @@ import { ENDPOINT_FILTER_BUTTON_DRINK,
 const recipesNumberRequest = 12;
 
 function Recipes() {
-  const [clickControl, setClickControl] = useState(false);
-  const [categoryURL, setCategoryURL] = useState('');
-  const [pageRouteInfo, setPageRouteInfo] = useState('');
   const { renderMeals, renderDrinks, isLoading,
     mirrorMeals, mirrorDrinks, setRenderMeals, setRenderDrinks,
     mealsCategories, drinkCategories, setIsLoading,
     setHeaderTitle, setShowSearchBtn } = useContext(recipeContext);
+  const [clickControl, setClickControl] = useState(false);
+  const [categoryURL, setCategoryURL] = useState('');
+  const [pageRouteInfo, setPageRouteInfo] = useState('');
 
   const history = useHistory();
 
