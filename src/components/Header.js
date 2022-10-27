@@ -5,7 +5,7 @@ import profileIcon from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
-  const { email, headerTitle, showSearchBtn, history } = useContext(recipeContext);
+  const { headerTitle, showSearchBtn, history } = useContext(recipeContext);
   const [togleSearch, setTogleSearch] = useState(false);
 
   return (
@@ -15,9 +15,6 @@ function Header() {
       >
         { headerTitle }
       </h1>
-      <h2>
-        { email }
-      </h2>
       <section>
         <button
           type="button"
