@@ -8,7 +8,8 @@ function Header() {
   const {
     headerTitle,
     showSearchBtn,
-    history } = useContext(recipeContext);
+    history,
+  } = useContext(recipeContext);
   const [togleSearch, setTogleSearch] = useState(false);
   return (
     <header>
