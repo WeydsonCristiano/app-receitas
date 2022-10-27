@@ -6,6 +6,7 @@ export const ENDPOINT_FILTER_BUTTON_MEAL = 'https://www.themealdb.com/api/json/v
 export const ENDPOINT_FILTER_BUTTON_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
 
 export const requestAPI = async (endpoint) => {
+  console.log(endpoint);
   try {
     const request = await fetch(endpoint);
     return await request.json();
