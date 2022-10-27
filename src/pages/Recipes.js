@@ -36,7 +36,6 @@ function Recipes() {
 
   const filterButton = (category, URL, page) => {
     const customURL = URL + category.split(' ').join('_');
-    console.log(customURL);
     setClickControl(true);
     setCategoryURL(customURL);
     setPageRouteInfo(page);
@@ -46,25 +45,19 @@ function Recipes() {
   const toggleFilter = async (render, mirror) => {
     const { location: { pathname } } = history;
     if (compareArrays(render, mirror, pathname)) {
-      console.log(render);
-      console.log(mirror);
-      console.log(compareArrays(renderDrinks, mirrorDrinks, pathname));
       setIsLoading(true);
       const requestRecipes = await requestAPI(categoryURL);
       const first12Recipes = requestRecipes[pageRouteInfo].slice(0, recipesNumberRequest);
       if (pageRouteInfo === 'drinks') {
-        console.log('fui pro drink');
         setRenderDrinks(first12Recipes);
         setRenderMeals(mirrorMeals);
       }
       if (pageRouteInfo === 'meals') {
-        console.log('fui pro meals');
         setRenderMeals(first12Recipes);
         setRenderDrinks(mirrorDrinks);
         setIsLoading(false);
       }
     } else {
-      console.log('sera que eu entro aqui');
       setRenderDrinks(mirrorDrinks);
       setRenderMeals(mirrorMeals);
     }
@@ -114,7 +107,6 @@ function Recipes() {
             onClick={ allCategory }
           >
             All
-
           </button>
         </section>
         {renderDrinks
@@ -143,7 +135,6 @@ function Recipes() {
           onClick={ allCategory }
         >
           All
-
         </button>
       </section>
       {renderMeals

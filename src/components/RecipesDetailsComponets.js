@@ -1,0 +1,154 @@
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
+function RecipeDetailsComponents({ foods, drinks }) {
+  const [ingredientsList, setIngredientsList] = useState([]);
+  // const [measuresList, setMeasuresList] = useState([]);
+  console.log(foods);
+
+  const history = useHistory();
+  const { location: { pathname } } = history;
+
+  useEffect(() => {
+    if (foods.length && pathname.includes('meals')) {
+      const ingredients = Object.entries(foods[0])
+        .filter((item) => item[0].includes('Ingredient'))
+        .filter((item) => item[1] !== '');
+      setIngredientsList(ingredients);
+      // const measures = Object.entries(foods[0])
+      //   .filter((item) => item[0].includes('Measure'))
+      //   .filter((item) => item[1] !== ' ');
+      // setMeasuresList(measures);
+    }
+    if (drinks.length && pathname.includes('drinks')) {
+      const ingredients = Object.entries(drinks[0])
+        .filter((item) => item[0].includes('Ingredient'))
+        .filter((item) => item[1] !== null);
+      setIngredientsList(ingredients);
+    }
+  }, [foods, drinks, pathname]);
+
+  return (
+    <div>
+      {
+        pathname.includes('drinks')
+          ? (
+            drinks.map((e, i) => (
+              <div key={ i }>
+                <div>
+                  <img
+                    data-testid="recipe-photo"
+                    src={ e.strDrinkThumb }
+                    alt={ e.strDrink }
+                  />
+                </div>
+                <h2 data-testid="recipe-title">{e.strDrink}</h2>
+                <h3 data-testid="recipe-category">{e.strCategory}</h3>
+                <ul>
+                  {
+                    ingredientsList.map((item, index) => (
+                      <li
+                        key={ index }
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {item[1] }
+                      </li>))
+                  }
+                </ul>
+                <div><p data-testid="instructions">{e.strInstructions}</p></div>
+                <div>
+                  <iframe
+                    title="video"
+                    data-testid="video"
+                    src={ e.strYoutube }
+                  />
+                </div>
+                <h3>{e.strAlcoholic}</h3>
+                <div>
+                  <button
+                    data-testid="start-recipe-btn"
+                    type="button"
+                  >
+                    Start Recipe
+                  </button>
+                </div>
+              </div>
+            ))
+          )
+          : (
+            foods.map((el, ind) => (
+              <div key={ ind }>
+                <div>
+                  <img
+                    data-testid="recipe-photo"
+                    src={ el.strMealThumb }
+                    alt={ el.strMeal }
+                  />
+                </div>
+                <h2
+                  data-testid="recipe-title"
+                >
+                  {el.strMeal}
+                </h2>
+                <h3
+                  data-testid="recipe-category"
+                >
+                  {el.strCategory}
+                </h3>
+                <div>
+                  <ul>
+                    {ingredientsList.map((item, index) => (
+                      <li
+                        key="index"
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {item[1] }
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p data-testid="instructions">{el.strInstructions}</p>
+                </div>
+                <div>
+                  <iframe
+                    data-testid="video"
+                    width="560"
+                    height="315"
+                    src={ el.strYoutube }
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer;
+                     autoplay;
+                     clipboard-write;
+                      encrypted-media;
+                       gyroscope;
+                        picture-in-picture"
+                    allowFullScreen
+                  />
+
+                </div>
+                <div>
+                  <button
+                    data-testid="start-recipe-btn"
+                    type="button"
+                  >
+                    Start Recipe
+                  </button>
+                </div>
+
+              </div>
+            )))
+      }
+    </div>
+
+  );
+}
+
+RecipeDetailsComponents.propTypes = {
+  foods: PropTypes.shape().isRequired,
+  drinks: PropTypes.shape().isRequired,
+};
+
+export default RecipeDetailsComponents;

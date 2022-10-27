@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import recipeContext from '../context/recipeContext';
 import Footer from '../components/Footer';
@@ -7,14 +7,19 @@ function Profile() {
   const { setHeaderTitle,
     setShowSearchBtn,
     history } = useContext(recipeContext);
+    const [emailTela, setEmailTela] = useState('');
 
   const clicou = () => {
     localStorage.clear();
     history.push('/');
   };
 
-  const emailTela = JSON.parse(localStorage.getItem('user')).email;
-  console.log(emailTela);
+  useEffect(() => {
+    if (localStorage.user !== undefined) {
+      setEmailTela(JSON.parse(localStorage.getItem('user')).email);
+    }
+  }, [setEmailTela]);
+  
 
   useEffect(() => {
     setHeaderTitle('Profile');
