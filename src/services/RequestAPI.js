@@ -8,10 +8,12 @@ export const ENDPOINT_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/';
 export const ENDPOINT_MEAL = 'https://www.themealdb.com/api/json/v1/1/';
 
 export const requestAPI = async (endpoint) => {
+  console.log(endpoint);
   try {
     const request = await fetch(endpoint);
     return await request.json();
   } catch (e) {
+    console.log(e);
     throw new Error(e);
   }
 };

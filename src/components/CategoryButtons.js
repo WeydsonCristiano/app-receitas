@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CategoryButtons(categoryName, filterFunc) {
   return (
-    <div>
+    <div key={ categoryName }>
       <button
         data-testid={ `${categoryName}-category-filter` }
         id={ categoryName }

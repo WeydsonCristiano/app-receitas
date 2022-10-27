@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import CardRecipes from '../components/CardRecipes';
 import recipeContext from '../context/recipeContext';
@@ -12,42 +13,59 @@ import { ENDPOINT_FILTER_BUTTON_DRINK,
 const recipesNumberRequest = 12;
 
 function Recipes() {
-  const [filterControl, setFilterControl] = useState(false);
   const [clickControl, setClickControl] = useState(false);
   const [categoryURL, setCategoryURL] = useState('');
   const [pageRouteInfo, setPageRouteInfo] = useState('');
-  // const [buttonId, setButtonId] = useState('');
   const { renderMeals, renderDrinks, isLoading,
     mirrorMeals, mirrorDrinks, setRenderMeals, setRenderDrinks,
     mealsCategories, drinkCategories, setIsLoading,
-    setHeaderTitle, setShowSearchBtn, history } = useContext(recipeContext);
+    setHeaderTitle, setShowSearchBtn } = useContext(recipeContext);
+
+  const history = useHistory();
+
+  const compareArrays = (render, mirror, food) => {
+    if (food === '/meals') {
+      return render.length === mirror.length
+      && render.every((item, index) => item.idMeal === mirror[index].idMeal);
+    }
+    if (food === '/drinks') {
+      return render.length === mirror.length
+        && render.every((item, index) => item.idDrink === mirror[index].idDrink);
+    }
+  };
 
   const filterButton = (category, URL, page) => {
-    // const { id } = target;
-    const customURL = URL + category.split(' ').join('');
-    // setButtonId(id);
-    setFilterControl(!filterControl);
+    const customURL = URL + category.split(' ').join('_');
+    console.log(customURL);
     setClickControl(true);
     setCategoryURL(customURL);
     setPageRouteInfo(page);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const toggleFilter = async () => {
-    if (filterControl) {
+  const toggleFilter = async (render, mirror) => {
+    const { location: { pathname } } = history;
+    if (compareArrays(render, mirror, pathname)) {
+      console.log(render);
+      console.log(mirror);
+      console.log(compareArrays(renderDrinks, mirrorDrinks, pathname));
       setIsLoading(true);
       const requestRecipes = await requestAPI(categoryURL);
-      console.log(requestRecipes);
       const first12Recipes = requestRecipes[pageRouteInfo].slice(0, recipesNumberRequest);
       if (pageRouteInfo === 'drinks') {
+        console.log('fui pro drink');
         setRenderDrinks(first12Recipes);
+        setRenderMeals(mirrorMeals);
       }
-      setRenderMeals(first12Recipes);
-      setIsLoading(false);
-    } else {
-      if (pageRouteInfo === 'drinks') {
+      if (pageRouteInfo === 'meals') {
+        console.log('fui pro meals');
+        setRenderMeals(first12Recipes);
         setRenderDrinks(mirrorDrinks);
+        setIsLoading(false);
       }
+    } else {
+      console.log('sera que eu entro aqui');
+      setRenderDrinks(mirrorDrinks);
       setRenderMeals(mirrorMeals);
     }
   };
@@ -57,17 +75,22 @@ function Recipes() {
       setRenderDrinks(mirrorDrinks);
     }
     setRenderMeals(mirrorMeals);
-    setFilterControl(false);
   };
 
   useEffect(() => {
-    if (clickControl) {
-      toggleFilter();
+    const { location: { pathname } } = history;
+    if (clickControl && pathname === '/meals') {
+      toggleFilter(renderMeals, mirrorMeals);
+      setClickControl(false);
+    }
+    if (clickControl && pathname === '/drinks') {
+      toggleFilter(renderDrinks, mirrorDrinks);
       setClickControl(false);
     }
   }, [clickControl, toggleFilter]);
 
   const { location: { pathname } } = history;
+
   if (pathname === '/drinks') {
     return (
       <div>
@@ -96,7 +119,8 @@ function Recipes() {
         </section>
         {renderDrinks
           .map(({ strDrink,
-            strDrinkThumb }, index) => CardRecipes(index, strDrink, strDrinkThumb))}
+            strDrinkThumb,
+            idDrink }, index) => CardRecipes(index, strDrink, strDrinkThumb, idDrink))}
         <Footer />
       </div>
     );
@@ -124,7 +148,12 @@ function Recipes() {
       </section>
       {renderMeals
         .map(({ strMeal,
-          strMealThumb }, index) => CardRecipes(index, strMeal, strMealThumb))}
+          strMealThumb, idMeal }, index) => CardRecipes(
+          index,
+          strMeal,
+          strMealThumb,
+          idMeal,
+        ))}
       <Footer />
     </div>
   );
