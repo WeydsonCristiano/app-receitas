@@ -5,7 +5,7 @@ import profileIcon from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
-  const { email,
+  const {
     headerTitle,
     showSearchBtn,
     history } = useContext(recipeContext);
