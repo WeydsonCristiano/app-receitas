@@ -5,9 +5,11 @@ import profileIcon from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
-  const { email, headerTitle, showSearchBtn, history } = useContext(recipeContext);
+  const { email,
+    headerTitle,
+    showSearchBtn,
+    history } = useContext(recipeContext);
   const [togleSearch, setTogleSearch] = useState(false);
-
   return (
     <header>
       <h1

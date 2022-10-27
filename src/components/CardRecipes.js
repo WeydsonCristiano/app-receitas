@@ -3,7 +3,10 @@ import Card from 'react-bootstrap/Card';
 
 export default function CardRecipes(index, name, thumb) {
   return (
-    <Card key={ index } data-testid={ `${index}-recipe-card` }>
+    <Card
+      key={ index }
+      data-testid={ `${index}-recipe-card` }
+    >
       <Card.Img
         variant="top"
         data-testid={ `${index}-card-img` }
