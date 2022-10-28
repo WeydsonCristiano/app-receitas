@@ -4,8 +4,9 @@ import { useHistory } from 'react-router-dom';
 
 function RecipeDetailsComponents({ foods, drinks }) {
   const [ingredientsList, setIngredientsList] = useState([]);
-  // const [measuresList, setMeasuresList] = useState([]);
+  const [measuresList, setMeasuresList] = useState([]);
   console.log(foods);
+  console.log(drinks);
 
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -16,21 +17,26 @@ function RecipeDetailsComponents({ foods, drinks }) {
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '');
       setIngredientsList(ingredients);
-      // const measures = Object.entries(foods[0])
-      //   .filter((item) => item[0].includes('Measure'))
-      //   .filter((item) => item[1] !== ' ');
-      // setMeasuresList(measures);
+      const measures = Object.entries(foods[0])
+        .filter((item) => item[0].includes('Measure'))
+        .filter((item) => item[1] !== ' ');
+      setMeasuresList(measures);
     }
     if (drinks.length && pathname.includes('drinks')) {
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== null);
       setIngredientsList(ingredients);
+      const measures = Object.entries(drinks[0])
+        .filter((item) => item[0].includes('Measure'))
+        .filter((item) => item[1] !== null);
+      setMeasuresList(measures);
     }
   }, [foods, drinks, pathname]);
 
   return (
     <div>
+
       {
         pathname.includes('drinks')
           ? (
@@ -44,18 +50,33 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
                 </div>
                 <h2 data-testid="recipe-title">{e.strDrink}</h2>
-                <h3 data-testid="recipe-category">{e.strCategory}</h3>
-                <ul>
-                  {
-                    ingredientsList.map((item, index) => (
-                      <li
-                        key={ index }
-                        data-testid={ `${index}-ingredient-name-and-measure` }
-                      >
-                        {item[1] }
-                      </li>))
-                  }
-                </ul>
+                <h3 data-testid="recipe-category">
+                  {e.strAlcoholic}
+                </h3>
+                <div className="listaReceitas">
+                  <ul>
+                    {
+                      ingredientsList.map((item, index) => (
+                        <li
+                          key={ index }
+                          data-testid={ `${index}-ingredient-name-and-measure` }
+                        >
+                          {item[1] }
+                        </li>))
+                    }
+                  </ul>
+                  <ul>
+                    {
+                      measuresList.map((items, indexs) => (
+                        <li
+                          key={ indexs }
+                          data-testid={ `${indexs}-ingredient-name-and-measure` }
+                        >
+                          {items[1] }
+                        </li>))
+                    }
+                  </ul>
+                </div>
                 <div><p data-testid="instructions">{e.strInstructions}</p></div>
                 <div>
                   <iframe
@@ -97,16 +118,29 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   {el.strCategory}
                 </h3>
                 <div>
-                  <ul>
-                    {ingredientsList.map((item, index) => (
-                      <li
-                        key="index"
-                        data-testid={ `${index}-ingredient-name-and-measure` }
-                      >
-                        {item[1] }
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="listaReceitas">
+                    <ul>
+                      {ingredientsList.map((item, index) => (
+                        <li
+                          key="index"
+                          data-testid={ `${index}-ingredient-name-and-measure` }
+                        >
+                          {item[1] }
+                        </li>
+                      ))}
+                    </ul>
+                    <ul>
+                      {
+                        measuresList.map((itemsfood, indexsfood) => (
+                          <li
+                            key={ indexsfood }
+                            data-testid={ `${indexsfood}-ingredient-name-and-measure` }
+                          >
+                            {itemsfood[1] }
+                          </li>))
+                      }
+                    </ul>
+                  </div>
                 </div>
                 <div>
                   <p data-testid="instructions">{el.strInstructions}</p>
@@ -141,14 +175,15 @@ function RecipeDetailsComponents({ foods, drinks }) {
               </div>
             )))
       }
+
     </div>
 
   );
 }
 
 RecipeDetailsComponents.propTypes = {
-  foods: PropTypes.shape().isRequired,
-  drinks: PropTypes.shape().isRequired,
+  foods: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
 export default RecipeDetailsComponents;

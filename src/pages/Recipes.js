@@ -20,6 +20,7 @@ function Recipes() {
     mirrorMeals, mirrorDrinks, setRenderMeals, setRenderDrinks,
     mealsCategories, drinkCategories, setIsLoading,
     setHeaderTitle, setShowSearchBtn } = useContext(recipeContext);
+    console.log(renderDrinks);
 
   const history = useHistory();
 
@@ -35,7 +36,7 @@ function Recipes() {
   };
 
   const filterButton = (category, URL, page) => {
-    const customURL = URL + category.split(' ').join('_');
+    const customURL = URL + category.split(' ').join(' ');
     setClickControl(true);
     setCategoryURL(customURL);
     setPageRouteInfo(page);
