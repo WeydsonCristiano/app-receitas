@@ -7,11 +7,15 @@ import { ENDPOINT_MEAL, ENDPOINT_DRINK, requestAPI } from '../services/RequestAP
 const recipesNumberRequest = 12;
 
 function SearchBar() {
-  const { headerTitle, setRenderMeals, setRenderDrinks } = useContext(recipeContext);
+  const { headerTitle,
+    setRenderMeals,
+    setRenderDrinks,
+    history,
+  } = useContext(recipeContext);
   const [searchValue, setSearchValue] = useState('');
   const [searchType, setSearchType] = useState('');
 
-  const callApi = async (endpointType, renderFunction) => {
+  const callApi = async (endpointType, renderFunction, path, getId) => {
     let newArray;
     switch (searchType) {
     case 'name':
@@ -33,6 +37,9 @@ function SearchBar() {
     if (response === null) {
       return global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
+    if (response.length === 1) {
+      return history.push(`/${path}/${response[0][getId]}`);
+    }
     renderFunction(response.slice(0, recipesNumberRequest));
   };
 
@@ -40,10 +47,10 @@ function SearchBar() {
     e.preventDefault();
     switch (headerTitle) {
     case 'Meals':
-      callApi(ENDPOINT_MEAL, setRenderMeals);
+      callApi(ENDPOINT_MEAL, setRenderMeals, 'meals', 'idMeal');
       break;
     case 'Drinks':
-      callApi(ENDPOINT_DRINK, setRenderDrinks);
+      callApi(ENDPOINT_DRINK, setRenderDrinks, 'drinks', 'idDrink');
       break;
     default:
       break;
