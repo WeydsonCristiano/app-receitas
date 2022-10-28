@@ -354,7 +354,7 @@ describe('Teste o componente <SearchBar />', () => {
     }
   });
 
-  it('Testando filtros de drinks', async () => {
+  it('Testa pesquisa por ingredientes drinks', async () => {
     renderWithRouter(<App />);
     const putMail = screen.getByPlaceholderText(/digite seu email/i);
     const putPassword = screen.getByPlaceholderText(/digite sua senha/i);
@@ -391,6 +391,88 @@ describe('Teste o componente <SearchBar />', () => {
     userEvent.click(searchBtn);
 
     const recipe = await screen.findByText(/155 belmont/i);
+
+    expect(recipe).toBeInTheDocument();
+  });
+
+  it('Testa pesquisa por nome drinks', async () => {
+    renderWithRouter(<App />);
+    const putMail = screen.getByPlaceholderText(/digite seu email/i);
+    const putPassword = screen.getByPlaceholderText(/digite sua senha/i);
+    const loginBtn = screen.getByText(/entrar/i);
+
+    userEvent.type(putMail, email);
+    userEvent.type(putPassword, password);
+    userEvent.click(loginBtn);
+
+    const drinksBtn = screen.getByRole('img', {
+      name: /drink/i,
+    });
+
+    userEvent.click(drinksBtn);
+
+    const searchTogle = screen.getByRole('img', {
+      name: /icone de pesquisa/i,
+    });
+
+    userEvent.click(searchTogle);
+
+    const searchBtn = screen.getByRole('button', {
+      name: /search button/i,
+    });
+
+    const name = screen.getByRole('radio', {
+      name: /name/i,
+    });
+
+    const typeFilter = screen.getByTestId(searchInput);
+
+    userEvent.click(name);
+    userEvent.type(typeFilter, 'margarita');
+    userEvent.click(searchBtn);
+
+    const recipe = await screen.findByText(/blue margarita/i);
+
+    expect(recipe).toBeInTheDocument();
+  });
+
+  it('Testa pesquisa pela primeira letra drinks', async () => {
+    renderWithRouter(<App />);
+    const putMail = screen.getByPlaceholderText(/digite seu email/i);
+    const putPassword = screen.getByPlaceholderText(/digite sua senha/i);
+    const loginBtn = screen.getByText(/entrar/i);
+
+    userEvent.type(putMail, email);
+    userEvent.type(putPassword, password);
+    userEvent.click(loginBtn);
+
+    const drinksBtn = screen.getByRole('img', {
+      name: /drink/i,
+    });
+
+    userEvent.click(drinksBtn);
+
+    const searchTogle = screen.getByRole('img', {
+      name: /icone de pesquisa/i,
+    });
+
+    userEvent.click(searchTogle);
+
+    const searchBtn = screen.getByRole('button', {
+      name: /search button/i,
+    });
+
+    const firstLetter = screen.getByRole('radio', {
+      name: /first letter/i,
+    });
+
+    const typeFilter = screen.getByTestId(searchInput);
+
+    userEvent.click(firstLetter);
+    userEvent.type(typeFilter, 'a');
+    userEvent.click(searchBtn);
+
+    const recipe = await screen.findByText(/a1/i);
 
     expect(recipe).toBeInTheDocument();
   });

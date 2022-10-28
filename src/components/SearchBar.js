@@ -48,9 +48,7 @@ function SearchBar() {
     if (headerTitle === 'Meals') {
       return callApi(ENDPOINT_MEAL, setRenderMeals, 'meals', 'idMeal');
     }
-    if (headerTitle === 'Drinks') {
-      callApi(ENDPOINT_DRINK, setRenderDrinks, 'drinks', 'idDrink');
-    }
+    return callApi(ENDPOINT_DRINK, setRenderDrinks, 'drinks', 'idDrink');
   };
 
   return (
