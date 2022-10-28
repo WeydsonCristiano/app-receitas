@@ -86,14 +86,6 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
                 </div>
                 <h3>{e.strAlcoholic}</h3>
-                <div>
-                  <button
-                    data-testid="start-recipe-btn"
-                    type="button"
-                  >
-                    Start Recipe
-                  </button>
-                </div>
               </div>
             ))
           )
@@ -163,15 +155,6 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
 
                 </div>
-                <div>
-                  <button
-                    data-testid="start-recipe-btn"
-                    type="button"
-                  >
-                    Start Recipe
-                  </button>
-                </div>
-
               </div>
             )))
       }

@@ -36,6 +36,14 @@ function RecipeDetails({ match }) {
     <div>
       {isLoading ? <Loading />
         : <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />}
+      <div>
+        <button
+          data-testid="start-recipe-btn"
+          type="button"
+        >
+          Start Recipe
+        </button>
+      </div>
     </div>
   );
 }
