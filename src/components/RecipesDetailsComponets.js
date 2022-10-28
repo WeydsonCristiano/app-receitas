@@ -86,14 +86,6 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
                 </div>
                 <h3>{e.strAlcoholic}</h3>
-                <div>
-                  <button
-                    data-testid="start-recipe-btn"
-                    type="button"
-                  >
-                    Start Recipe
-                  </button>
-                </div>
               </div>
             ))
           )
@@ -150,7 +142,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     data-testid="video"
                     width="560"
                     height="315"
-                    src={ el.strYoutube }
+                    src={ el.strYoutube.replace('watch?v=', 'embed/') }
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer;
@@ -163,15 +155,6 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
 
                 </div>
-                <div>
-                  <button
-                    data-testid="start-recipe-btn"
-                    type="button"
-                  >
-                    Start Recipe
-                  </button>
-                </div>
-
               </div>
             )))
       }
