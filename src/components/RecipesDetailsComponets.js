@@ -203,5 +203,5 @@ RecipeDetailsComponents.propTypes = {
   foods: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
-
+//
 export default RecipeDetailsComponents;
