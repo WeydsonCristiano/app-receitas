@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import CheckIngredients from './CheckIngredients';
 
 function RecipeDetailsComponents({ foods, drinks }) {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
-  console.log(foods);
-  console.log(drinks);
 
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -43,11 +42,10 @@ function RecipeDetailsComponents({ foods, drinks }) {
 
   return (
     <div>
-
       {
         pathname.includes('drinks')
           ? (
-            drinks.map((e, i) => (
+            drinks?.map((e, i) => (
               <div key={ i }>
                 <div>
                   <img
@@ -83,6 +81,8 @@ function RecipeDetailsComponents({ foods, drinks }) {
                         </li>))
                     }
                   </ul>
+                  {pathname.includes('progress')
+                    && <CheckIngredients ingredientsList={ ingredientsList } />}
                 </div>
                 <div><p data-testid="instructions">{e.strInstructions}</p></div>
                 <div>
@@ -93,11 +93,28 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
                 </div>
                 <h3>{e.strAlcoholic}</h3>
+                <div>
+                  <button
+                    data-testid="favorite-btn"
+                    type="button"
+                  >
+                    Favoritar
+
+                  </button>
+                </div>
+                <div>
+                  <button
+                    data-testid="share-btn"
+                    type="button"
+                  >
+                    Compartilhar
+                  </button>
+                </div>
               </div>
             ))
           )
           : (
-            foods.map((el, ind) => (
+            foods?.map((el, ind) => (
               <div key={ ind }>
                 <div>
                   <img
@@ -139,6 +156,8 @@ function RecipeDetailsComponents({ foods, drinks }) {
                           </li>))
                       }
                     </ul>
+                    {pathname.includes('progress')
+                    && <CheckIngredients ingredientsList={ ingredientsList } />}
                   </div>
                 </div>
                 <div>
@@ -160,7 +179,23 @@ function RecipeDetailsComponents({ foods, drinks }) {
                         picture-in-picture"
                     allowFullScreen
                   />
+                </div>
+                <div>
+                  <button
+                    data-testid="favorite-btn"
+                    type="button"
+                  >
+                    Favoritar
 
+                  </button>
+                </div>
+                <div>
+                  <button
+                    data-testid="share-btn"
+                    type="button"
+                  >
+                    Compartilhar
+                  </button>
                 </div>
               </div>
             )))
@@ -175,5 +210,5 @@ RecipeDetailsComponents.propTypes = {
   foods: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
-
+//
 export default RecipeDetailsComponents;
