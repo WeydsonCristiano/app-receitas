@@ -34,6 +34,11 @@ function RecipeDetailsComponents({ foods, drinks }) {
     }
   }, [foods, drinks, pathname]);
 
+  const fixYouTubeURL = (URL) => {
+    const urlFIX = URL.replace('watch?v=', 'embed/');
+    return urlFIX;
+  };
+
   return (
     <div>
 
@@ -150,7 +155,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     data-testid="video"
                     width="560"
                     height="315"
-                    src={ el.strYoutube }
+                    src={ fixYouTubeURL(el.strYoutube) }
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer;
