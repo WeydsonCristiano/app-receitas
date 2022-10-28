@@ -10,7 +10,9 @@ export const ENDPOINT_ID_MEALS = 'https://www.themealdb.com/api/json/v1/1/lookup
 export const ENDPOINT_ID_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 function RecipeDetails({ match }) {
-  const { setIsLoading, isLoading } = useContext(recipeContext);
+  const { setIsLoading, isLoading,
+    setGlobalMealDetails,
+    setGlobalDrinksDetails } = useContext(recipeContext);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
   const { params: { id } } = match;
@@ -23,21 +25,25 @@ function RecipeDetails({ match }) {
       if (pathname.includes('meals')) {
         const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         setMealsDetails(detailsMeals.meals);
+        setGlobalMealDetails(detailsMeals.meals);
       }
       if (pathname.includes('drinks')) {
         const detailsDrinks = await requestAPI(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
         setDrinksDetails(detailsDrinks.drinks);
+        setGlobalDrinksDetails(detailsDrinks.drinks);
       }
       setIsLoading(false);
     };
     requestData();
-  }, [id, pathname, setIsLoading]);
+  }, [id, pathname, setIsLoading, setGlobalDrinksDetails, setGlobalMealDetails]);
+
   return (
     <div>
       {isLoading ? <Loading />
         : <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />}
       <div>
         <button
+          onClick={ () => history.push(`${pathname}/in-progress`) }
           data-testid="start-recipe-btn"
           type="button"
         >

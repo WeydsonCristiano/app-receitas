@@ -21,8 +21,13 @@ function RecipeProvider({ children }) {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
+  const [globalMealsDetails, setGlobalMealDetails] = useState([]);
+  const [globalDrinksDetails, setGlobalDrinksDetails] = useState([]);
 
   const history = useHistory();
+
+  console.log(globalDrinksDetails);
+  console.log(globalMealsDetails);
 
   useEffect(() => {
     const requestData = async () => {
@@ -59,6 +64,10 @@ function RecipeProvider({ children }) {
     setIsLoading,
     setRenderMeals,
     setRenderDrinks,
+    setGlobalMealDetails,
+    setGlobalDrinksDetails,
+    globalDrinksDetails,
+    globalMealsDetails,
     renderMeals,
     renderDrinks,
     isLoading,
@@ -76,6 +85,10 @@ function RecipeProvider({ children }) {
     showSearchBtn,
     setShowSearchBtn,
     history,
+    setGlobalMealDetails,
+    setGlobalDrinksDetails,
+    globalDrinksDetails,
+    globalMealsDetails,
   ]);
 
   return (

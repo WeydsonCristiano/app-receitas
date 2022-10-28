@@ -29,12 +29,14 @@ function App() {
           render={ (props) => <RecipeDetails { ...props } /> }
         />
         <Route
-          path="/meals/:id-da-receita/in-progress"
-          component={ RecipeInProgress }
+          exact
+          path="/meals/:id/in-progress"
+          render={ (props) => <RecipeInProgress { ...props } /> }
         />
         <Route
-          path="/drinks/:id-da-receita/in-progress"
-          component={ RecipeInProgress }
+          exact
+          path="/drinks/:id/in-progress"
+          render={ (props) => <RecipeInProgress { ...props } /> }
         />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
