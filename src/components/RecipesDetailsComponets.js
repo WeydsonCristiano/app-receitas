@@ -11,6 +11,13 @@ function RecipeDetailsComponents({ foods, drinks }) {
   const history = useHistory();
   const { location: { pathname } } = history;
 
+  const handleRouterMeals = () => {
+    history.push('/meail');
+  };
+  const handleRouteDrink = () => {
+    history.push('/drinks');
+  };
+
   useEffect(() => {
     if (foods.length && pathname.includes('meals')) {
       const ingredients = Object.entries(foods[0])
