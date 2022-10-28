@@ -4,12 +4,13 @@ import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import { requestAPI } from '../services/RequestAPI';
 import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
+import Loading from '../components/Loading';
 
 export const ENDPOINT_ID_MEALS = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
 export const ENDPOINT_ID_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 function RecipeDetails({ match }) {
-  const { setIsLoading } = useContext(recipeContext);
+  const { setIsLoading, isLoading } = useContext(recipeContext);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
   const { params: { id } } = match;
@@ -33,7 +34,16 @@ function RecipeDetails({ match }) {
   }, [id, pathname, setIsLoading]);
   return (
     <div>
-      <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />
+      {isLoading ? <Loading />
+        : <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />}
+      <div>
+        <button
+          data-testid="start-recipe-btn"
+          type="button"
+        >
+          Start Recipe
+        </button>
+      </div>
     </div>
   );
 }

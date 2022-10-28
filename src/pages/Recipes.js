@@ -80,7 +80,8 @@ function Recipes() {
       toggleFilter(renderDrinks, mirrorDrinks);
       setClickControl(false);
     }
-  }, [clickControl, toggleFilter]);
+  }, [clickControl, toggleFilter, history,
+    mirrorDrinks, mirrorMeals, renderDrinks, renderMeals]);
 
   const { location: { pathname } } = history;
 
