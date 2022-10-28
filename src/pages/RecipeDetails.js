@@ -1,16 +1,17 @@
-// import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import { requestAPI } from '../services/RequestAPI';
+import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
 
 export const ENDPOINT_ID_MEALS = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
 export const ENDPOINT_ID_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 function RecipeDetails({ match }) {
   const { setIsLoading } = useContext(recipeContext);
-  // const [mealsDetails, setMealsDetails] = useState([]);
-  // const [drinksDetails, setDrinksDetails] = useState([]);
+  const [mealsDetails, setMealsDetails] = useState([]);
+  const [drinksDetails, setDrinksDetails] = useState([]);
   const { params: { id } } = match;
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -32,7 +33,7 @@ function RecipeDetails({ match }) {
   }, [id, pathname, setIsLoading]);
   return (
     <div>
-      sdf
+      <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />
     </div>
   );
 }
