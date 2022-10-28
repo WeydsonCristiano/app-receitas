@@ -4,22 +4,23 @@ import recipeContext from '../context/recipeContext';
 import Footer from '../components/Footer';
 
 function Profile() {
-  const { setHeaderTitle,
+  const {
+    setHeaderTitle,
     setShowSearchBtn,
-    history } = useContext(recipeContext);
-    const [emailTela, setEmailTela] = useState('');
-
-  const clicou = () => {
-    localStorage.clear();
-    history.push('/');
-  };
+    history,
+  } = useContext(recipeContext);
+  const [emailTela, setEmailTela] = useState('');
 
   useEffect(() => {
     if (localStorage.user !== undefined) {
       setEmailTela(JSON.parse(localStorage.getItem('user')).email);
     }
   }, [setEmailTela]);
-  
+
+  const clicou = () => {
+    localStorage.clear();
+    history.push('/');
+  };
 
   useEffect(() => {
     setHeaderTitle('Profile');
@@ -31,21 +32,21 @@ function Profile() {
       <Footer />
       <p data-testid="profile-email">{emailTela}</p>
       <button
-        type="submit"
+        type="button"
         data-testid="profile-done-btn"
         onClick={ () => history.push('/done-recipes') }
       >
         Done Recipes
       </button>
       <button
-        type="submit"
+        type="button"
         data-testid="profile-favorite-btn"
         onClick={ () => history.push('favorite-recipes') }
       >
         Favorite Recipes
       </button>
       <button
-        type="submit"
+        type="button"
         data-testid="profile-logout-btn"
         onClick={ clicou }
       >
