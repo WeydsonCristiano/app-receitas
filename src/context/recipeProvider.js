@@ -23,11 +23,9 @@ function RecipeProvider({ children }) {
   const [headerTitle, setHeaderTitle] = useState('');
   const [globalMealsDetails, setGlobalMealDetails] = useState([]);
   const [globalDrinksDetails, setGlobalDrinksDetails] = useState([]);
+  const [globalCheckedList, setGlobalCheckedLis] = useState([]);
 
   const history = useHistory();
-
-  console.log(globalDrinksDetails);
-  console.log(globalMealsDetails);
 
   useEffect(() => {
     const requestData = async () => {
@@ -66,6 +64,8 @@ function RecipeProvider({ children }) {
     setRenderDrinks,
     setGlobalMealDetails,
     setGlobalDrinksDetails,
+    setGlobalCheckedLis,
+    globalCheckedList,
     globalDrinksDetails,
     globalMealsDetails,
     renderMeals,
@@ -89,6 +89,7 @@ function RecipeProvider({ children }) {
     setGlobalDrinksDetails,
     globalDrinksDetails,
     globalMealsDetails,
+    globalCheckedList,
   ]);
 
   return (

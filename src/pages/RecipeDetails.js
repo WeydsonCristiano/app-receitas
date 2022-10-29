@@ -19,6 +19,8 @@ function RecipeDetails({ match }) {
   const history = useHistory();
   const { location: { pathname } } = history;
 
+  console.log(mealsDetails);
+
   useEffect(() => {
     const requestData = async () => {
       setIsLoading(true);
