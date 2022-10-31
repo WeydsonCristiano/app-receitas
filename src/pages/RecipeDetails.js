@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import require from 'clipboard-copy';
 import recipeContext from '../context/recipeContext';
 import { requestAPI } from '../services/RequestAPI';
 import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
@@ -10,6 +11,7 @@ export const ENDPOINT_ID_MEALS = 'https://www.themealdb.com/api/json/v1/1/lookup
 export const ENDPOINT_ID_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 function RecipeDetails({ match }) {
+  const [copyed, setCopyed] = useState(false);
   const { setIsLoading, isLoading,
     setGlobalMealDetails,
     setGlobalDrinksDetails } = useContext(recipeContext);
@@ -37,10 +39,25 @@ function RecipeDetails({ match }) {
     requestData();
   }, [id, pathname, setIsLoading, setGlobalDrinksDetails, setGlobalMealDetails]);
 
+  const copy = require('clipboard-copy');
+
+  const copyUrl = async () => {
+    setCopyed(true);
+    await copy(`http://localhost:3000${pathname}`);
+  };
+
   return (
     <div>
+      {copyed && <p>Link copied!</p>}
       {isLoading ? <Loading />
-        : <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />}
+        : (
+          <RecipeDetailsComponents
+            foods={ mealsDetails }
+            drinks={ drinksDetails }
+            copyUrl={ copyUrl }
+          />
+        )}
+      ;
       <div>
         <button
           data-testid="start-recipe-btn"
