@@ -7,9 +7,6 @@ import recipeContext from '../context/recipeContext';
 import Loading from '../components/Loading';
 
 function RecipeInProgress({ match }) {
-  if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-    localStorage.setItem('inProgressRecipes', JSON.stringify({ drinks: {}, meals: {} }));
-  }
   const { setIsLoading, isLoading } = useContext(recipeContext);
   const [localMeal, setLocalMeal] = useState([]);
   const [localDrink, setLocalDrink] = useState([]);
@@ -40,7 +37,7 @@ function RecipeInProgress({ match }) {
         isLoading
           ? <Loading /> : (
             <RecipeDetailsComponents
-              foods={ localMeal }
+              meals={ localMeal }
               drinks={ localDrink }
             />
           )
