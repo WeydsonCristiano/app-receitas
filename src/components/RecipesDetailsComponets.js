@@ -42,6 +42,8 @@ function RecipeDetailsComponents({ foods, drinks, copyUrl }) {
     }
   }, [foods, drinks, pathname]);
 
+  // manga verde
+
   return (
     <div>
       {
