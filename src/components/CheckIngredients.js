@@ -16,7 +16,12 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   useEffect(() => {
     console.log('entrei');
     const getCheckedItens = readlocalStorage('inProgressRecipes');
-    setCheckedList(getCheckedItens[recipeType][recipeId]);
+    let storageCheckedList = getCheckedItens[recipeType][recipeId];
+    if (storageCheckedList === undefined) {
+      storageCheckedList = [];
+    }
+    setCheckedList(storageCheckedList);
+    console.log(getCheckedItens[recipeType][recipeId]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -26,7 +31,7 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
       prevState[recipeType][recipeId] = checkedList;
       saveLocalStore('inProgressRecipes', prevState);
     }
-    if (checkedList.length === 0) {
+    if (checkedList?.length === 0) {
       const prevState = readlocalStorage('inProgressRecipes');
       console.log(readlocalStorage('inProgressRecipes'));
       prevState[recipeType][recipeId] = [];
@@ -35,11 +40,12 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   }, [checkedList, recipeId, recipeType]);
 
   const genericHandleChange = ({ target: { checked, id } }) => {
-    if (checked && !checkedList.some((item) => item === id)) {
+    console.log(checkedList);
+    if (checked && !checkedList?.some((item) => item === id)) {
       setCheckedList((state) => [...state, id]);
     }
     if (!checked) {
-      setCheckedList(checkedList.filter((item) => item !== id));
+      setCheckedList(checkedList?.filter((item) => item !== id));
     }
   };
   return (

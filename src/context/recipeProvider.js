@@ -23,6 +23,7 @@ function RecipeProvider({ children }) {
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
+  const [globalIngrd, setGlobalIngrd] = useState([]);
 
   const history = useHistory();
 
@@ -65,6 +66,8 @@ function RecipeProvider({ children }) {
     userInfo,
     setUserInfo,
     setIsLoading,
+    globalIngrd,
+    setGlobalIngrd,
     setRenderMeals,
     setRenderDrinks,
     renderMeals,
@@ -79,6 +82,7 @@ function RecipeProvider({ children }) {
     isLoading, mirrorMeals, mirrorDrinks,
     mealsCategories, drinkCategories,
     setRecipeDetail,
+    globalIngrd,
     recipeDetail,
     setUserInfo,
     headerTitle,

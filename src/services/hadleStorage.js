@@ -1,24 +1,6 @@
-const doneRecipes = [{
-  id: '',
-  type: '',
-  nationality: '',
-  category: '',
-  alcoholicOrNot: '',
-  name: '',
-  image: '',
-  doneDate: '',
-  tags: [],
-}];
+const doneRecipes = [];
 
-const favoriteRecipes = [{
-  id: '',
-  type: '',
-  nationality: '',
-  category: '',
-  alcoholicOrNot: '',
-  name: '',
-  image: '',
-}];
+const favoriteRecipes = [];
 
 export const inProgressRecipes = {
   drinks: {},

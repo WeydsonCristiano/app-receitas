@@ -1,20 +1,16 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import recipeContext from '../context/recipeContext';
 import CheckIngredients from './CheckIngredients';
 
 function RecipeDetailsComponents({ meals, drinks }) {
+  const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
   const history = useHistory();
   const { location: { pathname } } = history;
-
-  // const handleRouterMeals = () => {
-  //   history.push('/meail');
-  // };
-  // const handleRouteDrink = () => {
-  //   history.push('/drinks');
-  // };
+  console.log(ingredientsList);
 
   useEffect(() => {
     if (meals.length && pathname.includes('meals')) {
@@ -22,6 +18,8 @@ function RecipeDetailsComponents({ meals, drinks }) {
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setIngredientsList(ingredients);
+      console.log(ingredients);
+      setGlobalIngrd(ingredients);
       const measures = Object.entries(meals[0])
         .filter((item) => item[0].includes('Measure'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
@@ -32,12 +30,13 @@ function RecipeDetailsComponents({ meals, drinks }) {
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setIngredientsList(ingredients);
+      console.log(ingredients);
       const measures = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Measure'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setMeasuresList(measures);
     }
-  }, [meals, drinks, pathname]);
+  }, [meals, drinks, pathname, setGlobalIngrd]);
   return (
     <div>
       {
@@ -45,38 +44,6 @@ function RecipeDetailsComponents({ meals, drinks }) {
           ? (
             drinks?.map((e, i) => (
               <div key={ i }>
-                <div>
-                  <img
-                    data-testid="recipe-photo"
-                    src={ e.strDrinkThumb }
-                    alt={ e.strDrink }
-                  />
-                </div>
-                <h2 data-testid="recipe-title">{e.strDrink}</h2>
-                <h3 data-testid="recipe-category">
-                  {e.strAlcoholic}
-                </h3>
-                <div className="listaReceitas">
-                  <ul>
-                    {
-                      ingredientsList.map((item, index) => (
-                        <li
-                          key={ index }
-                          data-testid={ `${index}-ingredient-name-and-measure` }
-                        >
-                          { `${measuresList[index][1]} ${item[1]}` }
-                        </li>))
-                    }
-                  </ul>
-                </div>
-                <div><p data-testid="instructions">{e.strInstructions}</p></div>
-                {pathname.includes('progress')
-                    && <CheckIngredients
-                      meals={ meals }
-                      drinks={ drinks }
-                      ingredientsList={ ingredientsList }
-                    />}
-                <h3>{e.strAlcoholic}</h3>
                 <div>
                   <button
                     data-testid="favorite-btn"
@@ -94,12 +61,61 @@ function RecipeDetailsComponents({ meals, drinks }) {
                     Compartilhar
                   </button>
                 </div>
+                <div>
+                  <img
+                    data-testid="recipe-photo"
+                    src={ e.strDrinkThumb }
+                    alt={ e.strDrink }
+                  />
+                </div>
+                <h2 data-testid="recipe-title">{e.strDrink}</h2>
+                <h3 data-testid="recipe-category">
+                  {e.strAlcoholic}
+                </h3>
+                <div className="listaReceitas">
+                  <ul>
+                    {
+                      ingredientsList?.map((item, index) => (
+                        <li
+                          key={ index }
+                          data-testid={ `${index}-ingredient-name-and-measure` }
+                        >
+                          { `${measuresList[index][1]} ${item[1]}` }
+                        </li>))
+                    }
+                  </ul>
+                </div>
+                <div><p data-testid="instructions">{e.strInstructions}</p></div>
+                {pathname.includes('progress')
+                    && <CheckIngredients
+                      meals={ meals }
+                      drinks={ drinks }
+                      ingredientsList={ ingredientsList }
+                    />}
+                <h3>{e.strAlcoholic}</h3>
               </div>
             ))
           )
           : (
             meals?.map((el, ind) => (
               <div key={ ind }>
+                <div>
+                  <button
+                    data-testid="favorite-btn"
+                    type="button"
+                  >
+                    Favoritar
+
+                  </button>
+                </div>
+                <div>
+                  <button
+                    data-testid="share-btn"
+                    type="button"
+                  >
+                    Compartilhar
+                  </button>
+                </div>
                 <div>
                   <img
                     data-testid="recipe-photo"
@@ -120,7 +136,7 @@ function RecipeDetailsComponents({ meals, drinks }) {
                 <div>
                   <div className="listaReceitas">
                     <ul>
-                      {ingredientsList.map((item, index) => (
+                      {ingredientsList?.map((item, index) => (
                         <li
                           key="index"
                           data-testid={ `${index}-ingredient-name-and-measure` }
@@ -157,23 +173,6 @@ function RecipeDetailsComponents({ meals, drinks }) {
                       drinks={ drinks }
                       ingredientsList={ ingredientsList }
                     />}
-                <div>
-                  <button
-                    data-testid="favorite-btn"
-                    type="button"
-                  >
-                    Favoritar
-
-                  </button>
-                </div>
-                <div>
-                  <button
-                    data-testid="share-btn"
-                    type="button"
-                  >
-                    Compartilhar
-                  </button>
-                </div>
               </div>
             )))
       }
