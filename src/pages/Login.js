@@ -44,7 +44,12 @@ function Login() {
 
   return (
     <div className="login-container">
+      <div className="cabecarioLogin">
+        <h1>Recipes</h1>
+        <h4>app</h4>
+      </div>
       <Form>
+        <h2>Login</h2>
         <Card className="login-card">
           <Form.Label htmlFor="email">
             <Form.Control
