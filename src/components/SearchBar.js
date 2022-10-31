@@ -31,7 +31,7 @@ function SearchBar() {
       newArray = await requestAPI(`${endpointType}filter.php?i=${searchValue}`);
       break;
     default:
-      break;
+      return global.alert('Empty search.');
     }
     const response = newArray[Object.keys(newArray)[0]];
     if (response === null) {
@@ -45,16 +45,10 @@ function SearchBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    switch (headerTitle) {
-    case 'Meals':
-      callApi(ENDPOINT_MEAL, setRenderMeals, 'meals', 'idMeal');
-      break;
-    case 'Drinks':
-      callApi(ENDPOINT_DRINK, setRenderDrinks, 'drinks', 'idDrink');
-      break;
-    default:
-      break;
+    if (headerTitle === 'Meals') {
+      return callApi(ENDPOINT_MEAL, setRenderMeals, 'meals', 'idMeal');
     }
+    return callApi(ENDPOINT_DRINK, setRenderDrinks, 'drinks', 'idDrink');
   };
 
   return (
