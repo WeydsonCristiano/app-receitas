@@ -37,7 +37,7 @@ describe('Teste o componente <Footer.js />', () => {
     const detailsMeals = screen.getByTestId('meals-bottom-btn');
     userEvent.click(detailsMeals);
   });
-  it('testando botao start/finish', async () => {
+  it('testando rota meals', async () => {
     renderWithRouter(<App />, { initialEntries: ['/meals/:id/in-progress'] });
     expect(screen.findByTestId('recipe-photo'));
     expect(screen.findByTestId('recipe-title'));
@@ -45,23 +45,17 @@ describe('Teste o componente <Footer.js />', () => {
     expect(screen.findByTestId('favorite-btn'));
     expect(screen.findByTestId('share-btn'));
     expect(screen.findByTestId('start-recipe-btn'));
-    const buttonStartRecipes = screen.findByTestId('start-recipe-btn');
-    userEvent.click(buttonStartRecipes);
-
-    await waitFor(() => {
-      expect(screen.findByAltText('finish-recipe-btn'));
-    });
+    expect(screen.findByTestId('finish-recipe-btn'));
   });
 
-  // it('testando botao favoritar', async () => {
-  //   renderWithRouter(<App />, { initialEntries: ['/drinks/:id/in-progress'] });
-  //   const buttonFavoritar = screen.findByTestId('favorite-btn');
-  //   userEvent.click(buttonFavoritar);
-  // });
-
-  // it('testando botao compartilhar', async () => {
-  //   renderWithRouter(<App />, { initialEntries: ['/drinks/:id/in-progress'] });
-  //   const buttonCompartilhar = screen.findByTestId('share-btn');
-  //   userEvent.click(buttonCompartilhar);
-  // });
+  it('testando rota drink', async () => {
+    renderWithRouter(<App />, { initialEntries: ['/drinks/:id/in-progress'] });
+    expect(screen.findByTestId('recipe-photo'));
+    expect(screen.findByTestId('recipe-title'));
+    expect(screen.findByTestId('TestId'));
+    expect(screen.findByTestId('favorite-btn'));
+    expect(screen.findByTestId('share-btn'));
+    expect(screen.findByTestId('start-recipe-btn'));
+    expect(screen.findByTestId('finish-recipe-btn'));
+  });
 });
