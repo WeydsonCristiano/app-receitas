@@ -4,40 +4,41 @@ import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import CheckIngredients from './CheckIngredients';
 
-function RecipeDetailsComponents({ meals, drinks }) {
+function RecipeDetailsComponents({ meals, drinks, id }) {
   const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
   const history = useHistory();
   const { location: { pathname } } = history;
 
-  console.log(drinks);
+  console.log(id);
 
   useEffect(() => {
-    if (meals.length && pathname.includes('meals')) {
-      const ingredients = Object.keys(meals[0])
-        .filter((item) => item.includes('Ingredient'))
+    if (meals.length && pathname.includes('/meals')) {
+      const ingredients = Object.entries(meals[0])
+        .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
-      setIngredientsList(ingredients);
-      console.log(ingredients);
-      setGlobalIngrd(ingredients);
       const measures = Object.entries(meals[0])
         .filter((item) => item[0].includes('Measure'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setMeasuresList(measures);
+      setIngredientsList(ingredients);
+      setGlobalIngrd(ingredients);
+      console.log(ingredients, 'use effect');
     }
-    if (drinks.length && pathname.includes('drinks')) {
-      console.log(drinks.length);
+    console.log('useEffec 2');
+    if (drinks.length && pathname.includes('/drinks')) {
+      console.log('aqui');
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
-      setIngredientsList(ingredients);
-      setGlobalIngrd(ingredients);
-      console.log(ingredients);
       const measures = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Measure'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
+      console.log(ingredients);
       setMeasuresList(measures);
+      setIngredientsList(ingredients);
+      setGlobalIngrd(ingredients);
     }
   }, [meals, drinks, pathname, setGlobalIngrd]);
   return (
@@ -45,7 +46,7 @@ function RecipeDetailsComponents({ meals, drinks }) {
       {
         pathname.includes('drinks')
           ? (
-            drinks?.map((e, i) => (
+            drinks.map((e, i) => (
               <div key={ i }>
                 <div>
                   <button
@@ -66,6 +67,7 @@ function RecipeDetailsComponents({ meals, drinks }) {
                 </div>
                 <div>
                   <img
+                    width="300px"
                     data-testid="recipe-photo"
                     src={ e.strDrinkThumb }
                     alt={ e.strDrink }
@@ -77,19 +79,20 @@ function RecipeDetailsComponents({ meals, drinks }) {
                 </h3>
                 <div className="listaReceitas">
                   <ul>
-                    {console.log(ingredientsList)}
                     {
                       ingredientsList?.map((item, index) => (
                         <li
                           key={ index }
                           data-testid={ `${index}-ingredient-name-and-measure` }
                         >
-                          { `${measuresList[index][1]} ${item[1]}` }
+                          { `${item[1]} ${measuresList[index]
+                            && measuresList[index][1]}` }
                         </li>))
                     }
                   </ul>
                 </div>
                 <div><p data-testid="instructions">{e.strInstructions}</p></div>
+                {console.log(ingredientsList)}
                 {pathname.includes('progress')
                     && <CheckIngredients
                       meals={ meals }
@@ -122,6 +125,7 @@ function RecipeDetailsComponents({ meals, drinks }) {
                 </div>
                 <div>
                   <img
+                    width="300px"
                     data-testid="recipe-photo"
                     src={ el.strMealThumb }
                     alt={ el.strMeal }
@@ -140,12 +144,13 @@ function RecipeDetailsComponents({ meals, drinks }) {
                 <div>
                   <div className="listaReceitas">
                     <ul>
-                      {ingredientsList?.map((item, index) => (
+                      {ingredientsList.map((item, index) => (
                         <li
                           key="index"
                           data-testid={ `${index}-ingredient-name-and-measure` }
                         >
-                          {`${measuresList[index][1]} ${item[1]}` }
+                          { `${item[1]} ${measuresList[index]
+                            && measuresList[index][1]}` }
                         </li>
                       ))}
                     </ul>

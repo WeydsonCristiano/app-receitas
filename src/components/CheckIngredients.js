@@ -7,6 +7,10 @@ import './styles/checkIngredients.css';
 export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   const [checkedList, setCheckedList] = useState([]);
 
+  // console.log(drinks);
+  // console.log(meals);
+  console.log(ingredientsList, "filho");
+
   const history = useHistory();
   const { location: { pathname } } = history;
   const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
@@ -14,7 +18,6 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
     : drinks[0].idDrink;
 
   useEffect(() => {
-    console.log('entrei');
     const getCheckedItens = readlocalStorage('inProgressRecipes');
     let storageCheckedList = getCheckedItens[recipeType][recipeId];
     if (storageCheckedList === undefined) {
@@ -33,14 +36,12 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
     }
     if (checkedList?.length === 0) {
       const prevState = readlocalStorage('inProgressRecipes');
-      console.log(readlocalStorage('inProgressRecipes'));
       prevState[recipeType][recipeId] = [];
       saveLocalStore('inProgressRecipes', prevState);
     }
   }, [checkedList, recipeId, recipeType]);
 
   const genericHandleChange = ({ target: { checked, id } }) => {
-    console.log(checkedList);
     if (checked && !checkedList?.some((item) => item === id)) {
       setCheckedList((state) => [...state, id]);
     }
@@ -51,7 +52,6 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   return (
 
     <div>
-      {console.log(checkedList)}
       { ingredientsList.map((item, index) => (
         <label
           className={ checkedList?.some((e) => e === item[1])

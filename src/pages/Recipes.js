@@ -36,8 +36,6 @@ function Recipes() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const toggleFilter = async () => {
-    console.log(clickedCategory);
-    console.log(toggleControl);
     setIsLoading(true);
     const requestRecipes = await requestAPI(categoryURL);
     const first12Recipes = requestRecipes[pageRouteInfo].slice(0, recipesNumberRequest);

@@ -14,6 +14,7 @@ export default function RecommendationCard({ meals, drinks }) {
             <div key={ drink.idDrink } data-testid={ `${index}-recommendation-card` }>
               <div>
                 <img
+                  width="200px"
                   src={ drink.strDrinkThumb }
                   alt={ drink.strDrink }
                 />
@@ -27,6 +28,7 @@ export default function RecommendationCard({ meals, drinks }) {
           <div key={ meal.idMeal } data-testid={ `${index}-recommendation-card` }>
             <div>
               <img
+                width="200px"
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
               />

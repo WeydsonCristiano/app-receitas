@@ -12,8 +12,8 @@ import { readlocalStorage } from '../services/hadleStorage';
 const maxRecommendation = 6;
 
 function RecipeDetails({ match }) {
-  const { setIsLoading, isLoading,
-    setRecipeDetail, globalIngrd } = useContext(recipeContext);
+  const { setRecipeDetail, globalIngrd } = useContext(recipeContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
   const [drinksRecommendation, setDrinkRec] = useState([]);
@@ -25,55 +25,59 @@ function RecipeDetails({ match }) {
 
   const getCheckedIngredients = () => {
     const getStorage = readlocalStorage('inProgressRecipes');
+
     const checkList = getStorage[recipeType][id];
     if (checkList) {
       return checkList.length;
     }
     return 0;
   };
-
+console.log(globalIngrd);
   useEffect(() => {
     const requestData = async () => {
-      setIsLoading(true);
-      if (pathname.includes('meals')) {
+      if (pathname === `/meals/${id}`) {
         const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-        setMealsDetails(detailsMeals.meals);
-        setRecipeDetail(detailsMeals.meals);
         const requestRecommendation = await requestAPI(URL_REQUEST_DRINKS);
         const first6 = requestRecommendation.drinks
           .slice(0, maxRecommendation);
         setMealRec(first6);
+        setMealsDetails(detailsMeals.meals);
+        setRecipeDetail(detailsMeals.meals);
       }
-      if (pathname.includes('drinks')) {
+      if (pathname === `/drinks/${id}`) {
         const detailsDrinks = await requestAPI(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-        setDrinksDetails(detailsDrinks.drinks);
-        setRecipeDetail(detailsDrinks.drinks);
         const requestRecommendation = await requestAPI(URL_REQUEST_MEALS);
         const first6 = requestRecommendation.meals
           .slice(0, maxRecommendation);
+        setDrinksDetails(detailsDrinks.drinks);
+        setRecipeDetail(detailsDrinks.drinks);
         setDrinkRec(first6);
       }
       setIsLoading(false);
     };
     requestData();
   }, [id, pathname, setIsLoading, setRecipeDetail]);
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
-      {isLoading ? <Loading /> : <RecipeDetailsComponents
+      {(mealsDetails.length > 0 || drinksDetails.length > 0) && <RecipeDetailsComponents
         meals={ mealsDetails }
         drinks={ drinksDetails }
+        id={ id }
       />}
       <div>
         <RecommendationCard
           meals={ drinksRecommendation }
           drinks={ mealsRecommendation }
+          id={ id }
         />
         <button
           onClick={ () => history.push(`${pathname}/in-progress`) }
           data-testid="start-recipe-btn"
           type="button"
-          hidden={ readlocalStorage('doneRecipes').some((recipe) => recipe.id === id) }
+          hidden={ readlocalStorage('doneRecipes')?.some((recipe) => recipe.id === id) }
         >
           {getCheckedIngredients() !== 0 && getCheckedIngredients() < globalIngrd.length
             ? 'Continue Recipe' : 'Start Recipe'}

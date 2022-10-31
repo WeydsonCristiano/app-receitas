@@ -13,7 +13,7 @@ const categoryNumberRequest = 5;
 
 function RecipeProvider({ children }) {
   const [userInfo, setUserInfo] = useState({});
-  const [isLoading, setIsLoading] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [renderMeals, setRenderMeals] = useState([]);
   const [renderDrinks, setRenderDrinks] = useState([]);
   const [mirrorMeals, setMirrorMeals] = useState([]);

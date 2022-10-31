@@ -39,6 +39,7 @@ function RecipeInProgress({ match }) {
             <RecipeDetailsComponents
               meals={ localMeal }
               drinks={ localDrink }
+              id={ id }
             />
           )
       }
