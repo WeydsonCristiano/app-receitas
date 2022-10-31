@@ -32,10 +32,6 @@ function RecipeDetails({ match }) {
     return 0;
   };
 
-  console.log(getCheckedIngredients[recipeType]);
-  console.log(id);
-  console.log(globalIngrd.length);
-
   useEffect(() => {
     const requestData = async () => {
       setIsLoading(true);

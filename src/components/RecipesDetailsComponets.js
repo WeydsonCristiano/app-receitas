@@ -10,12 +10,13 @@ function RecipeDetailsComponents({ meals, drinks }) {
   const [measuresList, setMeasuresList] = useState([]);
   const history = useHistory();
   const { location: { pathname } } = history;
-  console.log(ingredientsList);
+
+  console.log(drinks);
 
   useEffect(() => {
     if (meals.length && pathname.includes('meals')) {
-      const ingredients = Object.entries(meals[0])
-        .filter((item) => item[0].includes('Ingredient'))
+      const ingredients = Object.keys(meals[0])
+        .filter((item) => item.includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setIngredientsList(ingredients);
       console.log(ingredients);
@@ -26,10 +27,12 @@ function RecipeDetailsComponents({ meals, drinks }) {
       setMeasuresList(measures);
     }
     if (drinks.length && pathname.includes('drinks')) {
+      console.log(drinks.length);
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setIngredientsList(ingredients);
+      setGlobalIngrd(ingredients);
       console.log(ingredients);
       const measures = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Measure'))
@@ -74,6 +77,7 @@ function RecipeDetailsComponents({ meals, drinks }) {
                 </h3>
                 <div className="listaReceitas">
                   <ul>
+                    {console.log(ingredientsList)}
                     {
                       ingredientsList?.map((item, index) => (
                         <li
