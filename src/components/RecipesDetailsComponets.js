@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CheckIngredients from './CheckIngredients';
 
-function RecipeDetailsComponents({ foods, drinks }) {
+function RecipeDetailsComponents({ foods, drinks, copyUrl }) {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
 
@@ -17,6 +17,8 @@ function RecipeDetailsComponents({ foods, drinks }) {
   //   history.push('/drinks');
   // };
 
+  console.log(drinks[0]);
+
   useEffect(() => {
     if (foods.length && pathname.includes('meals')) {
       const ingredients = Object.entries(foods[0])
@@ -28,7 +30,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
         .filter((item) => item[1] !== ' ');
       setMeasuresList(measures);
     }
-    if (drinks.length && pathname.includes('drinks')) {
+    if (drinks?.length && pathname.includes('drinks')) {
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== null);
@@ -39,6 +41,8 @@ function RecipeDetailsComponents({ foods, drinks }) {
       setMeasuresList(measures);
     }
   }, [foods, drinks, pathname]);
+
+  // manga verde
 
   return (
     <div>
@@ -58,6 +62,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     <button
                       data-testid="share-btn"
                       type="button"
+                      onClick={ copyUrl }
                     >
                       Compartilhar
                     </button>
@@ -125,6 +130,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     <button
                       data-testid="share-btn"
                       type="button"
+                      onClick={ copyUrl }
                     >
                       Compartilhar
                     </button>
@@ -202,8 +208,9 @@ function RecipeDetailsComponents({ foods, drinks }) {
 }
 
 RecipeDetailsComponents.propTypes = {
-  foods: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
+  foods: PropTypes.arrayOf(PropTypes.shape()),
+  drinks: PropTypes.arrayOf(PropTypes.shape()),
+  copyUrl: PropTypes.func,
+}.isRequired;
 //
 export default RecipeDetailsComponents;
