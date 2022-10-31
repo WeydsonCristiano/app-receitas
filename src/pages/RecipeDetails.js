@@ -43,8 +43,9 @@ function RecipeDetails({ match }) {
         : <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />}
       <div>
         <button
-          onClick={ () => history.push(`${pathname}/in-progress`) }
           data-testid="start-recipe-btn"
+          className="botaoStartRecipes"
+          onClick={ () => history.push(`${pathname}/in-progress`) }
           type="button"
         >
           Start Recipe

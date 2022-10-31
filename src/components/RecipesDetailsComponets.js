@@ -48,6 +48,20 @@ function RecipeDetailsComponents({ foods, drinks }) {
             drinks?.map((e, i) => (
               <div key={ i }>
                 <div>
+                  <div className="divFavoritoCompartilhar">
+                    <button
+                      data-testid="favorite-btn"
+                      type="button"
+                    >
+                      Favoritar
+                    </button>
+                    <button
+                      data-testid="share-btn"
+                      type="button"
+                    >
+                      Compartilhar
+                    </button>
+                  </div>
                   <img
                     data-testid="recipe-photo"
                     src={ e.strDrinkThumb }
@@ -93,23 +107,6 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   />
                 </div>
                 <h3>{e.strAlcoholic}</h3>
-                <div>
-                  <button
-                    data-testid="favorite-btn"
-                    type="button"
-                  >
-                    Favoritar
-
-                  </button>
-                </div>
-                <div>
-                  <button
-                    data-testid="share-btn"
-                    type="button"
-                  >
-                    Compartilhar
-                  </button>
-                </div>
               </div>
             ))
           )
@@ -117,6 +114,21 @@ function RecipeDetailsComponents({ foods, drinks }) {
             foods?.map((el, ind) => (
               <div key={ ind }>
                 <div>
+                  <div className="divFavoritoCompartilhar">
+                    <button
+                      data-testid="favorite-btn"
+                      type="button"
+                    >
+                      Favoritar
+
+                    </button>
+                    <button
+                      data-testid="share-btn"
+                      type="button"
+                    >
+                      Compartilhar
+                    </button>
+                  </div>
                   <img
                     data-testid="recipe-photo"
                     src={ el.strMealThumb }
@@ -179,23 +191,6 @@ function RecipeDetailsComponents({ foods, drinks }) {
                         picture-in-picture"
                     allowFullScreen
                   />
-                </div>
-                <div>
-                  <button
-                    data-testid="favorite-btn"
-                    type="button"
-                  >
-                    Favoritar
-
-                  </button>
-                </div>
-                <div>
-                  <button
-                    data-testid="share-btn"
-                    type="button"
-                  >
-                    Compartilhar
-                  </button>
                 </div>
               </div>
             )))
