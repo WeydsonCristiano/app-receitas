@@ -6,13 +6,8 @@ import { requestAPI } from '../services/RequestAPI';
 import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
 import Loading from '../components/Loading';
 
-export const ENDPOINT_ID_MEALS = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
-export const ENDPOINT_ID_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
-
 function RecipeDetails({ match }) {
-  const { setIsLoading, isLoading,
-    setGlobalMealDetails,
-    setGlobalDrinksDetails } = useContext(recipeContext);
+  const { setIsLoading, isLoading, setRecipeDetail } = useContext(recipeContext);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
   const { params: { id } } = match;
@@ -25,22 +20,24 @@ function RecipeDetails({ match }) {
       if (pathname.includes('meals')) {
         const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         setMealsDetails(detailsMeals.meals);
-        setGlobalMealDetails(detailsMeals.meals);
+        setRecipeDetail(detailsMeals.meals);
       }
       if (pathname.includes('drinks')) {
         const detailsDrinks = await requestAPI(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
         setDrinksDetails(detailsDrinks.drinks);
-        setGlobalDrinksDetails(detailsDrinks.drinks);
+        setRecipeDetail(detailsDrinks.drinks);
       }
       setIsLoading(false);
     };
     requestData();
-  }, [id, pathname, setIsLoading, setGlobalDrinksDetails, setGlobalMealDetails]);
+  }, [id, pathname, setIsLoading, setRecipeDetail]);
 
   return (
     <div>
-      {isLoading ? <Loading />
-        : <RecipeDetailsComponents foods={ mealsDetails } drinks={ drinksDetails } />}
+      {isLoading ? <Loading /> : <RecipeDetailsComponents
+        meals={ mealsDetails }
+        drinks={ drinksDetails }
+      />}
       <div>
         <button
           onClick={ () => history.push(`${pathname}/in-progress`) }

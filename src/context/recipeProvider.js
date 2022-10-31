@@ -6,6 +6,7 @@ import { requestAPI,
   URL_REQUEST_CATEGORY_DRINKS,
   URL_REQUEST_CATEGORY_MEALS,
   URL_REQUEST_DRINKS, URL_REQUEST_MEALS } from '../services/RequestAPI';
+import { handleStorage } from '../services/hadleStorage';
 
 const recipesNumberRequest = 12;
 const categoryNumberRequest = 5;
@@ -17,17 +18,13 @@ function RecipeProvider({ children }) {
   const [renderDrinks, setRenderDrinks] = useState([]);
   const [mirrorMeals, setMirrorMeals] = useState([]);
   const [mirrorDrinks, setMirrorDrinks] = useState([]);
+  const [recipeDetail, setRecipeDetail] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinkCategories, setDrinkCategories] = useState([]);
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
-  const [globalMealsDetails, setGlobalMealDetails] = useState([]);
-  const [globalDrinksDetails, setGlobalDrinksDetails] = useState([]);
 
   const history = useHistory();
-
-  console.log(globalDrinksDetails);
-  console.log(globalMealsDetails);
 
   useEffect(() => {
     const requestData = async () => {
@@ -54,8 +51,14 @@ function RecipeProvider({ children }) {
     requestData();
   }, []);
 
+  useEffect(() => {
+    handleStorage();
+  }, []);
+
   const state = useMemo(() => ({
     setHeaderTitle,
+    setRecipeDetail,
+    recipeDetail,
     showSearchBtn,
     setShowSearchBtn,
     headerTitle,
@@ -64,10 +67,6 @@ function RecipeProvider({ children }) {
     setIsLoading,
     setRenderMeals,
     setRenderDrinks,
-    setGlobalMealDetails,
-    setGlobalDrinksDetails,
-    globalDrinksDetails,
-    globalMealsDetails,
     renderMeals,
     renderDrinks,
     isLoading,
@@ -79,16 +78,14 @@ function RecipeProvider({ children }) {
   }), [userInfo, renderMeals, renderDrinks,
     isLoading, mirrorMeals, mirrorDrinks,
     mealsCategories, drinkCategories,
+    setRecipeDetail,
+    recipeDetail,
     setUserInfo,
     headerTitle,
     setHeaderTitle,
     showSearchBtn,
     setShowSearchBtn,
     history,
-    setGlobalMealDetails,
-    setGlobalDrinksDetails,
-    globalDrinksDetails,
-    globalMealsDetails,
   ]);
 
   return (
