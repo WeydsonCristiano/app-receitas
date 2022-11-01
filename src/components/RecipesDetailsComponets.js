@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import CheckIngredients from './CheckIngredients';
 
+
 function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
   const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
@@ -36,6 +37,7 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
       setIngredientsList(ingredients);
       setGlobalIngrd(ingredients);
     }
+
   }, [meals, drinks, pathname, setGlobalIngrd]);
   return (
     <div>

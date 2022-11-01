@@ -66,7 +66,7 @@ function RecipeDetails({ match }) {
     setCopyed(true);
     await copy(`http://localhost:3000${pathname}`);
   };
-
+  
   if (isLoading) {
     return <Loading />;
   }
