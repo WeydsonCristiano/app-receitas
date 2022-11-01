@@ -17,8 +17,7 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   const recipeId = pathname.includes('meals') ? meals[0].idMeal
     : drinks[0].idDrink;
 
-    
-     console.log(readlocalStorage('inProgressRecipes')[recipeType][recipeId].length === globalIngrd.length)
+  // console.log(readlocalStorage('inProgressRecipes')[recipeType][recipeId].length === globalIngrd.length);
 
   useEffect(() => {
     const getCheckedItens = readlocalStorage('inProgressRecipes');

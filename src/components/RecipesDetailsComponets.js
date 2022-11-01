@@ -15,15 +15,16 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
   const [favorited, setFavorited] = useState(false);
   const history = useHistory();
   const { location: { pathname } } = history;
-  console.log(id);
-  console.log(meals);
+  // console.log(id);
+  // console.log(meals);
 
   useEffect(() => {
-    console.log('entro aqui');
+    console.log('entro no meal');
     if (meals.length && pathname.includes('/meals')) {
       const ingredients = Object.entries(meals[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
+      console.log(ingredients);
       const measures = Object.entries(meals[0])
         .filter((item) => item[0].includes('Measure'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
@@ -34,6 +35,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
     }
 
     if (drinks.length && pathname.includes('/drinks')) {
+      console.log('entro no drink');
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
@@ -48,43 +50,44 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
     }
   }, [meals, drinks, pathname, setGlobalIngrd]);
 
-  useEffect(() => {
-    if (readlocalStorage('doneRecipes')
-      .some((recipe) => recipe.id === id)) {
-      setFavorited(true);
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   console.log('entro no useEfect do favoritos');
+  //   if (readlocalStorage('doneRecipes')
+  //     .some((recipe) => recipe.id === id)) {
+  //     setFavorited(true);
+  //   }
+  // }, [id]);
 
-  const handleFavorite = () => {
-    const current = pathname.includes('meals') ? { id: currentRecipe.idMeal,
-      type: 'meal',
-      nationality: currentRecipe.strArea,
-      categoty: currentRecipe.strCategory,
-      alcoholicOrNot: '',
-      name: currentRecipe.strMeal,
-      image: currentRecipe.strMealThumb,
-    } : { id: currentRecipe.idDrink,
-      type: 'drink',
-      nationality: '',
-      categoty: currentRecipe.strCategory,
-      alcoholicOrNot: currentRecipe.strAlcoholic,
-      name: currentRecipe.strDrink,
-      image: currentRecipe.strDrinkThumb };
-    if (readlocalStorage('doneRecipes').length > 0 && !readlocalStorage('doneRecipes')
-      .some((recipe) => recipe.id === current.id)) {
-      saveLocalStore('doneRecipes', [...readlocalStorage('doneRecipes'), current]);
-      setFavorited(true);
-    } else if ((readlocalStorage('doneRecipes').length > 0
-    && readlocalStorage('doneRecipes')
-      .some((recipe) => recipe.id === current.id))) {
-      saveLocalStore('doneRecipes', readlocalStorage('doneRecipes')
-        .filter((recipe) => recipe.id !== current.id));
-      setFavorited(false);
-    } else {
-      saveLocalStore('doneRecipes', [current]);
-      setFavorited(true);
-    }
-  };
+  // const handleFavorite = () => {
+  //   const current = pathname.includes('meals') ? { id: currentRecipe.idMeal,
+  //     type: 'meal',
+  //     nationality: currentRecipe.strArea,
+  //     categoty: currentRecipe.strCategory,
+  //     alcoholicOrNot: '',
+  //     name: currentRecipe.strMeal,
+  //     image: currentRecipe.strMealThumb,
+  //   } : { id: currentRecipe.idDrink,
+  //     type: 'drink',
+  //     nationality: '',
+  //     categoty: currentRecipe.strCategory,
+  //     alcoholicOrNot: currentRecipe.strAlcoholic,
+  //     name: currentRecipe.strDrink,
+  //     image: currentRecipe.strDrinkThumb };
+  //   if (readlocalStorage('doneRecipes').length > 0 && !readlocalStorage('doneRecipes')
+  //     .some((recipe) => recipe.id === current.id)) {
+  //     saveLocalStore('doneRecipes', [...readlocalStorage('doneRecipes'), current]);
+  //     setFavorited(true);
+  //   } else if ((readlocalStorage('doneRecipes').length > 0
+  //   && readlocalStorage('doneRecipes')
+  //     .some((recipe) => recipe.id === current.id))) {
+  //     saveLocalStore('doneRecipes', readlocalStorage('doneRecipes')
+  //       .filter((recipe) => recipe.id !== current.id));
+  //     setFavorited(false);
+  //   } else {
+  //     saveLocalStore('doneRecipes', [current]);
+  //     setFavorited(true);
+  //   }
+  // };
 
   return (
     <div>
@@ -96,7 +99,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
-                      onClick={ handleFavorite }
+                      // onClick={ handleFavorite }
                       data-testid="favorite-btn"
                       type="button"
                     >
@@ -160,7 +163,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
-                      onClick={ handleFavorite }
+                      // onClick={ handleFavorite }
                       data-testid="favorite-btn"
                       type="button"
                     >

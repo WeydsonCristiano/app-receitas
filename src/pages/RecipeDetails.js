@@ -27,15 +27,16 @@ function RecipeDetails({ match }) {
 
   console.log(mealsDetails);
 
-  const getCheckedIngredients = () => {
-    const getStorage = readlocalStorage('inProgressRecipes');
+  // const getCheckedIngredients = () => {
+  //   const getStorage = readlocalStorage('inProgressRecipes');
+  //   console.log(getStorage);
 
-    const checkList = getStorage[recipeType][id];
-    if (checkList) {
-      return checkList.length;
-    }
-    return 0;
-  };
+  //   const checkList = getStorage[recipeType][id];
+  //   if (checkList) {
+  //     return checkList.length;
+  //   }
+  //   return 0;
+  // };
 
   useEffect(() => {
     const requestData = async () => {
@@ -74,8 +75,6 @@ function RecipeDetails({ match }) {
     return <Loading />;
   }
 
-  console.log(readlocalStorage('doneRecipes').length > 0);
-
   return (
     <div>
       {copyed && <p>Link copied!</p>}
@@ -97,11 +96,11 @@ function RecipeDetails({ match }) {
           className="botaoStartRecipes"
           onClick={ () => history.push(`${pathname}/in-progress`) }
           type="button"
-          hidden={ readlocalStorage('doneRecipes').length > 0
-          && readlocalStorage('doneRecipes').some((recipe) => recipe.id === Number(id)) }
+          // hidden={ readlocalStorage('doneRecipes').length > 0
+          // && readlocalStorage('doneRecipes').some((recipe) => recipe.id === Number(id)) }
         >
-          {getCheckedIngredients() !== 0 && getCheckedIngredients() < globalIngrd.length
-            ? 'Continue Recipe' : 'Start Recipe'}
+          {/* {getCheckedIngredients() !== 0 && getCheckedIngredients() < globalIngrd.length
+            ? 'Continue Recipe' : 'Start Recipe'} */}
         </button>
       </div>
     </div>
