@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 import './styles/checkIngredients.css';
+import recipeContext from '../context/recipeContext';
 
 export default function CheckIngredients({ ingredientsList, meals, drinks }) {
+  const { globalIngrd, setIsDesable } = useContext(recipeContext);
   const [checkedList, setCheckedList] = useState([]);
+
+  console.log(globalIngrd);
 
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -13,14 +17,19 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   const recipeId = pathname.includes('meals') ? meals[0].idMeal
     : drinks[0].idDrink;
 
+    
+     console.log(readlocalStorage('inProgressRecipes')[recipeType][recipeId].length === globalIngrd.length)
+
   useEffect(() => {
     const getCheckedItens = readlocalStorage('inProgressRecipes');
     let storageCheckedList = getCheckedItens[recipeType][recipeId];
     if (storageCheckedList === undefined) {
       storageCheckedList = [];
     }
+    if (storageCheckedList.length === globalIngrd.length) {
+      setIsDesable(false);
+    }
     setCheckedList(storageCheckedList);
-    console.log(getCheckedItens[recipeType][recipeId]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -40,6 +40,7 @@ function RecipeDetails({ match }) {
   useEffect(() => {
     const requestData = async () => {
       if (pathname === `/meals/${id}`) {
+        console.log('entrei aqui');
         const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         const requestRecommendation = await requestAPI(URL_REQUEST_DRINKS);
         console.log(detailsMeals);
@@ -69,18 +70,21 @@ function RecipeDetails({ match }) {
     setCopyed(true);
     await copy(`http://localhost:3000${pathname}`);
   };
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  console.log(readlocalStorage('doneRecipes').length > 0);
 
   return (
     <div>
       {copyed && <p>Link copied!</p>}
-      {isLoading ? <Loading />
-        : (
-          <RecipesDetailsComponents
-            meals={ mealsDetails }
-            drinks={ drinksDetails }
-            copyUrl={ copyUrl }
-          />
-        )}
+      {(mealsDetails?.length > 0 || drinksDetails.length > 0) && <RecipesDetailsComponents
+        meals={ mealsDetails }
+        drinks={ drinksDetails }
+        copyUrl={ copyUrl }
+        id={ id }
+      />}
       ;
       <div>
         <RecommendationCard
@@ -93,7 +97,8 @@ function RecipeDetails({ match }) {
           className="botaoStartRecipes"
           onClick={ () => history.push(`${pathname}/in-progress`) }
           type="button"
-          hidden={ readlocalStorage('doneRecipes')?.some((recipe) => recipe.id === id) }
+          hidden={ readlocalStorage('doneRecipes').length > 0
+          && readlocalStorage('doneRecipes').some((recipe) => recipe.id === Number(id)) }
         >
           {getCheckedIngredients() !== 0 && getCheckedIngredients() < globalIngrd.length
             ? 'Continue Recipe' : 'Start Recipe'}

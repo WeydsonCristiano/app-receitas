@@ -6,7 +6,6 @@ import { requestAPI,
   URL_REQUEST_CATEGORY_DRINKS,
   URL_REQUEST_CATEGORY_MEALS,
   URL_REQUEST_DRINKS, URL_REQUEST_MEALS } from '../services/RequestAPI';
-import { handleStorage } from '../services/hadleStorage';
 
 const recipesNumberRequest = 12;
 const categoryNumberRequest = 5;
@@ -24,6 +23,7 @@ function RecipeProvider({ children }) {
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
   const [globalIngrd, setGlobalIngrd] = useState([]);
+  const [isDesable, setIsDesable] = useState(true);
 
   const history = useHistory();
 
@@ -52,15 +52,13 @@ function RecipeProvider({ children }) {
     requestData();
   }, []);
 
-  useEffect(() => {
-    handleStorage();
-  }, []);
-
   const state = useMemo(() => ({
     setHeaderTitle,
     setRecipeDetail,
     recipeDetail,
     showSearchBtn,
+    isDesable,
+    setIsDesable,
     setShowSearchBtn,
     headerTitle,
     userInfo,

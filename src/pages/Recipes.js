@@ -6,6 +6,7 @@ import recipeContext from '../context/recipeContext';
 import Footer from '../components/Footer';
 import Loading from '../components/Loading';
 import CategoryButtons from '../components/CategoryButtons';
+import { handleStorage } from '../services/hadleStorage';
 import { ENDPOINT_FILTER_BUTTON_DRINK,
   ENDPOINT_FILTER_BUTTON_MEAL,
   requestAPI } from '../services/RequestAPI';
@@ -22,6 +23,8 @@ function Recipes() {
   const [pageRouteInfo, setPageRouteInfo] = useState('');
   const [clickedCategory, setClickedCategory] = useState(['']);
   const [toggleControl, setToggleControl] = useState(false);
+
+  handleStorage();
 
   const history = useHistory();
 

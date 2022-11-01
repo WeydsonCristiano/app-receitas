@@ -2,17 +2,20 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
+import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 import CheckIngredients from './CheckIngredients';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
   const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
+  const [currentRecipe, setCurrentRecipe] = useState([]);
+  const [favorited, setFavorited] = useState(false);
   const history = useHistory();
   const { location: { pathname } } = history;
-
   console.log(id);
-
   console.log(meals);
 
   useEffect(() => {
@@ -27,6 +30,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
       setMeasuresList(measures);
       setIngredientsList(ingredients);
       setGlobalIngrd(ingredients);
+      setCurrentRecipe(meals[0]);
     }
 
     if (drinks.length && pathname.includes('/drinks')) {
@@ -40,8 +44,48 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
       setMeasuresList(measures);
       setIngredientsList(ingredients);
       setGlobalIngrd(ingredients);
+      setCurrentRecipe(drinks[0]);
     }
   }, [meals, drinks, pathname, setGlobalIngrd]);
+
+  useEffect(() => {
+    if (readlocalStorage('doneRecipes')
+      .some((recipe) => recipe.id === id)) {
+      setFavorited(true);
+    }
+  }, [id]);
+
+  const handleFavorite = () => {
+    const current = pathname.includes('meals') ? { id: currentRecipe.idMeal,
+      type: 'meal',
+      nationality: currentRecipe.strArea,
+      categoty: currentRecipe.strCategory,
+      alcoholicOrNot: '',
+      name: currentRecipe.strMeal,
+      image: currentRecipe.strMealThumb,
+    } : { id: currentRecipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      categoty: currentRecipe.strCategory,
+      alcoholicOrNot: currentRecipe.strAlcoholic,
+      name: currentRecipe.strDrink,
+      image: currentRecipe.strDrinkThumb };
+    if (readlocalStorage('doneRecipes').length > 0 && !readlocalStorage('doneRecipes')
+      .some((recipe) => recipe.id === current.id)) {
+      saveLocalStore('doneRecipes', [...readlocalStorage('doneRecipes'), current]);
+      setFavorited(true);
+    } else if ((readlocalStorage('doneRecipes').length > 0
+    && readlocalStorage('doneRecipes')
+      .some((recipe) => recipe.id === current.id))) {
+      saveLocalStore('doneRecipes', readlocalStorage('doneRecipes')
+        .filter((recipe) => recipe.id !== current.id));
+      setFavorited(false);
+    } else {
+      saveLocalStore('doneRecipes', [current]);
+      setFavorited(true);
+    }
+  };
+
   return (
     <div>
       {
@@ -52,10 +96,19 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
+                      onClick={ handleFavorite }
                       data-testid="favorite-btn"
                       type="button"
                     >
-                      Favoritar
+                      { favorited ? (<img
+                        src={ blackHeartIcon }
+                        alt="favoriteIcon"
+                      />) : (
+                        <img
+                          src={ whiteHeartIcon }
+                          alt="favoriteIcon"
+                        />
+                      )}
                     </button>
                     <button
                       data-testid="share-btn"
@@ -107,10 +160,19 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
+                      onClick={ handleFavorite }
                       data-testid="favorite-btn"
                       type="button"
                     >
-                      Favoritar
+                      { favorited ? (<img
+                        src={ blackHeartIcon }
+                        alt="favoriteIcon"
+                      />) : (
+                        <img
+                          src={ whiteHeartIcon }
+                          alt="favoriteIcon"
+                        />
+                      )}
 
                     </button>
                     <button

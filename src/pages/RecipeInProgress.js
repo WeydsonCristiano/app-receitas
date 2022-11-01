@@ -5,14 +5,18 @@ import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
 import { requestAPI } from '../services/RequestAPI';
 import recipeContext from '../context/recipeContext';
 import Loading from '../components/Loading';
+import { readlocalStorage } from '../services/hadleStorage';
 
 function RecipeInProgress({ match }) {
-  const { setIsLoading, isLoading } = useContext(recipeContext);
+  const { setIsLoading, isLoading, globalIngrd, isDesable } = useContext(recipeContext);
   const [localMeal, setLocalMeal] = useState([]);
   const [localDrink, setLocalDrink] = useState([]);
   const history = useHistory();
   const { params: { id } } = match;
   const { location: { pathname } } = history;
+
+  console.log(isDesable);
+  console.log(globalIngrd);
 
   useEffect(() => {
     const requestData = async () => {
@@ -47,6 +51,7 @@ function RecipeInProgress({ match }) {
         <button
           data-testid="finish-recipe-btn"
           type="button"
+          disabled={ isDesable }
         >
           Finalizar Receita
 
