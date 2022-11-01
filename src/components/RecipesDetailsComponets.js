@@ -1,51 +1,48 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import recipeContext from '../context/recipeContext';
 import CheckIngredients from './CheckIngredients';
 
-function RecipeDetailsComponents({ foods, drinks }) {
+function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
+  const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
-
   const history = useHistory();
   const { location: { pathname } } = history;
 
-  // const handleRouterMeals = () => {
-  //   history.push('/meail');
-  // };
-  // const handleRouteDrink = () => {
-  //   history.push('/drinks');
-  // };
-
   useEffect(() => {
-    if (foods.length && pathname.includes('meals')) {
-      const ingredients = Object.entries(foods[0])
+    if (meals.length && pathname.includes('/meals')) {
+      const ingredients = Object.entries(meals[0])
         .filter((item) => item[0].includes('Ingredient'))
-        .filter((item) => item[1] !== '');
-      setIngredientsList(ingredients);
-      const measures = Object.entries(foods[0])
+        .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
+      const measures = Object.entries(meals[0])
         .filter((item) => item[0].includes('Measure'))
-        .filter((item) => item[1] !== ' ');
+        .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       setMeasuresList(measures);
+      setIngredientsList(ingredients);
+      setGlobalIngrd(ingredients);
+      console.log(ingredients, 'use effect');
     }
-    if (drinks.length && pathname.includes('drinks')) {
+    if (drinks?.length && pathname.includes('drinks')) {
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
-        .filter((item) => item[1] !== null);
-      setIngredientsList(ingredients);
+        .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       const measures = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Measure'))
-        .filter((item) => item[1] !== null);
+        .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
+      console.log(ingredients);
       setMeasuresList(measures);
+      setIngredientsList(ingredients);
+      setGlobalIngrd(ingredients);
     }
-  }, [foods, drinks, pathname]);
-
+  }, [meals, drinks, pathname, setGlobalIngrd]);
   return (
     <div className="testeimage">
       {
         pathname.includes('drinks')
           ? (
-            drinks?.map((e, i) => (
+            drinks.map((e, i) => (
               <div key={ i }>
                 <div>
                   <div className="divFavoritoCompartilhar">
@@ -58,11 +55,13 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     <button
                       data-testid="share-btn"
                       type="button"
+                      onClick={ copyUrl }
                     >
                       Compartilhar
                     </button>
                   </div>
                   <img
+                    width="300px"
                     data-testid="recipe-photo"
                     src={ e.strDrinkThumb }
                     alt={ e.strDrink }
@@ -75,28 +74,16 @@ function RecipeDetailsComponents({ foods, drinks }) {
                 <div className="listaReceitas">
                   <ul>
                     {
-                      ingredientsList.map((item, index) => (
+                      ingredientsList?.map((item, index) => (
                         <li
                           key={ index }
                           data-testid={ `${index}-ingredient-name-and-measure` }
                         >
-                          {item[1] }
+                          { `${item[1]} ${measuresList[index]
+                            && measuresList[index][1]}` }
                         </li>))
                     }
                   </ul>
-                  <ul>
-                    {
-                      measuresList.map((items, indexs) => (
-                        <li
-                          key={ indexs }
-                          data-testid={ `${indexs}-ingredient-name-and-measure` }
-                        >
-                          {items[1] }
-                        </li>))
-                    }
-                  </ul>
-                  {pathname.includes('progress')
-                    && <CheckIngredients ingredientsList={ ingredientsList } />}
                 </div>
                 <div>
                   <p
@@ -118,7 +105,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
             ))
           )
           : (
-            foods?.map((el, ind) => (
+            meals?.map((el, ind) => (
               <div key={ ind }>
                 <div>
                   <div className="divFavoritoCompartilhar">
@@ -132,11 +119,13 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     <button
                       data-testid="share-btn"
                       type="button"
+                      onClick={ copyUrl }
                     >
                       Compartilhar
                     </button>
                   </div>
                   <img
+                    width="300px"
                     data-testid="recipe-photo"
                     src={ el.strMealThumb }
                     alt={ el.strMeal }
@@ -160,23 +149,11 @@ function RecipeDetailsComponents({ foods, drinks }) {
                           key="index"
                           data-testid={ `${index}-ingredient-name-and-measure` }
                         >
-                          {item[1] }
+                          { `${item[1]} ${measuresList[index]
+                            && measuresList[index][1]}` }
                         </li>
                       ))}
                     </ul>
-                    <ul>
-                      {
-                        measuresList.map((itemsfood, indexsfood) => (
-                          <li
-                            key={ indexsfood }
-                            data-testid={ `${indexsfood}-ingredient-name-and-measure` }
-                          >
-                            {itemsfood[1] }
-                          </li>))
-                      }
-                    </ul>
-                    {pathname.includes('progress')
-                    && <CheckIngredients ingredientsList={ ingredientsList } />}
                   </div>
                 </div>
                 <div>
@@ -199,18 +176,24 @@ function RecipeDetailsComponents({ foods, drinks }) {
                     allowFullScreen
                   />
                 </div>
+                {pathname.includes('progress')
+                    && <CheckIngredients
+                      meals={ meals }
+                      drinks={ drinks }
+                      ingredientsList={ ingredientsList }
+                    />}
               </div>
             )))
       }
-
     </div>
 
   );
 }
 
 RecipeDetailsComponents.propTypes = {
-  foods: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
-//
+  meals: PropTypes.arrayOf(PropTypes.shape()),
+  drinks: PropTypes.arrayOf(PropTypes.shape()),
+  copyUrl: PropTypes.func,
+}.isRequired;
+
 export default RecipeDetailsComponents;
