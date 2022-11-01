@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import CheckIngredients from './CheckIngredients';
 
+
 function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
   const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
@@ -24,9 +25,7 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
       setGlobalIngrd(ingredients);
       console.log(ingredients, 'use effect');
     }
-    console.log('useEffec 2');
-    if (drinks.length && pathname.includes('/drinks')) {
-      console.log('aqui');
+    if (drinks?.length && pathname.includes('drinks')) {
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
@@ -38,6 +37,7 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
       setIngredientsList(ingredients);
       setGlobalIngrd(ingredients);
     }
+
   }, [meals, drinks, pathname, setGlobalIngrd]);
   return (
     <div>
@@ -47,24 +47,21 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
             drinks.map((e, i) => (
               <div key={ i }>
                 <div>
-                  <button
-                    data-testid="favorite-btn"
-                    type="button"
-                  >
-                    Favoritar
-
-                  </button>
-                </div>
-                <div>
-                  <button
-                    data-testid="share-btn"
-                    type="button"
-                    onClick={ copyUrl }
-                  >
-                    Compartilhar
-                  </button>
-                </div>
-                <div>
+                  <div className="divFavoritoCompartilhar">
+                    <button
+                      data-testid="favorite-btn"
+                      type="button"
+                    >
+                      Favoritar
+                    </button>
+                    <button
+                      data-testid="share-btn"
+                      type="button"
+                      onClick={ copyUrl }
+                    >
+                      Compartilhar
+                    </button>
+                  </div>
                   <img
                     width="300px"
                     data-testid="recipe-photo"
@@ -106,24 +103,22 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
             meals?.map((el, ind) => (
               <div key={ ind }>
                 <div>
-                  <button
-                    data-testid="favorite-btn"
-                    type="button"
-                  >
-                    Favoritar
+                  <div className="divFavoritoCompartilhar">
+                    <button
+                      data-testid="favorite-btn"
+                      type="button"
+                    >
+                      Favoritar
 
-                  </button>
-                </div>
-                <div>
-                  <button
-                    data-testid="share-btn"
-                    type="button"
-                    onClick={ copyUrl }
-                  >
-                    Compartilhar
-                  </button>
-                </div>
-                <div>
+                    </button>
+                    <button
+                      data-testid="share-btn"
+                      type="button"
+                      onClick={ copyUrl }
+                    >
+                      Compartilhar
+                    </button>
+                  </div>
                   <img
                     width="300px"
                     data-testid="recipe-photo"
