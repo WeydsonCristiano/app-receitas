@@ -15,8 +15,8 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
   const [favorited, setFavorited] = useState(false);
   const history = useHistory();
   const { location: { pathname } } = history;
-  // console.log(id);
-  // console.log(meals);
+  console.log(meals);
+  console.log(drinks);
 
   useEffect(() => {
     console.log('entro no meal');
@@ -48,46 +48,42 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
       setGlobalIngrd(ingredients);
       setCurrentRecipe(drinks[0]);
     }
-  }, [meals, drinks, pathname, setGlobalIngrd]);
+    if (readlocalStorage('doneRecipes')
+      .some((recipe) => recipe.id === id)) {
+      setFavorited(true);
+    }
+  }, [meals, drinks, pathname, setGlobalIngrd, id]);
 
-  // useEffect(() => {
-  //   console.log('entro no useEfect do favoritos');
-  //   if (readlocalStorage('doneRecipes')
-  //     .some((recipe) => recipe.id === id)) {
-  //     setFavorited(true);
-  //   }
-  // }, [id]);
-
-  // const handleFavorite = () => {
-  //   const current = pathname.includes('meals') ? { id: currentRecipe.idMeal,
-  //     type: 'meal',
-  //     nationality: currentRecipe.strArea,
-  //     categoty: currentRecipe.strCategory,
-  //     alcoholicOrNot: '',
-  //     name: currentRecipe.strMeal,
-  //     image: currentRecipe.strMealThumb,
-  //   } : { id: currentRecipe.idDrink,
-  //     type: 'drink',
-  //     nationality: '',
-  //     categoty: currentRecipe.strCategory,
-  //     alcoholicOrNot: currentRecipe.strAlcoholic,
-  //     name: currentRecipe.strDrink,
-  //     image: currentRecipe.strDrinkThumb };
-  //   if (readlocalStorage('doneRecipes').length > 0 && !readlocalStorage('doneRecipes')
-  //     .some((recipe) => recipe.id === current.id)) {
-  //     saveLocalStore('doneRecipes', [...readlocalStorage('doneRecipes'), current]);
-  //     setFavorited(true);
-  //   } else if ((readlocalStorage('doneRecipes').length > 0
-  //   && readlocalStorage('doneRecipes')
-  //     .some((recipe) => recipe.id === current.id))) {
-  //     saveLocalStore('doneRecipes', readlocalStorage('doneRecipes')
-  //       .filter((recipe) => recipe.id !== current.id));
-  //     setFavorited(false);
-  //   } else {
-  //     saveLocalStore('doneRecipes', [current]);
-  //     setFavorited(true);
-  //   }
-  // };
+  const handleFavorite = () => {
+    const current = pathname.includes('meals') ? { id: currentRecipe.idMeal,
+      type: 'meal',
+      nationality: currentRecipe.strArea,
+      categoty: currentRecipe.strCategory,
+      alcoholicOrNot: '',
+      name: currentRecipe.strMeal,
+      image: currentRecipe.strMealThumb,
+    } : { id: currentRecipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      categoty: currentRecipe.strCategory,
+      alcoholicOrNot: currentRecipe.strAlcoholic,
+      name: currentRecipe.strDrink,
+      image: currentRecipe.strDrinkThumb };
+    if (readlocalStorage('doneRecipes').length > 0 && !readlocalStorage('doneRecipes')
+      .some((recipe) => recipe.id === current.id)) {
+      saveLocalStore('doneRecipes', [...readlocalStorage('doneRecipes'), current]);
+      setFavorited(true);
+    } else if ((readlocalStorage('doneRecipes').length > 0
+    && readlocalStorage('doneRecipes')
+      .some((recipe) => recipe.id === current.id))) {
+      saveLocalStore('doneRecipes', readlocalStorage('doneRecipes')
+        .filter((recipe) => recipe.id !== current.id));
+      setFavorited(false);
+    } else {
+      saveLocalStore('doneRecipes', [current]);
+      setFavorited(true);
+    }
+  };
 
   return (
     <div>
@@ -99,7 +95,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
-                      // onClick={ handleFavorite }
+                      onClick={ handleFavorite }
                       data-testid="favorite-btn"
                       type="button"
                     >
@@ -158,12 +154,12 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
             ))
           )
           : (
-            meals?.map((el, ind) => (
+            meals.map((el, ind) => (
               <div key={ ind }>
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
-                      // onClick={ handleFavorite }
+                      onClick={ handleFavorite }
                       data-testid="favorite-btn"
                       type="button"
                     >

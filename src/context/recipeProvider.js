@@ -88,6 +88,7 @@ function RecipeProvider({ children }) {
     showSearchBtn,
     setShowSearchBtn,
     history,
+    isDesable,
   ]);
 
   return (

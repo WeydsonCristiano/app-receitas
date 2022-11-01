@@ -25,26 +25,26 @@ function RecipeDetails({ match }) {
   const { location: { pathname } } = history;
   const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
 
-  console.log(mealsDetails);
+  console.log('mealsDetais', mealsDetails);
 
-  // const getCheckedIngredients = () => {
-  //   const getStorage = readlocalStorage('inProgressRecipes');
-  //   console.log(getStorage);
+  const getCheckedIngredients = () => {
+    const getStorage = readlocalStorage('inProgressRecipes');
+    console.log(getStorage);
 
-  //   const checkList = getStorage[recipeType][id];
-  //   if (checkList) {
-  //     return checkList.length;
-  //   }
-  //   return 0;
-  // };
+    const checkList = getStorage[recipeType][id];
+    if (checkList) {
+      return checkList.length;
+    }
+    return 0;
+  };
 
   useEffect(() => {
     const requestData = async () => {
+      console.log('entrei aqui');
       if (pathname === `/meals/${id}`) {
-        console.log('entrei aqui');
         const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         const requestRecommendation = await requestAPI(URL_REQUEST_DRINKS);
-        console.log(detailsMeals);
+        console.log('detailsMeals', detailsMeals.meals);
         const first6 = requestRecommendation.drinks
           .slice(0, maxRecommendation);
         setMealRec(first6);
@@ -71,38 +71,43 @@ function RecipeDetails({ match }) {
     setCopyed(true);
     await copy(`http://localhost:3000${pathname}`);
   };
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     <div>
-      {copyed && <p>Link copied!</p>}
-      {(mealsDetails?.length > 0 || drinksDetails.length > 0) && <RecipesDetailsComponents
-        meals={ mealsDetails }
-        drinks={ drinksDetails }
-        copyUrl={ copyUrl }
-        id={ id }
-      />}
-      ;
-      <div>
-        <RecommendationCard
-          meals={ drinksRecommendation }
-          drinks={ mealsRecommendation }
-          id={ id }
-        />
-        <button
-          data-testid="start-recipe-btn"
-          className="botaoStartRecipes"
-          onClick={ () => history.push(`${pathname}/in-progress`) }
-          type="button"
-          // hidden={ readlocalStorage('doneRecipes').length > 0
-          // && readlocalStorage('doneRecipes').some((recipe) => recipe.id === Number(id)) }
-        >
-          {/* {getCheckedIngredients() !== 0 && getCheckedIngredients() < globalIngrd.length
-            ? 'Continue Recipe' : 'Start Recipe'} */}
-        </button>
-      </div>
+      {!isLoading && (
+        <div>
+          {copyed && <p>Link copied!</p>}
+          {(mealsDetails.length > 0 || drinksDetails.length > 0)
+          && <RecipesDetailsComponents
+            meals={ mealsDetails }
+            drinks={ drinksDetails }
+            copyUrl={ copyUrl }
+            id={ id }
+          />}
+          <div>
+            <RecommendationCard
+              meals={ drinksRecommendation }
+              drinks={ mealsRecommendation }
+              id={ id }
+            />
+            <button
+              data-testid="start-recipe-btn"
+              className="botaoStartRecipes"
+              onClick={ () => history.push(`${pathname}/in-progress`) }
+              type="button"
+              hidden={ readlocalStorage('doneRecipes')?.length > 0
+          && readlocalStorage('doneRecipes').some((recipe) => recipe.id === Number(id)) }
+            >
+              {getCheckedIngredients() !== 0
+              && getCheckedIngredients() < globalIngrd.length
+                ? 'Continue Recipe' : 'Start Recipe'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
