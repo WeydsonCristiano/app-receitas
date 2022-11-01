@@ -27,9 +27,21 @@ body {
 }
 
 .listaReceitas {
+  color: blue;
   display: flex;
   justify-content: space-evenly;
   margin: 0 auto;
+}
+
+.listaReceitas1 {
+  color: green;
+  display: grid;
+  font-weight: 700;
+  margin: 0 auto;
+}
+
+.listaReceitas1 :hover {
+  transform: translate(-2%, -2%);
 }
 
 .login-container {
@@ -52,16 +64,6 @@ section {
   justify-content: space-between;
   margin: 0 auto;
   padding: 10px 20px;
-}
-
-.listaReceitas1 {
-  color: blue;
-  justify-content: space-evenlyl;
-}
-
-.listaReceitas2 {
-  color: blue;
-  justify-content: space-evenlyl;
 }
 
 img {

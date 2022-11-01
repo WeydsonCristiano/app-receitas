@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function CheckIngredients({ ingredientsList }) {
   return (
-    <div>
+    <div className="listaReceitas1">
       { ingredientsList.map((item, index) => (
         <label
           key={ `${index}${item}` }

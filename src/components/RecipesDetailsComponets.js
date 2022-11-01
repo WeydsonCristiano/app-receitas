@@ -72,7 +72,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                 <h3 data-testid="recipe-category">
                   {e.strAlcoholic}
                 </h3>
-                <div className="listaReceitas1">
+                <div className="listaReceitas">
                   <ul>
                     {
                       ingredientsList.map((item, index) => (
@@ -153,7 +153,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   {el.strCategory}
                 </h3>
                 <div>
-                  <div className="listaReceitas2">
+                  <div className="listaReceitas">
                     <ul>
                       {ingredientsList.map((item, index) => (
                         <li
