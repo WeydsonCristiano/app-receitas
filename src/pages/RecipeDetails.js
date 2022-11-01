@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import require from 'clipboard-copy';
 import recipeContext from '../context/recipeContext';
 import { requestAPI, URL_REQUEST_MEALS,
   URL_REQUEST_DRINKS } from '../services/RequestAPI';
@@ -13,6 +14,7 @@ const maxRecommendation = 6;
 
 function RecipeDetails({ match }) {
   const { setRecipeDetail, globalIngrd } = useContext(recipeContext);
+  const [copyed, setCopyed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
@@ -57,14 +59,24 @@ function RecipeDetails({ match }) {
     };
     requestData();
   }, [id, pathname, setIsLoading, setRecipeDetail]);
+
+  const copy = require('clipboard-copy');
+
+  const copyUrl = async () => {
+    setCopyed(true);
+    await copy(`http://localhost:3000${pathname}`);
+  };
+
   if (isLoading) {
     return <Loading />;
   }
   return (
     <div>
+      {copyed && <p>Link copied!</p>}
       {(mealsDetails.length > 0 || drinksDetails.length > 0) && <RecipeDetailsComponents
         meals={ mealsDetails }
         drinks={ drinksDetails }
+        copyUrl={ copyUrl }
         id={ id }
       />}
       <div>

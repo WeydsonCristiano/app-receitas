@@ -4,14 +4,12 @@ import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
 import CheckIngredients from './CheckIngredients';
 
-function RecipeDetailsComponents({ meals, drinks, id }) {
+function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
   const { setGlobalIngrd } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
   const history = useHistory();
   const { location: { pathname } } = history;
-
-  console.log(id);
 
   useEffect(() => {
     if (meals.length && pathname.includes('/meals')) {
@@ -61,6 +59,7 @@ function RecipeDetailsComponents({ meals, drinks, id }) {
                   <button
                     data-testid="share-btn"
                     type="button"
+                    onClick={ copyUrl }
                   >
                     Compartilhar
                   </button>
@@ -119,6 +118,7 @@ function RecipeDetailsComponents({ meals, drinks, id }) {
                   <button
                     data-testid="share-btn"
                     type="button"
+                    onClick={ copyUrl }
                   >
                     Compartilhar
                   </button>
@@ -191,8 +191,9 @@ function RecipeDetailsComponents({ meals, drinks, id }) {
 }
 
 RecipeDetailsComponents.propTypes = {
-  meals: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};
+  meals: PropTypes.arrayOf(PropTypes.shape()),
+  drinks: PropTypes.arrayOf(PropTypes.shape()),
+  copyUrl: PropTypes.func,
+}.isRequired;
 
 export default RecipeDetailsComponents;
