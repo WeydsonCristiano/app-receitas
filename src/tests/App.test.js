@@ -4,7 +4,7 @@ import App from '../App';
 import renderWithRouter from './helpers/renderWith';
 
 describe('Teste App.js', () => {
-  it('testando data-test tela RecipesDetails', () => {
+  it('testando rota meals', () => {
     renderWithRouter(<App />);
     expect(screen.findByTestId('recipe-photo'));
     expect(screen.findByTestId('recipe-title'));
