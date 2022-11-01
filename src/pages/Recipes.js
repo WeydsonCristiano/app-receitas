@@ -20,64 +20,71 @@ function Recipes() {
   const [clickControl, setClickControl] = useState(false);
   const [categoryURL, setCategoryURL] = useState('');
   const [pageRouteInfo, setPageRouteInfo] = useState('');
+  const [clickedCategory, setClickedCategory] = useState(['']);
+  const [toggleControl, setToggleControl] = useState(false);
 
   const history = useHistory();
-
-  const compareArrays = (render, mirror, food) => {
-    if (food === '/meals') {
-      return render.length === mirror.length
-      && render.every((item, index) => item.idMeal === mirror[index].idMeal);
-    }
-    if (food === '/drinks') {
-      return render.length === mirror.length
-        && render.every((item, index) => item.idDrink === mirror[index].idDrink);
-    }
-  };
 
   const filterButton = (category, URL, page) => {
     const customURL = URL + category.split(' ').join(' ');
     setClickControl(true);
     setCategoryURL(customURL);
     setPageRouteInfo(page);
+    setClickedCategory((state) => [state[state.length - 1], category]);
+    setToggleControl(!toggleControl);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const toggleFilter = async (render, mirror) => {
-    const { location: { pathname } } = history;
-    if (compareArrays(render, mirror, pathname)) {
-      setIsLoading(true);
-      const requestRecipes = await requestAPI(categoryURL);
-      const first12Recipes = requestRecipes[pageRouteInfo].slice(0, recipesNumberRequest);
-      if (pageRouteInfo === 'drinks') {
-        setRenderDrinks(first12Recipes);
-        setRenderMeals(mirrorMeals);
-      }
-      if (pageRouteInfo === 'meals') {
-        setRenderMeals(first12Recipes);
-        setRenderDrinks(mirrorDrinks);
-        setIsLoading(false);
-      }
-    } else {
-      setRenderDrinks(mirrorDrinks);
+  const toggleFilter = async () => {
+    setIsLoading(true);
+    const requestRecipes = await requestAPI(categoryURL);
+    const first12Recipes = requestRecipes[pageRouteInfo].slice(0, recipesNumberRequest);
+    if (clickedCategory[0] !== clickedCategory[1] && pageRouteInfo === 'drinks') {
+      setRenderDrinks(first12Recipes);
       setRenderMeals(mirrorMeals);
+      setIsLoading(false);
+    }
+    if (clickedCategory[0] !== clickedCategory[1] && pageRouteInfo === 'meals') {
+      setRenderMeals(first12Recipes);
+      setRenderDrinks(mirrorDrinks);
+      setIsLoading(false);
+    }
+    if (clickedCategory[0] === clickedCategory[1]
+      && toggleControl && pageRouteInfo === 'drinks') {
+      setRenderDrinks(first12Recipes);
+      setIsLoading(false);
+    }
+    if (clickedCategory[0] === clickedCategory[1]
+      && toggleControl && pageRouteInfo === 'meals') {
+      setRenderMeals(first12Recipes);
+      setIsLoading(false);
+    }
+    if (clickedCategory[0] === clickedCategory[1] && !toggleControl) {
+      setRenderMeals(mirrorMeals);
+      setRenderDrinks(mirrorDrinks);
+      setIsLoading(false);
     }
   };
 
   const allCategory = () => {
     if (pageRouteInfo === 'drinks') {
       setRenderDrinks(mirrorDrinks);
+      setClickedCategory((state) => [state[state.length - 1], '']);
+      setToggleControl(false);
     }
     setRenderMeals(mirrorMeals);
+    setClickedCategory((state) => [state[state.length - 1], '']);
+    setToggleControl(false);
   };
 
   useEffect(() => {
     const { location: { pathname } } = history;
     if (clickControl && pathname === '/meals') {
-      toggleFilter(renderMeals, mirrorMeals);
+      toggleFilter();
       setClickControl(false);
     }
     if (clickControl && pathname === '/drinks') {
-      toggleFilter(renderDrinks, mirrorDrinks);
+      toggleFilter();
       setClickControl(false);
     }
   }, [clickControl, toggleFilter, history,
