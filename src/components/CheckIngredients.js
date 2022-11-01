@@ -46,8 +46,7 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
     }
   };
   return (
-
-    <div>
+    <div className="listaReceitas1">
       { ingredientsList.map((item, index) => (
         <label
           className={ checkedList?.some((e) => e === item[1])

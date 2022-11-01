@@ -38,7 +38,7 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
     }
   }, [meals, drinks, pathname, setGlobalIngrd]);
   return (
-    <div>
+    <div className="testeimage">
       {
         pathname.includes('drinks')
           ? (
@@ -85,14 +85,21 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
                     }
                   </ul>
                 </div>
-                <div><p data-testid="instructions">{e.strInstructions}</p></div>
-                {console.log(ingredientsList)}
-                {pathname.includes('progress')
-                    && <CheckIngredients
-                      meals={ meals }
-                      drinks={ drinks }
-                      ingredientsList={ ingredientsList }
-                    />}
+                <div>
+                  <p
+                    data-testid="instructions"
+                  >
+                    {e.strInstructions}
+                  </p>
+
+                </div>
+                <div>
+                  <iframe
+                    title="video"
+                    data-testid="video"
+                    src={ e.strYoutube }
+                  />
+                </div>
                 <h3>{e.strAlcoholic}</h3>
               </div>
             ))

@@ -7,23 +7,24 @@ export default function CardRecipes(index, name, thumb, id) {
   const { history } = useContext(recipeContext);
   const { location: { pathname } } = history;
   return (
-    <Link
-      to={
-        pathname === '/meals' ? `/meals/${id}` : `/drinks/${id}`
-      }
-      key={ index }
-      data-testid={ `${index}-recipe-card` }
-    >
-      <Card>
-        <Card.Img
-          variant="top"
-          width="300px"
-          data-testid={ `${index}-card-img` }
-          src={ thumb }
-          alt={ name }
-        />
-        <Card.Footer data-testid={ `${index}-card-name` }>{name}</Card.Footer>
-      </Card>
-    </Link>
+    <div className="testediv">
+      <Link
+        to={
+          pathname === '/meals' ? `/meals/${id}` : `/drinks/${id}`
+        }
+        key={ index }
+        data-testid={ `${index}-recipe-card` }
+      >
+        <Card>
+          <Card.Img
+            variant="top"
+            data-testid={ `${index}-card-img` }
+            src={ thumb }
+            alt={ name }
+          />
+          <Card.Footer data-testid={ `${index}-card-name` }>{name}</Card.Footer>
+        </Card>
+      </Link>
+    </div>
   );
 }
