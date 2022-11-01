@@ -17,6 +17,7 @@ export default function CardRecipes(index, name, thumb, id) {
       <Card>
         <Card.Img
           variant="top"
+          width="300px"
           data-testid={ `${index}-card-img` }
           src={ thumb }
           alt={ name }
