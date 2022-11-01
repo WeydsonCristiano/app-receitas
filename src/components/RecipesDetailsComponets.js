@@ -41,7 +41,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
   }, [foods, drinks, pathname]);
 
   return (
-    <div>
+    <div className="testeimage">
       {
         pathname.includes('drinks')
           ? (
@@ -72,7 +72,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                 <h3 data-testid="recipe-category">
                   {e.strAlcoholic}
                 </h3>
-                <div className="listaReceitas">
+                <div className="listaReceitas1">
                   <ul>
                     {
                       ingredientsList.map((item, index) => (
@@ -98,7 +98,14 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   {pathname.includes('progress')
                     && <CheckIngredients ingredientsList={ ingredientsList } />}
                 </div>
-                <div><p data-testid="instructions">{e.strInstructions}</p></div>
+                <div>
+                  <p
+                    data-testid="instructions"
+                  >
+                    {e.strInstructions}
+                  </p>
+
+                </div>
                 <div>
                   <iframe
                     title="video"
@@ -146,7 +153,7 @@ function RecipeDetailsComponents({ foods, drinks }) {
                   {el.strCategory}
                 </h3>
                 <div>
-                  <div className="listaReceitas">
+                  <div className="listaReceitas2">
                     <ul>
                       {ingredientsList.map((item, index) => (
                         <li

@@ -1,3 +1,14 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  max-width: 760px;
+  min-width: 360px;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
@@ -31,13 +42,62 @@
   margin: 0 auto;
 }
 
-.divFavoritoCompartilhar {
-  border: solid 2px red;
+h1 {
+  text-align: center;
+}
+
+section {
+  align-items: center;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   margin: 0 auto;
-  width: 20%;
+  padding: 10px 20px;
+}
+
+.listaReceitas1 {
+  color: blue;
+  justify-content: space-evenlyl;
+}
+
+.listaReceitas2 {
+  color: blue;
+  justify-content: space-evenlyl;
+}
+
+img {
+  display: flex;
+  margin: 0 auto;
+}
+
+.testediv {
+  display: inline-flex;
+  margin: 0 auto;
+  padding: 25px 50px;
+  text-align: center;
+  width: 50%;
+}
+
+.testeimage {
+  background-color: orange;
+  margin: 0 auto;
+  text-align: center;
+}
+
+p {
+  font-style: italic;
+  font-weight: 200;
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}
+
+.divFavoritoCompartilhar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 0 auto;
+  padding: 10px;
+  width: 100%;
 }
 
 .botaoStartRecipes {

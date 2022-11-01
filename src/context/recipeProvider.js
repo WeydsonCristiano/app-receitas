@@ -26,9 +26,6 @@ function RecipeProvider({ children }) {
 
   const history = useHistory();
 
-  console.log(globalDrinksDetails);
-  console.log(globalMealsDetails);
-
   useEffect(() => {
     const requestData = async () => {
       setIsLoading(true);
