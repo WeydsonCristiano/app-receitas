@@ -86,8 +86,9 @@ function RecipeDetails({ match }) {
           id={ id }
         />
         <button
-          onClick={ () => history.push(`${pathname}/in-progress`) }
           data-testid="start-recipe-btn"
+          className="botaoStartRecipes"
+          onClick={ () => history.push(`${pathname}/in-progress`) }
           type="button"
           hidden={ readlocalStorage('doneRecipes')?.some((recipe) => recipe.id === id) }
         >
