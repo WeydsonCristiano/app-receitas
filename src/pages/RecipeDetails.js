@@ -32,7 +32,7 @@ function RecipeDetails({ match }) {
     }
     return 0;
   };
-console.log(globalIngrd);
+
   useEffect(() => {
     const requestData = async () => {
       if (pathname === `/meals/${id}`) {

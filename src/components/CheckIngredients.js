@@ -7,10 +7,6 @@ import './styles/checkIngredients.css';
 export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   const [checkedList, setCheckedList] = useState([]);
 
-  // console.log(drinks);
-  // console.log(meals);
-  console.log(ingredientsList, "filho");
-
   const history = useHistory();
   const { location: { pathname } } = history;
   const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
