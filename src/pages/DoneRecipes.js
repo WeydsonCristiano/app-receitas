@@ -1,36 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import recipeContext from '../context/recipeContext';
 import { readlocalStorage } from '../services/hadleStorage';
 import shareIcon from '../images/shareIcon.svg';
+import Loading from '../components/Loading';
 
 function DoneRecipes() {
-  const { setHeaderTitle, setShowSearchBtn,
-    copyUrl, copyed } = useContext(recipeContext);
-  const [recipes, setRecipes] = useState([]);
+  const { setHeaderTitle, setShowSearchBtn, handleFilter, isLoading, setIsLoading,
+    copyUrl, copyed, setRecipes, recipes } = useContext(recipeContext);
 
   useEffect(() => {
     setHeaderTitle('Done Recipes');
     setShowSearchBtn(false);
     const getDoneRecipes = readlocalStorage('doneRecipes') || [];
     setRecipes(getDoneRecipes);
-  }, [setHeaderTitle, setShowSearchBtn]);
+    setIsLoading(false);
+  }, [setHeaderTitle, setShowSearchBtn, setRecipes, setIsLoading]);
 
-  const handleFilter = ({ target: { id } }) => {
-    const all = readlocalStorage('doneRecipes') || [];
-    if (id === 'meal') {
-      const mealsFilter = all.filter((recipe) => recipe.type === 'meal');
-      setRecipes(mealsFilter);
-    }
-    if (id === 'drink') {
-      const mealsFilter = all.filter((recipe) => recipe.type === 'drink');
-      setRecipes(mealsFilter);
-    }
-    if (id === 'all') {
-      setRecipes(all);
-    }
-  };
+  console.log(recipes);
 
   return (
     <div>
@@ -41,7 +29,7 @@ function DoneRecipes() {
         </div>
       )}
       <button
-        onClick={ handleFilter }
+        onClick={ (e) => handleFilter(e, 'doneRecipes') }
         id="all"
         data-testid="filter-by-all-btn"
         type="button"
@@ -50,7 +38,7 @@ function DoneRecipes() {
       </button>
       <button
         id="meal"
-        onClick={ handleFilter }
+        onClick={ (e) => handleFilter(e, 'doneRecipes') }
         data-testid="filter-by-meal-btn"
         type="button"
       >
@@ -58,13 +46,14 @@ function DoneRecipes() {
       </button>
       <button
         id="drink"
-        onClick={ handleFilter }
+        onClick={ (e) => handleFilter(e, 'doneRecipes') }
         data-testid="filter-by-drink-btn"
         type="button"
       >
         Drinks
       </button>
-      { recipes.map((recipe, index) => (
+      {isLoading && <Loading />}
+      {!isLoading && recipes.map((recipe, index) => (
 
         <div key={ recipe.id }>
           <div>
@@ -91,14 +80,15 @@ function DoneRecipes() {
           <h4 data-testid={ `${index}-horizontal-done-date` }>
             {recipe.doneDate}
           </h4>
-          {recipe.tags.filter((tagF) => tagF[0] && tagF[1]).map((tag, i) => (
-            <span
-              key={ i }
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-            >
-              {tag}
-            </span>
-          ))}
+          {recipe.tags && recipe.tags
+            .filter((tagF) => tagF[0] && tagF[1]).map((tag, i) => (
+              <span
+                key={ i }
+                data-testid={ `${index}-${tag}-horizontal-tag` }
+              >
+                {tag}
+              </span>
+            ))}
           <button
             src={ shareIcon }
             onClick={ () => copyUrl(recipe.type, recipe.id) }

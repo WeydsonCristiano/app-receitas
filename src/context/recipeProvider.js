@@ -29,6 +29,7 @@ function RecipeProvider({ children }) {
   const [isDesable, setIsDesable] = useState(true);
   const [copyed, setCopyed] = useState(false);
   const [favorited, setFavorited] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -70,6 +71,21 @@ function RecipeProvider({ children }) {
       copy(URL.replace('/in-progress', ''));
     }
     setTimeout(() => setCopyed(false), SEC);
+  };
+
+  const handleFilter = ({ target: { id } }, key) => {
+    const all = readlocalStorage(key) || [];
+    if (id === 'meal') {
+      const mealsFilter = all.filter((recipe) => recipe.type === 'meal');
+      setRecipes(mealsFilter);
+    }
+    if (id === 'drink') {
+      const mealsFilter = all.filter((recipe) => recipe.type === 'drink');
+      setRecipes(mealsFilter);
+    }
+    if (id === 'all') {
+      setRecipes(all);
+    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,6 +133,9 @@ function RecipeProvider({ children }) {
     setCopyed,
     setFavorited,
     favorited,
+    handleFilter,
+    recipes,
+    setRecipes,
     copyUrl,
     handleFavorite,
     recipeDetail,
@@ -146,6 +165,8 @@ function RecipeProvider({ children }) {
     setRecipeDetail,
     globalIngrd,
     recipeDetail,
+    recipes,
+    setRecipes,
     favorited,
     handleFavorite,
     setUserInfo,
