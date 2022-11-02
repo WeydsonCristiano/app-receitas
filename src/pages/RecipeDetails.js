@@ -31,7 +31,7 @@ function RecipeDetails({ match }) {
     if (!getStorage[recipeType][id]) {
       return false;
     }
-    return getStorage[recipeType][id] && true;
+    return getStorage[recipeType][id];
   };
 
   useEffect(() => {

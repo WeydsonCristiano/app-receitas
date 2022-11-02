@@ -59,10 +59,14 @@ function RecipeProvider({ children }) {
   const copy = require('clipboard-copy');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const copyUrl = async () => {
+  const copyUrl = (type, id) => {
     setCopyed(true);
     const URL = `http://localhost:3000${pathname}`;
-    await copy(URL.replace('/in-progress', ''));
+    if (pathname.includes('/done-recipes') || pathname.includes('/favorite-recipes')) {
+      copy(URL.replace(pathname, `/${type}s/${id}`));
+    } else {
+      copy(URL.replace('/in-progress', ''));
+    }
     setTimeout(() => setCopyed(false), SEC);
   };
 

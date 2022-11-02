@@ -9,7 +9,7 @@ import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 
 function RecipeInProgress({ match }) {
   const { setIsLoading, isLoading,
-    isDesable, copyUrl, copyed, recipeDetail } = useContext(recipeContext);
+    isDesable, copyUrl, copyed } = useContext(recipeContext);
   const [localMeal, setLocalMeal] = useState([]);
   const [localDrink, setLocalDrink] = useState([]);
   const history = useHistory();
