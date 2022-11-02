@@ -8,7 +8,8 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
-  const { setGlobalIngrd, handleFavorite, favorited } = useContext(recipeContext);
+  const { setGlobalIngrd, handleFavorite, favorited,
+    setFavorited } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
   const [currentRecipe, setCurrentRecipe] = useState([]);

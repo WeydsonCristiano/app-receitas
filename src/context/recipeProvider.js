@@ -115,6 +115,7 @@ function RecipeProvider({ children }) {
     setRecipeDetail,
     copyed,
     setCopyed,
+    setFavorited,
     favorited,
     copyUrl,
     handleFavorite,
