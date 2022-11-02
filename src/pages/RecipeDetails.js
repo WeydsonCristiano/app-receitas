@@ -87,8 +87,9 @@ function RecipeDetails({ match }) {
               className="botaoStartRecipes"
               onClick={ () => history.push(`${pathname}/in-progress`) }
               type="button"
-              //     hidden={ readlocalStorage('doneRecipes')?.length > 0
-              // && readlocalStorage('doneRecipes').some((recipe) => recipe.id === Number(id)) }
+              hidden={ readlocalStorage('doneRecipes')
+               && readlocalStorage('doneRecipes')
+                 .some((recipe) => recipe.id === id) }
             >
               {getCheckedIngredients()
                 ? 'Continue Recipe' : 'Start Recipe'}
