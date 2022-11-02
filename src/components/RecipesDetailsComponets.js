@@ -2,17 +2,16 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
-import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
+import { readlocalStorage } from '../services/hadleStorage';
 import CheckIngredients from './CheckIngredients';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
-  const { setGlobalIngrd } = useContext(recipeContext);
+  const { setGlobalIngrd, handleFavorite, favorited } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
   const [currentRecipe, setCurrentRecipe] = useState([]);
-  const [favorited, setFavorited] = useState(false);
   const history = useHistory();
   const { location: { pathname } } = history;
 
@@ -47,43 +46,6 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
     }
   }, [meals, drinks, pathname, setGlobalIngrd, id]);
 
-  const handleFavorite = () => {
-    const current = pathname.includes('meals') ? {
-      id: currentRecipe.idMeal,
-      type: 'meal',
-      nationality: currentRecipe.strArea,
-      category: currentRecipe.strCategory,
-      alcoholicOrNot: '',
-      name: currentRecipe.strMeal,
-      image: currentRecipe.strMealThumb,
-    } : {
-      id: currentRecipe.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: currentRecipe.strCategory,
-      alcoholicOrNot: currentRecipe.strAlcoholic,
-      name: currentRecipe.strDrink,
-      image: currentRecipe.strDrinkThumb };
-    if (readlocalStorage('favoriteRecipes')
-    && readlocalStorage('favoriteRecipes').length > 0
-    && !readlocalStorage('favoriteRecipes')?.some((recipe) => recipe.id === current.id)) {
-      saveLocalStore(
-        'favoriteRecipes',
-        [...readlocalStorage('favoriteRecipes'), current],
-      );
-      setFavorited(true);
-    } else if (readlocalStorage('favoriteRecipes')
-    && readlocalStorage('favoriteRecipes').length > 0
-    && readlocalStorage('favoriteRecipes')?.some((recipe) => recipe.id === current.id)) {
-      saveLocalStore('favoriteRecipes', readlocalStorage('favoriteRecipes')
-        .filter((recipe) => recipe.id !== current.id));
-      setFavorited(false);
-    } else {
-      saveLocalStore('favoriteRecipes', [current]);
-      setFavorited(true);
-    }
-  };
-
   return (
     <div>
       {
@@ -96,7 +58,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                     <button
                       src={ favorited ? blackHeartIcon : whiteHeartIcon }
                       alt="favoriteIcon"
-                      onClick={ handleFavorite }
+                      onClick={ () => handleFavorite(currentRecipe) }
                       data-testid="favorite-btn"
                       type="button"
                     >
@@ -161,7 +123,7 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
                   <div className="divFavoritoCompartilhar">
                     <button
                       src={ favorited ? blackHeartIcon : whiteHeartIcon }
-                      onClick={ handleFavorite }
+                      onClick={ () => handleFavorite(currentRecipe) }
                       data-testid="favorite-btn"
                       type="button"
                     >
