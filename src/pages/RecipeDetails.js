@@ -5,14 +5,14 @@ import recipeContext from '../context/recipeContext';
 import { requestAPI, URL_REQUEST_MEALS,
   URL_REQUEST_DRINKS } from '../services/RequestAPI';
 import RecipesDetailsComponents from '../components/RecipesDetailsComponets';
-import Loading from '../components/Loading';
+// import Loading from '../components/Loading';
 import RecommendationCard from '../components/RecommendationCard';
 import { readlocalStorage } from '../services/hadleStorage';
 
 const maxRecommendation = 6;
 
 function RecipeDetails({ match }) {
-  const { setRecipeDetail, globalIngrd, copyUrl, copyed } = useContext(recipeContext);
+  const { setRecipeDetail, copyUrl, copyed } = useContext(recipeContext);
   const [isLoading, setIsLoading] = useState(true);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
