@@ -1,15 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import require from 'clipboard-copy';
 import recipeContext from './recipeContext';
 import { requestAPI,
   URL_REQUEST_CATEGORY_DRINKS,
   URL_REQUEST_CATEGORY_MEALS,
   URL_REQUEST_DRINKS, URL_REQUEST_MEALS } from '../services/RequestAPI';
-import { handleStorage } from '../services/hadleStorage';
+import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 
 const recipesNumberRequest = 12;
 const categoryNumberRequest = 5;
+const SEC = 1000;
 
 function RecipeProvider({ children }) {
   const [userInfo, setUserInfo] = useState({});
@@ -24,8 +26,12 @@ function RecipeProvider({ children }) {
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
   const [globalIngrd, setGlobalIngrd] = useState([]);
+  const [isDesable, setIsDesable] = useState(true);
+  const [copyed, setCopyed] = useState(false);
+  const [favorited, setFavorited] = useState(false);
 
   const history = useHistory();
+  const { location: { pathname } } = history;
 
   useEffect(() => {
     const requestData = async () => {
@@ -52,15 +58,71 @@ function RecipeProvider({ children }) {
     requestData();
   }, []);
 
-  useEffect(() => {
-    handleStorage();
-  }, []);
+  const copy = require('clipboard-copy');
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const copyUrl = (type, id) => {
+    setCopyed(true);
+    const URL = `http://localhost:3000${pathname}`;
+    if (pathname.includes('/done-recipes') || pathname.includes('/favorite-recipes')) {
+      copy(URL.replace(pathname, `/${type}s/${id}`));
+    } else {
+      copy(URL.replace('/in-progress', ''));
+    }
+    setTimeout(() => setCopyed(false), SEC);
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleFavorite = (currentRecipe) => {
+    const current = pathname.includes('meals') ? {
+      id: currentRecipe.idMeal,
+      type: 'meal',
+      nationality: currentRecipe.strArea,
+      category: currentRecipe.strCategory,
+      alcoholicOrNot: '',
+      name: currentRecipe.strMeal,
+      image: currentRecipe.strMealThumb,
+    } : {
+      id: currentRecipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: currentRecipe.strCategory,
+      alcoholicOrNot: currentRecipe.strAlcoholic,
+      name: currentRecipe.strDrink,
+      image: currentRecipe.strDrinkThumb };
+    if (readlocalStorage('favoriteRecipes')
+    && readlocalStorage('favoriteRecipes').length > 0
+    && !readlocalStorage('favoriteRecipes')?.some((recipe) => recipe.id === current.id)) {
+      saveLocalStore(
+        'favoriteRecipes',
+        [...readlocalStorage('favoriteRecipes'), current],
+      );
+      setFavorited(true);
+    } else if (readlocalStorage('favoriteRecipes')
+    && readlocalStorage('favoriteRecipes').length > 0
+    && readlocalStorage('favoriteRecipes')?.some((recipe) => recipe.id === current.id)) {
+      saveLocalStore('favoriteRecipes', readlocalStorage('favoriteRecipes')
+        .filter((recipe) => recipe.id !== current.id));
+      setFavorited(false);
+    } else {
+      saveLocalStore('favoriteRecipes', [current]);
+      setFavorited(true);
+    }
+  };
 
   const state = useMemo(() => ({
     setHeaderTitle,
     setRecipeDetail,
+    copyed,
+    setCopyed,
+    setFavorited,
+    favorited,
+    copyUrl,
+    handleFavorite,
     recipeDetail,
     showSearchBtn,
+    isDesable,
+    setIsDesable,
     setShowSearchBtn,
     headerTitle,
     userInfo,
@@ -84,12 +146,17 @@ function RecipeProvider({ children }) {
     setRecipeDetail,
     globalIngrd,
     recipeDetail,
+    favorited,
+    handleFavorite,
     setUserInfo,
     headerTitle,
     setHeaderTitle,
     showSearchBtn,
     setShowSearchBtn,
+    copyUrl,
     history,
+    isDesable,
+    copyed,
   ]);
 
   return (

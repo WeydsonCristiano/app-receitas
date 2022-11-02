@@ -5,9 +5,11 @@ import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
 import { requestAPI } from '../services/RequestAPI';
 import recipeContext from '../context/recipeContext';
 import Loading from '../components/Loading';
+import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 
 function RecipeInProgress({ match }) {
-  const { setIsLoading, isLoading } = useContext(recipeContext);
+  const { setIsLoading, isLoading,
+    isDesable, copyUrl, copyed } = useContext(recipeContext);
   const [localMeal, setLocalMeal] = useState([]);
   const [localDrink, setLocalDrink] = useState([]);
   const history = useHistory();
@@ -30,15 +32,55 @@ function RecipeInProgress({ match }) {
     requestData();
   }, [id, pathname, setIsLoading]);
 
+  const finisheRecipe = () => {
+    const currentRecipe = pathname.includes('meals') ? (
+      {
+        id: localMeal[0].idMeal,
+        type: 'meal',
+        nationality: localMeal[0].strArea,
+        category: localMeal[0].strCategory,
+        alcoholicOrNot: '',
+        name: localMeal[0].strMeal,
+        image: localMeal[0].strMealThumb,
+        doneDate: new Date().toISOString(),
+        tags: localMeal[0].strTags?.split(',') || [],
+      }
+    ) : (
+      {
+        id: localDrink[0].idDrink,
+        type: 'drink',
+        nationality: '',
+        category: localDrink[0].strCategory,
+        alcoholicOrNot: localDrink[0].strAlcoholic,
+        name: localDrink[0].strDrink,
+        image: localDrink[0].strDrinkThumb,
+        doneDate: new Date().toISOString(),
+        tags: localDrink[0].strTags?.split(',') || [],
+      }
+    );
+    console.log(currentRecipe);
+    const prevState = readlocalStorage('doneRecipes') || [];
+    if (prevState && !prevState.some((recipe) => recipe.id === currentRecipe.id)) {
+      saveLocalStore('doneRecipes', [...prevState, currentRecipe]);
+    }
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       <h1>RecipeInProgress</h1>
+      {copyed && (
+        <div>
+          <p>Link copied!</p>
+        </div>
+      )}
       {
         isLoading
           ? <Loading /> : (
             <RecipeDetailsComponents
               meals={ localMeal }
               drinks={ localDrink }
+              copyUrl={ copyUrl }
               id={ id }
             />
           )
@@ -47,6 +89,8 @@ function RecipeInProgress({ match }) {
         <button
           data-testid="finish-recipe-btn"
           type="button"
+          onClick={ finisheRecipe }
+          disabled={ isDesable }
         >
           Finalizar Receita
 
