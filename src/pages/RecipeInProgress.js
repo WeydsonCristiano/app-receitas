@@ -5,18 +5,15 @@ import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
 import { requestAPI } from '../services/RequestAPI';
 import recipeContext from '../context/recipeContext';
 import Loading from '../components/Loading';
-import { readlocalStorage } from '../services/hadleStorage';
 
 function RecipeInProgress({ match }) {
-  const { setIsLoading, isLoading, globalIngrd, isDesable } = useContext(recipeContext);
+  const { setIsLoading, isLoading,
+    isDesable, copyUrl, copyed } = useContext(recipeContext);
   const [localMeal, setLocalMeal] = useState([]);
   const [localDrink, setLocalDrink] = useState([]);
   const history = useHistory();
   const { params: { id } } = match;
   const { location: { pathname } } = history;
-
-  console.log(isDesable);
-  console.log(globalIngrd);
 
   useEffect(() => {
     const requestData = async () => {
@@ -37,12 +34,18 @@ function RecipeInProgress({ match }) {
   return (
     <div>
       <h1>RecipeInProgress</h1>
+      {copyed && (
+        <div>
+          <p>Link copied!</p>
+        </div>
+      )}
       {
         isLoading
           ? <Loading /> : (
             <RecipeDetailsComponents
               meals={ localMeal }
               drinks={ localDrink }
+              copyUrl={ copyUrl }
               id={ id }
             />
           )

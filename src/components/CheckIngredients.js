@@ -9,25 +9,18 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   const { globalIngrd, setIsDesable } = useContext(recipeContext);
   const [checkedList, setCheckedList] = useState([]);
 
-  console.log(globalIngrd);
-
   const history = useHistory();
   const { location: { pathname } } = history;
   const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
   const recipeId = pathname.includes('meals') ? meals[0].idMeal
     : drinks[0].idDrink;
 
-  // console.log(readlocalStorage('inProgressRecipes')[recipeType][recipeId].length === globalIngrd.length);
-
   useEffect(() => {
-    const getCheckedItens = readlocalStorage('inProgressRecipes');
-    let storageCheckedList = getCheckedItens[recipeType][recipeId];
-    if (storageCheckedList === undefined) {
-      storageCheckedList = [];
-    }
-    if (storageCheckedList.length === globalIngrd.length) {
-      setIsDesable(false);
-    }
+    const getCheckedItens = readlocalStorage('inProgressRecipes') || {
+      drinks: {},
+      meals: {},
+    };
+    const storageCheckedList = getCheckedItens[recipeType][recipeId] || [];
     setCheckedList(storageCheckedList);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -35,15 +28,24 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   useEffect(() => {
     if (checkedList?.length > 0) {
       const prevState = readlocalStorage('inProgressRecipes');
-      prevState[recipeType][recipeId] = checkedList;
+      prevState[recipeType][recipeId] = checkedList || [];
       saveLocalStore('inProgressRecipes', prevState);
     }
     if (checkedList?.length === 0) {
-      const prevState = readlocalStorage('inProgressRecipes');
+      const prevState = readlocalStorage('inProgressRecipes') || {
+        drinks: {},
+        meals: {},
+      };
       prevState[recipeType][recipeId] = [];
       saveLocalStore('inProgressRecipes', prevState);
     }
-  }, [checkedList, recipeId, recipeType]);
+    if (checkedList.length === globalIngrd.length) {
+      setIsDesable(false);
+    } else {
+      setIsDesable(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkedList]);
 
   const genericHandleChange = ({ target: { checked, id } }) => {
     if (checked && !checkedList?.some((item) => item === id)) {

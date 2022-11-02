@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import require from 'clipboard-copy';
 import recipeContext from './recipeContext';
 import { requestAPI,
   URL_REQUEST_CATEGORY_DRINKS,
@@ -9,6 +10,7 @@ import { requestAPI,
 
 const recipesNumberRequest = 12;
 const categoryNumberRequest = 5;
+const SEC = 1000;
 
 function RecipeProvider({ children }) {
   const [userInfo, setUserInfo] = useState({});
@@ -24,8 +26,10 @@ function RecipeProvider({ children }) {
   const [headerTitle, setHeaderTitle] = useState('');
   const [globalIngrd, setGlobalIngrd] = useState([]);
   const [isDesable, setIsDesable] = useState(true);
+  const [copyed, setCopyed] = useState(false);
 
   const history = useHistory();
+  const { location: { pathname } } = history;
 
   useEffect(() => {
     const requestData = async () => {
@@ -52,9 +56,22 @@ function RecipeProvider({ children }) {
     requestData();
   }, []);
 
+  const copy = require('clipboard-copy');
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const copyUrl = async () => {
+    setCopyed(true);
+    const URL = `http://localhost:3000${pathname}`;
+    await copy(URL.replace('/in-progress', ''));
+    setTimeout(() => setCopyed(false), SEC);
+  };
+
   const state = useMemo(() => ({
     setHeaderTitle,
     setRecipeDetail,
+    copyed,
+    setCopyed,
+    copyUrl,
     recipeDetail,
     showSearchBtn,
     isDesable,
@@ -87,8 +104,10 @@ function RecipeProvider({ children }) {
     setHeaderTitle,
     showSearchBtn,
     setShowSearchBtn,
+    copyUrl,
     history,
     isDesable,
+    copyed,
   ]);
 
   return (
