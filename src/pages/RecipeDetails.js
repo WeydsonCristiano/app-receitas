@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import require from 'clipboard-copy';
 import recipeContext from '../context/recipeContext';
 import { requestAPI, URL_REQUEST_MEALS,
   URL_REQUEST_DRINKS } from '../services/RequestAPI';
-import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
-import Loading from '../components/Loading';
+import RecipesDetailsComponents from '../components/RecipesDetailsComponets';
+// import Loading from '../components/Loading';
 import RecommendationCard from '../components/RecommendationCard';
 import { readlocalStorage } from '../services/hadleStorage';
 
 const maxRecommendation = 6;
 
 function RecipeDetails({ match }) {
-  const { setRecipeDetail, globalIngrd } = useContext(recipeContext);
-  const [copyed, setCopyed] = useState(false);
+  const { setRecipeDetail, copyUrl, copyed } = useContext(recipeContext);
   const [isLoading, setIsLoading] = useState(true);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);
@@ -26,17 +24,19 @@ function RecipeDetails({ match }) {
   const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
 
   const getCheckedIngredients = () => {
-    const getStorage = readlocalStorage('inProgressRecipes');
-
-    const checkList = getStorage[recipeType][id];
-    if (checkList) {
-      return checkList.length;
+    const getStorage = readlocalStorage('inProgressRecipes') || {
+      drinks: {},
+      meals: {},
+    };
+    if (!getStorage[recipeType][id]) {
+      return false;
     }
-    return 0;
+    return getStorage[recipeType][id];
   };
 
   useEffect(() => {
     const requestData = async () => {
+      console.log('entrei aqui');
       if (pathname === `/meals/${id}`) {
         const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
         const requestRecommendation = await requestAPI(URL_REQUEST_DRINKS);
@@ -60,41 +60,43 @@ function RecipeDetails({ match }) {
     requestData();
   }, [id, pathname, setIsLoading, setRecipeDetail]);
 
-  const copy = require('clipboard-copy');
-
-  const copyUrl = async () => {
-    setCopyed(true);
-    await copy(`http://localhost:3000${pathname}`);
-  };
-  if (isLoading) {
-    return <Loading />;
-  }
   return (
     <div>
-      {copyed && <p>Link copied!</p>}
-      {(mealsDetails.length > 0 || drinksDetails.length > 0) && <RecipeDetailsComponents
-        meals={ mealsDetails }
-        drinks={ drinksDetails }
-        copyUrl={ copyUrl }
-        id={ id }
-      />}
-      <div>
-        <RecommendationCard
-          meals={ drinksRecommendation }
-          drinks={ mealsRecommendation }
-          id={ id }
-        />
-        <button
-          data-testid="start-recipe-btn"
-          className="botaoStartRecipes"
-          onClick={ () => history.push(`${pathname}/in-progress`) }
-          type="button"
-          hidden={ readlocalStorage('doneRecipes')?.some((recipe) => recipe.id === id) }
-        >
-          {getCheckedIngredients() !== 0 && getCheckedIngredients() < globalIngrd.length
-            ? 'Continue Recipe' : 'Start Recipe'}
-        </button>
-      </div>
+      {!isLoading && (
+        <div>
+          {copyed && (
+            <div>
+              <p>Link copied!</p>
+            </div>
+          )}
+          {(mealsDetails.length > 0 || drinksDetails.length > 0)
+          && <RecipesDetailsComponents
+            meals={ mealsDetails }
+            drinks={ drinksDetails }
+            copyUrl={ copyUrl }
+            id={ id }
+          />}
+          <div>
+            <RecommendationCard
+              meals={ drinksRecommendation }
+              drinks={ mealsRecommendation }
+              id={ id }
+            />
+            <button
+              data-testid="start-recipe-btn"
+              className="botaoStartRecipes"
+              onClick={ () => history.push(`${pathname}/in-progress`) }
+              type="button"
+              hidden={ readlocalStorage('doneRecipes')
+               && readlocalStorage('doneRecipes')
+                 .some((recipe) => recipe.id === id) }
+            >
+              {getCheckedIngredients()
+                ? 'Continue Recipe' : 'Start Recipe'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

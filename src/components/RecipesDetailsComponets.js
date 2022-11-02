@@ -2,12 +2,17 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import recipeContext from '../context/recipeContext';
+import { readlocalStorage } from '../services/hadleStorage';
 import CheckIngredients from './CheckIngredients';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
-  const { setGlobalIngrd } = useContext(recipeContext);
+function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
+  const { setGlobalIngrd, handleFavorite, favorited,
+    setFavorited } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [measuresList, setMeasuresList] = useState([]);
+  const [currentRecipe, setCurrentRecipe] = useState([]);
   const history = useHistory();
   const { location: { pathname } } = history;
 
@@ -22,21 +27,26 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
       setMeasuresList(measures);
       setIngredientsList(ingredients);
       setGlobalIngrd(ingredients);
-      console.log(ingredients, 'use effect');
+      setCurrentRecipe(meals[0]);
     }
-    if (drinks?.length && pathname.includes('drinks')) {
+
+    if (drinks.length && pathname.includes('/drinks')) {
       const ingredients = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Ingredient'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
       const measures = Object.entries(drinks[0])
         .filter((item) => item[0].includes('Measure'))
         .filter((item) => item[1] !== '' && item[1] !== null && item[1] !== ' ');
-      console.log(ingredients);
       setMeasuresList(measures);
       setIngredientsList(ingredients);
       setGlobalIngrd(ingredients);
+      setCurrentRecipe(drinks[0]);
     }
-  }, [meals, drinks, pathname, setGlobalIngrd]);
+    if (readlocalStorage('favoriteRecipes')?.some((recipe) => recipe.id === id)) {
+      setFavorited(true);
+    }
+  }, [meals, drinks, pathname, setGlobalIngrd, id]);
+
   return (
     <div className="testeimage">
       {
@@ -47,10 +57,21 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
+                      src={ favorited ? blackHeartIcon : whiteHeartIcon }
+                      alt="favoriteIcon"
+                      onClick={ () => handleFavorite(currentRecipe) }
                       data-testid="favorite-btn"
                       type="button"
                     >
-                      Favoritar
+                      { favorited ? (<img
+                        src={ blackHeartIcon }
+                        alt="favoriteIcon"
+                      />) : (
+                        <img
+                          src={ whiteHeartIcon }
+                          alt="favoriteIcon"
+                        />
+                      )}
                     </button>
                     <button
                       data-testid="share-btn"
@@ -85,35 +106,37 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
                     }
                   </ul>
                 </div>
-                <div>
-                  <p
-                    data-testid="instructions"
-                  >
-                    {e.strInstructions}
-                  </p>
-
-                </div>
-                <div>
-                  <iframe
-                    title="video"
-                    data-testid="video"
-                    src={ e.strYoutube }
-                  />
-                </div>
+                <div><p data-testid="instructions">{e.strInstructions}</p></div>
+                {pathname.includes('progress')
+                    && <CheckIngredients
+                      meals={ meals }
+                      drinks={ drinks }
+                      ingredientsList={ ingredientsList }
+                    />}
                 <h3>{e.strAlcoholic}</h3>
               </div>
             ))
           )
           : (
-            meals?.map((el, ind) => (
+            meals.map((el, ind) => (
               <div key={ ind }>
                 <div>
                   <div className="divFavoritoCompartilhar">
                     <button
+                      src={ favorited ? blackHeartIcon : whiteHeartIcon }
+                      onClick={ () => handleFavorite(currentRecipe) }
                       data-testid="favorite-btn"
                       type="button"
                     >
-                      Favoritar
+                      { favorited ? (<img
+                        src={ blackHeartIcon }
+                        alt="favoriteIcon"
+                      />) : (
+                        <img
+                          src={ whiteHeartIcon }
+                          alt="favoriteIcon"
+                        />
+                      )}
 
                     </button>
                     <button
@@ -190,10 +213,10 @@ function RecipeDetailsComponents({ meals, drinks, copyUrl }) {
   );
 }
 
-RecipeDetailsComponents.propTypes = {
+RecipesDetailsComponents.propTypes = {
   meals: PropTypes.arrayOf(PropTypes.shape()),
   drinks: PropTypes.arrayOf(PropTypes.shape()),
   copyUrl: PropTypes.func,
 }.isRequired;
 
-export default RecipeDetailsComponents;
+export default RecipesDetailsComponents;
