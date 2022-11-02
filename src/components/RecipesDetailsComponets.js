@@ -44,8 +44,10 @@ function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
     }
     if (readlocalStorage('favoriteRecipes')?.some((recipe) => recipe.id === id)) {
       setFavorited(true);
+    } else {
+      setFavorited(false);
     }
-  }, [meals, drinks, pathname, setGlobalIngrd, id]);
+  }, [meals, drinks, pathname, setGlobalIngrd, id, setFavorited]);
 
   return (
     <div className="testeimage">
