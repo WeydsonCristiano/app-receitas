@@ -48,10 +48,13 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   }, [checkedList]);
 
   const genericHandleChange = ({ target: { checked, id } }) => {
+    console.log(checkedList[0] === id);
     if (checked && !checkedList?.some((item) => item === id)) {
+      console.log('entro aqui');
       setCheckedList((state) => [...state, id]);
     }
     if (!checked) {
+      console.log('entro aqui');
       setCheckedList(checkedList?.filter((item) => item !== id));
     }
   };
@@ -59,18 +62,18 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
     <div className="listaReceitas1">
       { ingredientsList.map((item, index) => (
         <label
-          className={ checkedList?.some((e) => e === item[1])
+          className={ checkedList?.some((e) => Number(e) === index)
             ? 'igredientChecked' : null }
           key={ `${index}${item[1]}` }
-          htmlFor={ item[1] }
+          htmlFor={ index }
           data-testid={ `${index}-ingredient-step` }
         >
           {item[1]}
           <input
             onChange={ (e) => genericHandleChange(e) }
             type="checkbox"
-            id={ item[1] }
-            checked={ checkedList?.some((e) => e === item[1]) }
+            id={ index }
+            checked={ checkedList?.some((e) => Number(e) === index) }
             name="ingredient"
           />
         </label>
