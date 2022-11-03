@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import require from 'clipboard-copy';
+// import require from 'clipboard-copy';
 import recipeContext from './recipeContext';
 import { requestAPI,
   URL_REQUEST_CATEGORY_DRINKS,
@@ -11,7 +11,7 @@ import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 
 const recipesNumberRequest = 12;
 const categoryNumberRequest = 5;
-const SEC = 1000;
+// const SEC = 1000;
 
 function RecipeProvider({ children }) {
   const [userInfo, setUserInfo] = useState({});
@@ -59,18 +59,19 @@ function RecipeProvider({ children }) {
     requestData();
   }, []);
 
-  const copy = require('clipboard-copy');
+  // const copy = require('clipboard-copy');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const copyUrl = (type, id) => {
-    setCopyed(true);
-    const URL = `http://localhost:3000${pathname}`;
-    if (pathname.includes('/done-recipes') || pathname.includes('/favorite-recipes')) {
-      copy(URL.replace(pathname, `/${type}s/${id}`));
-    } else {
-      copy(URL.replace('/in-progress', ''));
-    }
-    setTimeout(() => setCopyed(false), SEC);
+    // setCopyed(true);
+    console.log(type, id);
+    // const URL = `http://localhost:3000${pathname}`;
+    // if (pathname.includes('/done-recipes') || pathname.includes('/favorite-recipes')) {
+    //   copy(URL.replace(pathname, `/${type}s/${id}`));
+    // } else {
+    //   copy(URL.replace('/in-progress', ''));
+    // }
+    // setTimeout(() => setCopyed(false), SEC);
   };
 
   const handleFilter = ({ target: { id } }, key) => {
