@@ -12,7 +12,7 @@ import { readlocalStorage } from '../services/hadleStorage';
 const maxRecommendation = 6;
 
 function RecipeDetails({ match }) {
-  const { setRecipeDetail, copyUrl, copyed } = useContext(recipeContext);
+  const { setRecipeDetail, copyed, copyUrl } = useContext(recipeContext);
   const [isLoading, setIsLoading] = useState(true);
   const [mealsDetails, setMealsDetails] = useState([]);
   const [drinksDetails, setDrinksDetails] = useState([]);

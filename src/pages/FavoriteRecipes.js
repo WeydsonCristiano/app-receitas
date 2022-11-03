@@ -9,7 +9,7 @@ import Loading from '../components/Loading';
 
 function FavoriteRecipes() {
   const { setHeaderTitle, setShowSearchBtn, handleFilter, isLoading,
-    setIsLoading, recipes, setRecipes, copyUrl, copyed } = useContext(recipeContext);
+    copyed, copyUrl, setIsLoading, recipes, setRecipes } = useContext(recipeContext);
 
   useEffect(() => {
     setHeaderTitle('Favorite Recipes');
