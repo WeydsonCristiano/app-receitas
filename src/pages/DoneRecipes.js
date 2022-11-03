@@ -8,7 +8,7 @@ import Loading from '../components/Loading';
 
 function DoneRecipes() {
   const { setHeaderTitle, setShowSearchBtn, handleFilter, isLoading, setIsLoading,
-    copyUrl, copyed, setRecipes, recipes } = useContext(recipeContext);
+    copyed, copyUrl, setRecipes, recipes } = useContext(recipeContext);
 
   useEffect(() => {
     setHeaderTitle('Done Recipes');

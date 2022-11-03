@@ -7,7 +7,7 @@ import CheckIngredients from './CheckIngredients';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function RecipesDetailsComponents({ meals, drinks, id, copyUrl }) {
+function RecipesDetailsComponents({ meals, drinks, copyUrl, id }) {
   const { setGlobalIngrd, handleFavorite, favorited,
     setFavorited } = useContext(recipeContext);
   const [ingredientsList, setIngredientsList] = useState([]);

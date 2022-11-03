@@ -8,8 +8,8 @@ import Loading from '../components/Loading';
 import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 
 function RecipeInProgress({ match }) {
-  const { setIsLoading, isLoading,
-    isDesable, copyUrl, copyed } = useContext(recipeContext);
+  const { setIsLoading, isLoading, copyed, copyUrl,
+    isDesable } = useContext(recipeContext);
   const [localMeal, setLocalMeal] = useState([]);
   const [localDrink, setLocalDrink] = useState([]);
   const history = useHistory();
