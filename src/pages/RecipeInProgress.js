@@ -7,12 +7,13 @@ import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 import { requestAPI,
   URL_REQUEST_DRINKS,
   URL_REQUEST_MEALS } from '../services/RequestAPI';
+import LinkCopied from '../components/LinkCopied';
 
 const maxRecommendation = 6;
 
 function RecipeInProgress({ match }) {
   const { copyed, recipeDetail,
-    isDesable, setGlobalId, setIsLoading,
+    isDisabled, setGlobalId, setIsLoading,
     setRecipeDetail, setRec } = useContext(recipeContext);
   const history = useHistory();
   const { params: { id } } = match;
@@ -76,9 +77,7 @@ function RecipeInProgress({ match }) {
   return (
     <div>
       {copyed && (
-        <div>
-          <p>Link copied!</p>
-        </div>
+        <LinkCopied />
       )}
       <RecipeDetailsComponents />
       <button
@@ -86,7 +85,7 @@ function RecipeInProgress({ match }) {
         data-testid="finish-recipe-btn"
         type="button"
         onClick={ finisheRecipe }
-        disabled={ isDesable }
+        disabled={ isDisabled }
       >
         <p>
           Finalizar Receita

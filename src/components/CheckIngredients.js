@@ -45,7 +45,6 @@ export default function CheckIngredients() {
   }, [checkedList]);
 
   const genericHandleChange = ({ target: { checked, id } }) => {
-    console.log(checkedList[0] === id);
     if (checked && !checkedList?.some((item) => item === id)) {
       setCheckedList((state) => [...state, id]);
     }
