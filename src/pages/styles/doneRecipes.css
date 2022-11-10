@@ -30,8 +30,7 @@
 }
 
 .doneRecipesCards {
-  flex: 1;
-  width: 70%;
+  max-width: 300px;
   contain: content;
   border-radius: 10px;
   box-shadow: 1px 1px 10px #0004;
@@ -40,8 +39,7 @@
 }
 
 .favoriteRecipesCards {
-  flex: 1;
-  width: 70%;
+  max-width: 300px;
   contain: content;
   border-radius: 10px;
   box-shadow: 1px 1px 10px #0004;

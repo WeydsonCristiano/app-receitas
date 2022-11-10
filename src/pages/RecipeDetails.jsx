@@ -50,6 +50,7 @@ function RecipeDetails({ match }) {
         .slice(0, maxRecommendation);
       setRec(first6);
       setRecipeDetail(details[Object.keys(details)[0]]);
+      console.log(details[Object.keys(details)[0]]);
       setIsLoading(false);
     };
     requestData();

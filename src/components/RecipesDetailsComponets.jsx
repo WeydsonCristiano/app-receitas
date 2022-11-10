@@ -148,7 +148,7 @@ function RecipesDetailsComponents() {
                   {e.strInstructions}
                 </p>
                 {
-                  !isDrink
+                  pathname.includes('meals')
                     && (
                       <iframe
                         data-testid="video"
