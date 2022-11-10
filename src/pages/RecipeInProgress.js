@@ -13,7 +13,7 @@ const maxRecommendation = 6;
 
 function RecipeInProgress({ match }) {
   const { copyed, recipeDetail,
-    isDisabled, setGlobalId, setIsLoading,
+    isDesable, setGlobalId, setIsLoading,
     setRecipeDetail, setRec } = useContext(recipeContext);
   const history = useHistory();
   const { params: { id } } = match;
@@ -85,7 +85,7 @@ function RecipeInProgress({ match }) {
         data-testid="finish-recipe-btn"
         type="button"
         onClick={ finisheRecipe }
-        disabled={ isDisabled }
+        disabled={ isDesable }
       >
         <p>
           Finalizar Receita

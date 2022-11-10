@@ -1,7 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
-import './styles/checkIngredients.css';
 import recipeContext from '../context/recipeContext';
 
 export default function CheckIngredients() {

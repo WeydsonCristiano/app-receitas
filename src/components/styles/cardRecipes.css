@@ -1,13 +1,13 @@
 .recipeCard {
-  flex: 1;
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 2px 2px 5px #0004;
-  text-decoration: none;
-  transition: .1s linear;
   background-color: white;
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px #0004;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  text-decoration: none;
+  transition: 0.1s linear;
 }
 
 .recipeCard:hover {
@@ -15,32 +15,34 @@
 }
 
 .recipeName {
-  display: flex;
-  text-align: center;
-  flex-direction: column;
   align-items: center;
+  color: #e14d2a;
+  display: flex;
+  flex-direction: column;
+  font-weight: 800;
   justify-content: center;
-  color: #E14D2A;
-  font-weight: bolder;
   padding: 10px;
+  text-align: center;
 }
 
-@media screen and (max-width: 470px) {
+@media screen and ( max-width : 470px ) {
+
   .recipeCard {
-  width: 48%;
-  min-width: 125px;
-  border-radius: 20px;
+    border-radius: 20px;
+    min-width: 125px;
+    width: 48%;
   }
 
-  .renderCards > .recipeCard:nth-child(3n) {
+  .renderCards > .recipeCard:nth-child( 3n ) {
     min-width: 250px;
   }
 }
 
-@media screen and (min-width: 471px) {
+@media screen and ( min-width : 471px ) {
+
   .recipeCard {
-    min-width: 165px;
     border-radius: 20px;
     max-width: 265px;
+    min-width: 165px;
   }
 }

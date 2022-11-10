@@ -9,7 +9,6 @@ import LinkCopied from '../components/LinkCopied';
 import RecommendationCard from '../components/RecommendationCard';
 import { readlocalStorage } from '../services/hadleStorage';
 import './styles/recipeDetails.css';
-import './styles/details.css';
 
 const maxRecommendation = 6;
 

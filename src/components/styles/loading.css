@@ -1,8 +1,8 @@
 .loading {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  display: flex;
   height: 70vh;
-  width: 100%;
+  justify-content: center;
   overflow: hidden;
+  width: 100%;
 }

@@ -1,31 +1,31 @@
 .globalHeader {
-  background-color: #FD841F;
+  background-color: #fd841f;
 }
 
 .headerTitle {
-  position: relative;
-  font-family: 'Kaushan Script', cursive;
-  font-weight: bolder;
   color: white;
-  text-align: center;
-  padding: 10px 0;
+  font-family: Kaushan Script , cursive;
   font-size: 3rem;
+  font-weight: 800;
   letter-spacing: 5px;
   margin: 0;
+  padding: 10px 0;
+  position: relative;
+  text-align: center;
 }
 
 .profileBtn {
+  margin: 0.5em;
   position: absolute;
-  top: 0;
   right: 0;
-  margin: .5em;
+  top: 0;
 }
 
 .searchBtn {
+  left: 0;
+  margin: 0.5em;
   position: absolute;
   top: 0;
-  left: 0;
-  margin: .5em;
 }
 
 .headerMenu {
@@ -35,8 +35,8 @@
 }
 
 .headerBtn {
-  border: none;
   background-color: transparent;
+  border: none;
 }
 
 .headerBtn img {

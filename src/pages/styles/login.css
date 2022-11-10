@@ -1,16 +1,16 @@
 .loginPage {
-  width: 100%;
-  height: 100vh;
-  justify-content: center;
   align-items: center;
-  background-color: #FD841F;
+  background-color: #fd841f;
   color: beige;
   gap: 2em;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
 }
 
 .cabecarioLogin {
+  font-family: Kaushan Script , cursive;
   text-align: center;
-  font-family: 'Kaushan Script', cursive;
 }
 
 .cabecarioLogin h1 {
@@ -18,38 +18,37 @@
 }
 
 .bolder {
-  font-weight: bolder;
+  font-weight: 800;
 }
 
 .loginTitle {
-  text-align: center;
+  font-family: Kaushan Script , cursive;
   margin: 2em 0;
-  font-family: 'Kaushan Script', cursive;
+  text-align: center;
 }
 
 .loginForm {
   gap: 1.2em;
 }
 
-.loginForm input,
-.loginForm button {
+.loginForm input, .loginForm button {
   border: none;
-  height: 2.4em;
   border-radius: 10px;
+  height: 2.4em;
   text-align: center;
 }
 
 .loginForm button:disabled {
-  background-color: #E14D2A90;
+  background-color: #e14d2a90;
 }
 
 .loginForm button:enabled {
-  background-color: #E14D2A;
-  filter: none;
+  background-color: #e14d2a;
   color: white;
-  transition: .1s ease-in-out;
+  filter: none;
+  transition: 0.1s ease-in-out;
 }
 
 .loginForm button:enabled:hover {
-  filter: brightness(.8);
+  filter: brightness(0.8);
 }

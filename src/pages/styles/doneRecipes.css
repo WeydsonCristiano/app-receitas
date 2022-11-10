@@ -3,54 +3,54 @@
 }
 
 .doneRecipesMenu {
-  width: 100%;
+  backdrop-filter: blur(1px);
+  background-color: #e14d2aa0;
+  gap: 0.5rem;
   justify-content: space-evenly;
+  padding: 0.5rem;
   position: sticky;
   top: 0;
+  width: 100%;
   z-index: 2;
-  gap: .5rem;
-  padding: .5rem;
-  background-color: #E14D2Aa0;
-  backdrop-filter: blur(1px);
 }
 
 .doneRecipesMenu button {
-  padding: 5px 20px;
   border: none;
   border-radius: 20px;
+  padding: 5px 20px;
 }
 
 .doneRecipesCardsRender {
-  flex: 1;
   align-items: center;
+  flex: 1;
   flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: space-around;
-  gap: .5rem;
-  padding: .5em;
+  padding: 0.5em;
 }
 
 .doneRecipesCards {
-  max-width: 300px;
-  contain: content;
   border-radius: 10px;
   box-shadow: 1px 1px 10px #0004;
-  color: #E14D2A;
-  font-weight: bolder;
+  color: #e14d2a;
+  contain: content;
+  font-weight: 800;
+  max-width: 300px;
 }
 
 .favoriteRecipesCards {
-  max-width: 300px;
-  contain: content;
   border-radius: 10px;
   box-shadow: 1px 1px 10px #0004;
+  contain: content;
+  max-width: 300px;
 }
 
 .doneRecipeImg {
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   text-decoration: none;
-  transition: .1s linear;
+  transition: 0.1s linear;
 }
 
 .doneDescription {
@@ -59,8 +59,8 @@
 
 .doneDescription div {
   display: flex;
-  width: 100%;
   justify-content: space-evenly;
+  width: 100%;
 }
 
 .doneDescription button {
@@ -71,20 +71,17 @@
   flex: 1;
 }
 
-.doneDescription button,
-.favoriteButtons button {
+.doneDescription button, .favoriteButtons button {
+  background-color: #e14d2a;
   border: none;
   height: 35px;
-  background-color: #E14D2A;
-  transition: .1s ease-in-out;
+  transition: 0.1s ease-in-out;
 }
 
-.favoriteButtons button img,
-.doneDescription button img {
+.favoriteButtons button img, .doneDescription button img {
   filter: invert();
 }
 
-.doneDescription button:hover,
-.favoriteButtons button:hover {
+.doneDescription button:hover, .favoriteButtons button:hover {
   background-color: #aa3a21;
 }
