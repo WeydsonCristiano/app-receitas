@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
-/* eslint-disable */
-import { useAutoAnimate } from '@formkit/auto-animate/react'
-/* eslint-enable */
+/* eslint-disable-next-line */
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import recipeContext from '../context/recipeContext';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
