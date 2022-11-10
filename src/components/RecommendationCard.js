@@ -1,48 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import recipeContext from '../context/recipeContext';
 
-export default function RecommendationCard({ meals, drinks }) {
+export default function RecommendationCard() {
+  const { rec } = useContext(recipeContext);
   const route = useLocation();
   const { pathname } = route;
   return (
     <div>
-      <h1>Recomendações</h1>
-      { pathname.includes('meals')
-        ? (
-          drinks.map((drink, index) => (
-            <div key={ drink.idDrink } data-testid={ `${index}-recommendation-card` }>
+      <h2 className="recomendationsTitle">Recomendations</h2>
+      <section className="flexContainer carrousel">
+        {
+          rec.map((e, index) => (
+            <div
+              className="recomendationCard"
+              key={ pathname.includes('meal') ? e.idDrink : e.idMeal }
+              data-testid={ `${index}-recommendation-card` }
+            >
               <div>
                 <img
-                  width="200px"
-                  src={ drink.strDrinkThumb }
-                  alt={ drink.strDrink }
+                  className="recomendationImg"
+                  src={ pathname.includes('meal') ? e.strDrinkThumb : e.strMealThumb }
+                  alt={ pathname.includes('meal') ? e.strDrink : e.strMeal }
                 />
               </div>
-              <h2 data-testid={ `${index}-recommendation-title` }>
-                {drink.strDrink}
-              </h2>
+              <h3
+                data-testid={ `${index}-recommendation-title` }
+                className="recomendationName"
+              >
+                { pathname.includes('meal') ? e.strDrink : e.strMeal }
+              </h3>
             </div>
           ))
-        ) : (meals.map((meal, index) => (
-          <div key={ meal.idMeal } data-testid={ `${index}-recommendation-card` }>
-            <div>
-              <img
-                width="200px"
-                src={ meal.strMealThumb }
-                alt={ meal.strMeal }
-              />
-            </div>
-            <h2 data-testid={ `${index}-recommendation-title` }>
-              {meal.strMeal}
-            </h2>
-          </div>
-        )))}
+        }
+      </section>
     </div>
   );
 }
-
-RecommendationCard.propTypes = {
-  meals: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};

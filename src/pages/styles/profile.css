@@ -1,0 +1,29 @@
+.profilePage {
+  height: 100vh;
+}
+
+.profileSection {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 1.8em;
+  background-color: #efefef;
+  box-shadow: inset 0px 2px 10px #0006,
+  inset 0px -2px 10px #0006;
+}
+
+.profileSection button {
+  width: 85%;
+  max-width: 300px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px #0004;
+  background-color: transparent;
+  transition: .1s ease-in-out;
+}
+
+.profileSection button:hover {
+  backdrop-filter: brightness(.8);
+  -webkit-backdrop-filter: brightness(.8);
+}

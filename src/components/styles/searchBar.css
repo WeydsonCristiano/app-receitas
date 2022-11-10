@@ -1,0 +1,53 @@
+.searchBar {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchBar input {
+  border: none;
+  max-width: 300px;
+  border-radius: 10px 0 0 10px;
+}
+
+.searchBar button {
+  border: none;
+  width: 50px;
+  border-radius: 0 10px 10px 0;
+  background-color: #E14D2A;
+}
+
+.radioSelection {
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.radioLabel input[type="radio"] {
+  appearance: none;
+}
+
+.radioLabel {
+  max-width: 300px;
+  width: 90%;
+  display: flex;
+  margin-bottom: .5em;
+}
+
+.radioLabel:hover {
+  cursor: pointer;
+}
+
+.radioLabel span {
+  border-radius: 10px;
+  width: 100%;
+  -webkit-backdrop-filter: brightness(.8);
+  backdrop-filter: brightness(.8);
+  transition: .1s ease-in-out;
+}
+
+.radioLabel input[type="radio" i]:checked+span{
+  background-color: #E14D2A;
+}
+

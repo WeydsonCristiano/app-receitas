@@ -1,0 +1,92 @@
+.doneRecipes {
+  height: 100vh;
+}
+
+.doneRecipesMenu {
+  width: 100%;
+  justify-content: space-evenly;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  gap: .5rem;
+  padding: .5rem;
+  background-color: #E14D2Aa0;
+  backdrop-filter: blur(1px);
+}
+
+.doneRecipesMenu button {
+  padding: 5px 20px;
+  border: none;
+  border-radius: 20px;
+}
+
+.doneRecipesCardsRender {
+  flex: 1;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: .5rem;
+  padding: .5em;
+}
+
+.doneRecipesCards {
+  flex: 1;
+  width: 70%;
+  contain: content;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px #0004;
+  color: #E14D2A;
+  font-weight: bolder;
+}
+
+.favoriteRecipesCards {
+  flex: 1;
+  width: 70%;
+  contain: content;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px #0004;
+}
+
+.doneRecipeImg {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: .1s linear;
+}
+
+.doneDescription {
+  align-items: center;
+}
+
+.doneDescription div {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.doneDescription button {
+  width: 100%;
+}
+
+.favoriteButtons button {
+  flex: 1;
+}
+
+.doneDescription button,
+.favoriteButtons button {
+  border: none;
+  height: 35px;
+  background-color: #E14D2A;
+  transition: .1s ease-in-out;
+}
+
+.favoriteButtons button img,
+.doneDescription button img {
+  filter: invert();
+}
+
+.doneDescription button:hover,
+.favoriteButtons button:hover {
+  background-color: #aa3a21;
+}

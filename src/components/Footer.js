@@ -1,30 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
+import { NavLink } from 'react-router-dom';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 import './styles/footer.css';
 
 function Footer() {
   return (
-    <Container className="footer-container" fluid data-testid="footer">
+    <section className="footer-container" fluid data-testid="footer">
       <div className="icons-container">
-        <Link to="/drinks">
+        <NavLink to="/drinks">
           <img
+            className="changeBtn"
             data-testid="drinks-bottom-btn"
             src={ drinkIcon }
             alt="drink"
           />
-        </Link>
-        <Link to="/meals">
+        </NavLink>
+        <NavLink to="/meals">
           <img
+            className="changeBtn"
             data-testid="meals-bottom-btn"
             src={ mealIcon }
             alt="meal"
           />
-        </Link>
+        </NavLink>
       </div>
-    </Container>
+    </section>
   );
 }
 

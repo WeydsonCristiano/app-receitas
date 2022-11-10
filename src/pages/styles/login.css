@@ -1,13 +1,55 @@
-.login-container {
-  align-items: center;
-  background-color: #d95d39;
-  display: flex;
+.loginPage {
+  width: 100%;
   height: 100vh;
   justify-content: center;
-  width: 100%;
+  align-items: center;
+  background-color: #FD841F;
+  color: beige;
+  gap: 2em;
 }
 
-.login-card {
-  background-color: #d95d39;
-  justify-content: center;
+.cabecarioLogin {
+  text-align: center;
+  font-family: 'Kaushan Script', cursive;
+}
+
+.cabecarioLogin h1 {
+  font-size: 3em;
+}
+
+.bolder {
+  font-weight: bolder;
+}
+
+.loginTitle {
+  text-align: center;
+  margin: 2em 0;
+  font-family: 'Kaushan Script', cursive;
+}
+
+.loginForm {
+  gap: 1.2em;
+}
+
+.loginForm input,
+.loginForm button {
+  border: none;
+  height: 2.4em;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.loginForm button:disabled {
+  background-color: #E14D2A90;
+}
+
+.loginForm button:enabled {
+  background-color: #E14D2A;
+  filter: none;
+  color: white;
+  transition: .1s ease-in-out;
+}
+
+.loginForm button:enabled:hover {
+  filter: brightness(.8);
 }

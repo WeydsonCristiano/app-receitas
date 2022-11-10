@@ -1,0 +1,44 @@
+.globalHeader {
+  background-color: #FD841F;
+}
+
+.headerTitle {
+  position: relative;
+  font-family: 'Kaushan Script', cursive;
+  font-weight: bolder;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 3rem;
+  letter-spacing: 5px;
+  margin: 0;
+}
+
+.profileBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: .5em;
+}
+
+.searchBtn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: .5em;
+}
+
+.headerMenu {
+  justify-content: space-evenly;
+  margin: 0;
+  padding: 0;
+}
+
+.headerBtn {
+  border: none;
+  background-color: transparent;
+}
+
+.headerBtn img {
+  height: 32px;
+}

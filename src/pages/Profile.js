@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import recipeContext from '../context/recipeContext';
 import Footer from '../components/Footer';
+import './styles/profile.css';
 
 function Profile() {
   const {
@@ -17,7 +18,7 @@ function Profile() {
     }
   }, [setEmailTela]);
 
-  const clicou = () => {
+  const handleClick = () => {
     localStorage.clear();
     history.push('/');
   };
@@ -26,32 +27,41 @@ function Profile() {
     setHeaderTitle('Profile');
     setShowSearchBtn(false);
   }, [setHeaderTitle, setShowSearchBtn]);
+
   return (
-    <div>
+    <div className="flexContainer direction profilePage">
       <Header />
+      <section className="flexContainer direction profileSection">
+        <p data-testid="profile-email">{emailTela}</p>
+        <button
+          type="button"
+          data-testid="profile-done-btn"
+          onClick={ () => history.push('/done-recipes') }
+        >
+          Done Recipes
+        </button>
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+          onClick={ () => history.push('favorite-recipes') }
+        >
+          Favorite Recipes
+        </button>
+        <button
+          type="button"
+          onClick={ () => history.push('chefs') }
+        >
+          Chefs
+        </button>
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+          onClick={ handleClick }
+        >
+          Logout
+        </button>
+      </section>
       <Footer />
-      <p data-testid="profile-email">{emailTela}</p>
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        onClick={ () => history.push('/done-recipes') }
-      >
-        Done Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => history.push('favorite-recipes') }
-      >
-        Favorite Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ clicou }
-      >
-        Logout
-      </button>
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
 
 const recipesNumberRequest = 12;
 const categoryNumberRequest = 5;
-const SEC = 1000;
+const TREE_SECONDS = 3000;
 const copy = require('clipboard-copy');
 
 function RecipeProvider({ children }) {
@@ -26,10 +26,12 @@ function RecipeProvider({ children }) {
   const [showSearchBtn, setShowSearchBtn] = useState(true);
   const [headerTitle, setHeaderTitle] = useState('');
   const [globalIngrd, setGlobalIngrd] = useState([]);
+  const [globalId, setGlobalId] = useState('');
   const [isDesable, setIsDesable] = useState(true);
   const [copyed, setCopyed] = useState(false);
   const [favorited, setFavorited] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [rec, setRec] = useState([]);
 
   const history = useHistory();
   const { location: { pathname } } = history;
@@ -68,7 +70,7 @@ function RecipeProvider({ children }) {
       copy(URL.replace('/in-progress', ''));
     }
     setCopyed(true);
-    setTimeout(() => setCopyed(false), SEC);
+    setTimeout(() => setCopyed(false), TREE_SECONDS);
   };
 
   const handleFilter = ({ target: { id } }, key) => {
@@ -157,6 +159,10 @@ function RecipeProvider({ children }) {
     mealsCategories,
     drinkCategories,
     history,
+    globalId,
+    setGlobalId,
+    rec,
+    setRec,
   }), [userInfo, renderMeals, renderDrinks,
     isLoading, mirrorMeals, mirrorDrinks,
     mealsCategories, drinkCategories,
@@ -176,6 +182,10 @@ function RecipeProvider({ children }) {
     history,
     isDesable,
     copyed,
+    globalId,
+    setGlobalId,
+    rec,
+    setRec,
   ]);
 
   return (

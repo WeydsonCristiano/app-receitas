@@ -1,0 +1,44 @@
+.recipesPage {
+  position: relative;
+}
+  
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 0;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.153);
+  border-radius: 10px;
+}
+
+.categoryScroll {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  overflow: scroll;
+  gap: .5rem;
+  padding: .5rem;
+  background-color: #E14D2Aa0;
+  backdrop-filter: blur(1px);
+  justify-content: space-between;
+}
+
+.categBtn {
+  padding: 5px 20px;
+  border-radius: 20px;
+  border: none;
+  white-space: nowrap;
+}
+
+.renderCards {
+  width: 100vw;
+  min-height: 70vh;
+  flex-wrap: wrap;
+  padding: .5em;
+  gap: .8em;
+  justify-content: space-between;
+  background-color: #efefef;
+  overflow-y: hidden;
+}

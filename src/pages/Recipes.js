@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable */
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+/* eslint-enable */
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import CardRecipes from '../components/CardRecipes';
@@ -10,6 +13,7 @@ import { handleStorage } from '../services/hadleStorage';
 import { ENDPOINT_FILTER_BUTTON_DRINK,
   ENDPOINT_FILTER_BUTTON_MEAL,
   requestAPI } from '../services/RequestAPI';
+import './styles/recipes.css';
 
 const recipesNumberRequest = 12;
 
@@ -23,7 +27,7 @@ function Recipes() {
   const [pageRouteInfo, setPageRouteInfo] = useState('');
   const [clickedCategory, setClickedCategory] = useState(['']);
   const [toggleControl, setToggleControl] = useState(false);
-
+  const [parent] = useAutoAnimate();
   handleStorage();
 
   const history = useHistory();
@@ -97,12 +101,11 @@ function Recipes() {
 
   if (pathname === '/drinks') {
     return (
-      <div>
+      <div className="recipesPage flexContainer direction">
         { setHeaderTitle('Drinks') }
         { setShowSearchBtn(true) }
-        {isLoading && <Loading /> }
         <Header />
-        <section>
+        <section className="categoryScroll flexContainer" ref={ parent }>
           {drinkCategories
             .map(({ strCategory }) => CategoryButtons(
               strCategory,
@@ -113,6 +116,7 @@ function Recipes() {
               ),
             ))}
           <button
+            className="categBtn"
             data-testid="All-category-filter"
             type="button"
             onClick={ allCategory }
@@ -120,27 +124,38 @@ function Recipes() {
             All
           </button>
         </section>
-        {renderDrinks
-          .map(({ strDrink,
-            strDrinkThumb,
-            idDrink }, index) => CardRecipes(index, strDrink, strDrinkThumb, idDrink))}
+        <section className="renderCards flexContainer" ref={ parent }>
+          {
+            isLoading
+              ? <Loading />
+              : renderDrinks
+                .map(({ strDrink,
+                  strDrinkThumb,
+                  idDrink }, index) => CardRecipes(
+                  index,
+                  strDrink,
+                  strDrinkThumb,
+                  idDrink,
+                ))
+          }
+        </section>
         <Footer />
       </div>
     );
   }
   return (
-    <div>
+    <div className="recipesPage flexContainer direction">
       { setHeaderTitle('Meals') }
       { setShowSearchBtn(true) }
-      {isLoading && <Loading /> }
       <Header />
-      <section>
+      <section className="categoryScroll flexContainer" ref={ parent }>
         {mealsCategories
           .map(({ strCategory }) => CategoryButtons(
             strCategory,
             () => filterButton(strCategory, ENDPOINT_FILTER_BUTTON_MEAL, 'meals'),
           ))}
         <button
+          className="categBtn"
           data-testid="All-category-filter"
           type="button"
           onClick={ allCategory }
@@ -148,14 +163,20 @@ function Recipes() {
           All
         </button>
       </section>
-      {renderMeals
-        .map(({ strMeal,
-          strMealThumb, idMeal }, index) => CardRecipes(
-          index,
-          strMeal,
-          strMealThumb,
-          idMeal,
-        ))}
+      <section className="renderCards flexContainer" ref={ parent }>
+        {
+          isLoading
+            ? <Loading />
+            : renderMeals
+              .map(({ strMeal,
+                strMealThumb, idMeal }, index) => CardRecipes(
+                index,
+                strMeal,
+                strMealThumb,
+                idMeal,
+              ))
+        }
+      </section>
       <Footer />
     </div>
   );
