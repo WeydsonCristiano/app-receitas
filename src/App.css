@@ -1,160 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap') ;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap') ;
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  max-width: 760px;
-  min-width: 360px;
+.flexContainer {
+  display: flex;
 }
 
-.meals {
-  align-items: center;
-  background: #0fa36b;
-  color: #464646;
-  display: flex;
+.direction {
   flex-direction: column;
-  font-family: sans-serif;
-  height: 100vh;
-  justify-content: center;
-  width: 100%;
 }
 
-.rocksGlass {
-  animation: shake 1s infinite ease;
-  max-height: 80vh;
-}
-
-.listaReceitas {
-  color: blue;
-  display: flex;
-  justify-content: space-evenly;
-  margin: 0 auto;
-}
-
-.listaReceitas1 {
-  color: green;
-  display: grid;
-  font-weight: 700;
-  margin: 0 auto;
-}
-
-.listaReceitas1 :hover {
-  transform: translate(-2%, -2%);
-}
-
-.login-container {
-  display: flex;
-  flex-direction: column;
-
-}
-
-.cabecarioLogin {
-  margin: 0 auto;
-}
-
-h1 {
-  text-align: center;
-}
-
-section {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  padding: 10px 20px;
-}
-
-img {
-  display: flex;
-  margin: 0 auto;
-}
-
-.testediv {
-  display: inline-flex;
-  margin: 0 auto;
-  padding: 25px 50px;
-  text-align: center;
-  width: 50%;
-}
-
-.testeimage {
-  background-color: orange;
-  margin: 0 auto;
-  text-align: center;
-}
-
-p {
-  font-style: italic;
-  font-weight: 200;
-  margin: auto;
-  text-align: center;
-  width: 80%;
-}
-
-.divFavoritoCompartilhar {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin: 0 auto;
-  padding: 10px;
-  width: 100%;
-}
-
-.botaoStartRecipes {
-  bottom: 0;
-  position: fixed;
-}
-
-/*
-#iceLeft {
-  animation: clink .8s infinite ease;
-  opacity: 0.6;
-  transform-origin: 36px 66px;
-}
-
-#iceRight {
-  animation: clink .8s .2s infinite ease;
-  opacity: 0.6;
-  transform-origin: 60px 78px;
-}
-*/
-
-.meals .logo {
-  animation: shake 1.5s infinite ease;
-  color: aliceblue;
-  font-family: sans-serif , Montserrat;
-  font-size: 3em;
-  font-weight: 900;
-}
-
-@keyframes shake {
-
-  0% {
-    transform: rotate(5deg);
-  }
-
-  50% {
-    transform: rotate(-5deg);
-  }
-
-  100% {
-    transform: rotate(5deg);
-  }
-}
-
-@keyframes clink {
-
-  0% {
-    transform: rotate(-10deg);
-  }
-
-  50% {
-    transform: rotate(20deg);
-  }
-
-  100% {
-    transform: rotate(-10deg);
-  }
+.relative {
+  position: relative;
 }

@@ -1,0 +1,8 @@
+.displayLinkedin {
+  align-items: center;
+  background-color: #efefef;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+  padding: 2em;
+}

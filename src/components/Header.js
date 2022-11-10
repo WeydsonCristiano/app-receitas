@@ -1,8 +1,11 @@
 import React, { useState, useContext } from 'react';
+/* eslint-disable-next-line */
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import recipeContext from '../context/recipeContext';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
+import './styles/header.css';
 
 function Header() {
   const {
@@ -11,15 +14,20 @@ function Header() {
     history,
   } = useContext(recipeContext);
   const [togleSearch, setTogleSearch] = useState(false);
+  const [parent] = useAutoAnimate();
   return (
-    <header>
+    <header className="globalHeader">
       <h1
+        className="headerTitle"
         data-testid="page-title"
       >
         { headerTitle }
       </h1>
-      <section>
+      <section
+        className="flexContainer headerMenu"
+      >
         <button
+          className="headerBtn profileBtn"
           type="button"
           onClick={ () => history.push('/profile') }
         >
@@ -29,6 +37,7 @@ function Header() {
           showSearchBtn
             && (
               <button
+                className="headerBtn searchBtn"
                 type="button"
                 onClick={ () => setTogleSearch(!togleSearch) }
               >
@@ -41,11 +50,13 @@ function Header() {
             )
         }
       </section>
-      {
-        showSearchBtn
-          && togleSearch
-          && <SearchBar />
-      }
+      <section ref={ parent }>
+        {
+          showSearchBtn
+            && togleSearch
+            && <SearchBar />
+        }
+      </section>
     </header>
   );
 }

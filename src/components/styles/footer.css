@@ -1,21 +1,14 @@
 .footer-container {
-  background-color: #f5bb00;
+  background-color: #fd841f;
   bottom: 0;
-  left: 0;
-  position: fixed;
+  position: sticky;
+  width: 100%;
 }
 
 .icons-container {
   display: flex;
+  filter: invert();
   gap: 1rem;
-  justify-content: center;
-}
-
-img {
-  border-radius: 4px;
-  padding: 5px;
-}
-
-img:hover {
-  box-shadow: 0 0 2px 1px #2c363f;
+  justify-content: space-evenly;
+  margin: 0.5em 0;
 }

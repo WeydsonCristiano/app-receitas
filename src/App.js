@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import RecipeProvider from './context/recipeProvider';
+import Chefs from './pages/Chefs';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route path="/profile" component={ Profile } />
+        <Route path="/chefs" component={ Chefs } />
       </Switch>
     </RecipeProvider>
   );

@@ -1,0 +1,39 @@
+.copyLink {
+  align-items: center;
+  align-self: center;
+  background-color: #e6d9ce;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0003;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  left: 15%;
+  overflow: hidden;
+  position: fixed;
+  right: 15%;
+  top: 2em;
+  z-index: 4;
+}
+
+.copyLink p {
+  padding: 0.8em 0.8em 0 0;
+}
+
+.timer {
+  animation: animate 3s linear;
+  background-color: #e14d2a;
+  bottom: 0;
+  height: 4px;
+}
+
+@keyframes animate {
+
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}

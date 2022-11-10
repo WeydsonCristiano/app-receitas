@@ -1,0 +1,271 @@
+.recipeDetails {
+  background-color: #fdfdfd;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.detailsBtn {
+  background-color: #e14d2a;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #0009;
+  gap: 0.8em;
+  padding: 0.5em;
+  position: fixed;
+  right: 0.8em;
+  top: 0.8em;
+  z-index: 5;
+}
+
+.togleFavMenuBtn, .shareButton, .favButton {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 25px;
+  justify-content: center;
+  transition: 0.25s ease-in-out;
+  width: 25px;
+}
+
+.togleMenuIcon span {
+  background-color: white;
+  height: 2px;
+  position: relative;
+  transition: 0.2s ease-in-out;
+  width: 80%;
+}
+
+.togled span:nth-child( 1 ) {
+  align-self: center;
+  position: absolute;
+  transform: rotate(45deg);
+  transition-delay: 0.3s;
+  width: 60%;
+}
+
+.togled span:nth-child( 2 ) {
+  width: 0%;
+}
+
+.togled span:nth-child( 3 ) {
+  align-self: center;
+  position: absolute;
+  transform: rotate(-45deg);
+  transition-delay: 0.3s;
+  width: 60%;
+}
+
+.shareButton img, .favButton img {
+  filter: invert();
+  width: 20px;
+}
+
+.recipeInProgressImg {
+  border-radius: 0 20px 20px 0;
+  width: 50%;
+}
+
+.carrousel {
+  display: flex;
+  gap: 0.8em;
+  overflow-y: scroll;
+  padding: 0.8em;
+}
+
+.recipeBanner {
+  background-position: center;
+  background-size: cover;
+  height: 200px;
+  width: 100%;
+}
+
+.recipeTitle {
+  align-items: center;
+  backdrop-filter: blur(5px);
+  background-color: #0005;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-family: Kaushan Script , cursive;
+  height: 100%;
+  justify-content: center;
+  text-align: center;
+  transition: 0.25s ease-in-out;
+  visibility: visible;
+  width: 100%;
+}
+
+.recipeBanner:hover .recipeTitle {
+  backdrop-filter: none;
+  color: transparent;
+}
+
+.recipeTitle h2, .recipeTitle h3 {
+  font-weight: 800;
+}
+
+.recipeTitle h2 {
+  font-size: 36px;
+}
+
+.ingredientList {
+  align-items: center;
+  background-color: #e14d2aa0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-family: Montserrat , sans-serif;
+  font-weight: 700;
+  gap: 0.8em;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0.8em;
+}
+
+.ingredientList label:hover {
+  cursor: pointer;
+  transform: scale(110%);
+}
+
+.ingredientList label input {
+  display: none;
+}
+
+.instructions {
+  color: #6f6f6f;
+  font-family: Montserrat , sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  justify-content: space-between;
+  padding: 0.8em;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.igredientChecked {
+  text-decoration: line-through solid 2px #e14d2a;
+}
+
+.startRecipes {
+  transition: 0.1s ease-in-out;
+}
+
+.startRecipes:disabled {
+  background-color: #e14d2a55;
+}
+
+@media screen and ( max-width : 549px ) {
+
+  .detailsDescription {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .startRecipes {
+    background-color: #e14d2a;
+    border: none;
+    bottom: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 0.5em;
+    position: sticky;
+    width: 100%;
+  }
+
+  .startRecipes p {
+    font-family: Kaushan Script , cursive;
+    font-size: 26px;
+    margin: 0;
+    transition: 0.1s ease-in-out;
+  }
+
+  .startRecipes:enabled:hover p {
+    transform: scale(110%);
+  }
+
+  .recomendationCard {
+    border-radius: 20px;
+  }
+
+  .recomendationImg {
+    width: 45vw;
+  }
+
+  .carrousel {
+    gap: 5vw;
+    padding: 2.5vw;
+  }
+}
+
+@media screen and ( min-width : 550px ) {
+
+  .detailsDescription {
+    display: flex;
+  }
+
+  .instructions {
+    max-width: 60vw;
+  }
+
+  .ingredientList {
+    flex: 1;
+    min-width: 300px;
+  }
+
+  .startRecipes {
+    background-color: #e14d2a;
+    border: none;
+    border-radius: 30px;
+    bottom: 0;
+    box-shadow: 0 0 10px #0009;
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin: 0.8em;
+    padding: 0.8em;
+    position: fixed;
+    right: 0;
+  }
+
+  .startRecipes p {
+    font-family: Kaushan Script , cursive;
+    font-size: 20px;
+    margin: 0;
+    transition: 0.1s ease-in-out;
+  }
+
+  .startRecipes:enabled:hover p {
+    transform: scale(110%);
+  }
+
+  .recomendationImg {
+    width: 100%;
+  }
+}
+
+.videoContainer {
+  background-color: #e14d2a;
+  display: flex;
+  height: 40vw;
+  justify-content: center;
+  max-height: 300px;
+  width: 100%;
+}
+
+.recomendationsTitle, .recomendationName {
+  color: #e14d2a;
+  font-family: Kaushan Script , cursive;
+  font-weight: 700;
+  margin: 0;
+  padding: 0.3em;
+  text-align: center;
+}
+
+iframe {
+  height: 40vh;
+  width: 100%;
+}

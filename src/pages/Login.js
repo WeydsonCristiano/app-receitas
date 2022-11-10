@@ -1,7 +1,4 @@
 import React, { useState, useContext } from 'react';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import recipeContext from '../context/recipeContext';
 import './styles/login.css';
 
@@ -43,16 +40,16 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
+    <div className="loginPage flexContainer direction">
       <div className="cabecarioLogin">
-        <h1>Recipes</h1>
-        <h4>app</h4>
+        <h1 className="bolder">Recipes</h1>
+        <h1>app</h1>
       </div>
-      <Form>
-        <h2>Login</h2>
-        <Card className="login-card">
-          <Form.Label htmlFor="email">
-            <Form.Control
+      <form>
+        <h2 className="loginTitle">Login</h2>
+        <div className="loginForm flexContainer direction">
+          <label htmlFor="email">
+            <input
               data-testid="email-input"
               placeholder="Digite seu Email"
               onChange={ handlEmail }
@@ -61,9 +58,9 @@ function Login() {
               name="email"
               required
             />
-          </Form.Label>
-          <Form.Label htmlFor="password">
-            <Form.Control
+          </label>
+          <label htmlFor="password">
+            <input
               data-testid="password-input"
               placeholder="Digite sua Senha"
               onChange={ handlePassword }
@@ -72,8 +69,8 @@ function Login() {
               name="password"
               required
             />
-          </Form.Label>
-          <Button
+          </label>
+          <button
             variant="warning"
             data-testid="login-submit-btn"
             type="submit"
@@ -81,9 +78,9 @@ function Login() {
             disabled={ isBtnDisabled }
           >
             Entrar
-          </Button>
-        </Card>
-      </Form>
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

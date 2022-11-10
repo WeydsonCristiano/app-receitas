@@ -1,26 +1,22 @@
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
-import './styles/checkIngredients.css';
 import recipeContext from '../context/recipeContext';
 
-export default function CheckIngredients({ ingredientsList, meals, drinks }) {
-  const { globalIngrd, setIsDesable } = useContext(recipeContext);
+export default function CheckIngredients() {
+  const { globalIngrd, setIsDesable, globalId } = useContext(recipeContext);
   const [checkedList, setCheckedList] = useState([]);
 
   const history = useHistory();
   const { location: { pathname } } = history;
   const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
-  const recipeId = pathname.includes('meals') ? meals[0].idMeal
-    : drinks[0].idDrink;
 
   useEffect(() => {
     const getCheckedItens = readlocalStorage('inProgressRecipes') || {
       drinks: {},
       meals: {},
     };
-    const storageCheckedList = getCheckedItens[recipeType][recipeId] || [];
+    const storageCheckedList = getCheckedItens[recipeType][globalId] || [];
     setCheckedList(storageCheckedList);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -28,7 +24,7 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   useEffect(() => {
     if (checkedList?.length > 0) {
       const prevState = readlocalStorage('inProgressRecipes');
-      prevState[recipeType][recipeId] = checkedList || [];
+      prevState[recipeType][globalId] = checkedList || [];
       saveLocalStore('inProgressRecipes', prevState);
     }
     if (checkedList?.length === 0) {
@@ -36,7 +32,7 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
         drinks: {},
         meals: {},
       };
-      prevState[recipeType][recipeId] = [];
+      prevState[recipeType][globalId] = [];
       saveLocalStore('inProgressRecipes', prevState);
     }
     if (checkedList.length === globalIngrd.length) {
@@ -48,22 +44,19 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
   }, [checkedList]);
 
   const genericHandleChange = ({ target: { checked, id } }) => {
-    console.log(checkedList[0] === id);
     if (checked && !checkedList?.some((item) => item === id)) {
-      console.log('entro aqui');
       setCheckedList((state) => [...state, id]);
     }
     if (!checked) {
-      console.log('entro aqui');
       setCheckedList(checkedList?.filter((item) => item !== id));
     }
   };
   return (
-    <div className="listaReceitas1">
-      { ingredientsList.map((item, index) => (
+    <div className="ingredientList">
+      { globalIngrd.map((item, index) => (
         <label
           className={ checkedList?.some((e) => Number(e) === index)
-            ? 'igredientChecked' : null }
+            ? 'igredientChecked' : 'dontChecked' }
           key={ `${index}${item[1]}` }
           htmlFor={ index }
           data-testid={ `${index}-ingredient-step` }
@@ -82,9 +75,3 @@ export default function CheckIngredients({ ingredientsList, meals, drinks }) {
     </div>
   );
 }
-
-CheckIngredients.propTypes = {
-  ingredientsList: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  meals: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  drinks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-};

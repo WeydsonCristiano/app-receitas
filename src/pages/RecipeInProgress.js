@@ -1,64 +1,72 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipeDetailsComponents from '../components/RecipesDetailsComponets';
-import { requestAPI } from '../services/RequestAPI';
 import recipeContext from '../context/recipeContext';
-import Loading from '../components/Loading';
 import { readlocalStorage, saveLocalStore } from '../services/hadleStorage';
+import { requestAPI,
+  URL_REQUEST_DRINKS,
+  URL_REQUEST_MEALS } from '../services/RequestAPI';
+import LinkCopied from '../components/LinkCopied';
+
+const maxRecommendation = 6;
 
 function RecipeInProgress({ match }) {
-  const { setIsLoading, isLoading, copyed, copyUrl,
-    isDesable } = useContext(recipeContext);
-  const [localMeal, setLocalMeal] = useState([]);
-  const [localDrink, setLocalDrink] = useState([]);
+  const { copyed, recipeDetail,
+    isDesable, setGlobalId, setIsLoading,
+    setRecipeDetail, setRec } = useContext(recipeContext);
   const history = useHistory();
   const { params: { id } } = match;
   const { location: { pathname } } = history;
 
   useEffect(() => {
+    let details;
+    let recomendations;
+    setGlobalId(id);
     const requestData = async () => {
-      setIsLoading(true);
-      if (pathname.includes('meals')) {
-        const detailsMeals = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-        setLocalMeal(detailsMeals.meals);
+      if (pathname === `/meals/${id}/in-progress`) {
+        details = await requestAPI(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+        recomendations = await requestAPI(URL_REQUEST_DRINKS);
       }
-      if (pathname.includes('drinks')) {
-        const detailsDrinks = await requestAPI(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-        setLocalDrink(detailsDrinks.drinks);
+      if (pathname === `/drinks/${id}/in-progress`) {
+        details = await requestAPI(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+        recomendations = await requestAPI(URL_REQUEST_MEALS);
       }
+      const first6 = recomendations[Object.keys(recomendations)[0]]
+        .slice(0, maxRecommendation);
+      setRec(first6);
+      setRecipeDetail(details[Object.keys(details)[0]]);
       setIsLoading(false);
     };
     requestData();
-  }, [id, pathname, setIsLoading]);
+  }, [id, pathname, setIsLoading, setRecipeDetail, setGlobalId, setRec]);
 
   const finisheRecipe = () => {
     const currentRecipe = pathname.includes('meals') ? (
       {
-        id: localMeal[0].idMeal,
+        id: recipeDetail[0].idMeal,
         type: 'meal',
-        nationality: localMeal[0].strArea,
-        category: localMeal[0].strCategory,
+        nationality: recipeDetail[0].strArea,
+        category: recipeDetail[0].strCategory,
         alcoholicOrNot: '',
-        name: localMeal[0].strMeal,
-        image: localMeal[0].strMealThumb,
+        name: recipeDetail[0].strMeal,
+        image: recipeDetail[0].strMealThumb,
         doneDate: new Date().toISOString(),
-        tags: localMeal[0].strTags?.split(',') || [],
+        tags: recipeDetail[0].strTags?.split(',') || [],
       }
     ) : (
       {
-        id: localDrink[0].idDrink,
+        id: recipeDetail[0].idDrink,
         type: 'drink',
         nationality: '',
-        category: localDrink[0].strCategory,
-        alcoholicOrNot: localDrink[0].strAlcoholic,
-        name: localDrink[0].strDrink,
-        image: localDrink[0].strDrinkThumb,
+        category: recipeDetail[0].strCategory,
+        alcoholicOrNot: recipeDetail[0].strAlcoholic,
+        name: recipeDetail[0].strDrink,
+        image: recipeDetail[0].strDrinkThumb,
         doneDate: new Date().toISOString(),
-        tags: localDrink[0].strTags?.split(',') || [],
+        tags: recipeDetail[0].strTags?.split(',') || [],
       }
     );
-    console.log(currentRecipe);
     const prevState = readlocalStorage('doneRecipes') || [];
     if (prevState && !prevState.some((recipe) => recipe.id === currentRecipe.id)) {
       saveLocalStore('doneRecipes', [...prevState, currentRecipe]);
@@ -68,34 +76,21 @@ function RecipeInProgress({ match }) {
 
   return (
     <div>
-      <h1>RecipeInProgress</h1>
       {copyed && (
-        <div>
-          <p>Link copied!</p>
-        </div>
+        <LinkCopied />
       )}
-      {
-        isLoading
-          ? <Loading /> : (
-            <RecipeDetailsComponents
-              meals={ localMeal }
-              drinks={ localDrink }
-              copyUrl={ copyUrl }
-              id={ id }
-            />
-          )
-      }
-      <div>
-        <button
-          data-testid="finish-recipe-btn"
-          type="button"
-          onClick={ finisheRecipe }
-          disabled={ isDesable }
-        >
+      <RecipeDetailsComponents />
+      <button
+        className="startRecipes"
+        data-testid="finish-recipe-btn"
+        type="button"
+        onClick={ finisheRecipe }
+        disabled={ isDesable }
+      >
+        <p>
           Finalizar Receita
-
-        </button>
-      </div>
+        </p>
+      </button>
     </div>
   );
 }

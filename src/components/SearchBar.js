@@ -1,6 +1,9 @@
 import React, { useState, useContext } from 'react';
+/* eslint-disable-next-line */
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import recipeContext from '../context/recipeContext';
 import searchIcon from '../images/searchIcon.svg';
+import './styles/searchBar.css';
 
 import { ENDPOINT_MEAL, ENDPOINT_DRINK, requestAPI } from '../services/RequestAPI';
 
@@ -14,6 +17,7 @@ function SearchBar() {
   } = useContext(recipeContext);
   const [searchValue, setSearchValue] = useState('');
   const [searchType, setSearchType] = useState('');
+  const [parent] = useAutoAnimate();
 
   const callApi = async (endpointType, renderFunction, path, getId) => {
     let newArray;
@@ -53,14 +57,15 @@ function SearchBar() {
 
   return (
     <form
+      className="flexContainer direction"
       onSubmit={ handleSubmit }
     >
-      <div>
+      <div className="searchBar">
         <input
           type="text"
           data-testid="search-input"
           onChange={ ({ target: { value } }) => setSearchValue(value) }
-          required=""
+          required
         />
         <button
           data-testid="exec-search-btn"
@@ -72,10 +77,11 @@ function SearchBar() {
           />
         </button>
       </div>
-      <fieldset>
-        <legend> Chose a filter type: </legend>
+      <fieldset className="flexContainer direction radioSelection" ref={ parent }>
+        <legend> Chose a filter type </legend>
         <label
           htmlFor="ingredient-search"
+          className="radioLabel"
         >
           <input
             type="radio"
@@ -91,6 +97,7 @@ function SearchBar() {
         </label>
         <label
           htmlFor="name-search"
+          className="radioLabel"
         >
           <input
             type="radio"
@@ -106,6 +113,7 @@ function SearchBar() {
         </label>
         <label
           htmlFor="first-letter-search"
+          className="radioLabel"
         >
           <input
             type="radio"
