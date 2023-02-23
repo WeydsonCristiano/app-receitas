@@ -10,7 +10,7 @@ export default function Chefs() {
     'weydson-cristiano-dev',
     'alyssontobias',
     'israel-pereira-dev',
-    'chrystian-avaetê-silva-lunetta-726880226',
+    'chrystian-lunetta',
   ];
 
   useEffect(() => {
